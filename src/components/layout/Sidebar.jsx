@@ -70,7 +70,7 @@ const Sidebar = () => {
   const items = menuItems[user?.role] || [];
 
   return (
-    <aside className="w-64 min-h-screen bg-gray-900 text-white flex flex-col">
+    <aside className="w-64 min-h-screen bg-gray-900 text-white flex flex-col fixed">
 
       {/* Logo */}
       <div className="h-16 flex items-center px-6 border-b border-gray-700">

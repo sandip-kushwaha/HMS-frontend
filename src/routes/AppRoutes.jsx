@@ -6,6 +6,7 @@ import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 
 import DashboardLayout from "../components/layout/DashboardLayout";
+import AdminDashboard from "../pages/admin/AdminDashboard";
 
 
 const AppRoutes = () => {
@@ -29,11 +30,7 @@ const AppRoutes = () => {
           <Route element={<DashboardLayout />}>
 
             <Route path="/admin"
-              element={
-                <h1 className="text-2xl font-bold">
-                  Admin Dashboard
-                </h1>
-              }
+              element={<AdminDashboard />}
             />
           </Route>
         </Route>
