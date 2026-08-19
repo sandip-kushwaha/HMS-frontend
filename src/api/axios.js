@@ -38,6 +38,7 @@ api.interceptors.response.use(
     const originalRequest = error.config;
 
     // Access token expired
+    // Only handle 401
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&

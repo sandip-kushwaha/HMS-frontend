@@ -5,6 +5,8 @@ import RoleRoute from "./RoleRoutes";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 
+import DashboardLayout from "../components/layout/DashboardLayout";
+
 
 const AppRoutes = () => {
   return (
@@ -18,23 +20,54 @@ const AppRoutes = () => {
       <Route path="/unauthorized" element={<h1>Unauthorized</h1>} />
 
 
-      {/* Login required */}
+     {/* ================= PROTECTED ================= */}
       <Route element={<ProtectedRoute />}>
 
-        {/* Admin */}
+        {/* ================= ADMIN ================= */}
         <Route element={<RoleRoute allowedRoles={["admin"]} />}>
-          <Route path="/admin" element={<h1>Admin Dashboard</h1>}/>
+
+          <Route element={<DashboardLayout />}>
+
+            <Route path="/admin"
+              element={
+                <h1 className="text-2xl font-bold">
+                  Admin Dashboard
+                </h1>
+              }
+            />
+          </Route>
         </Route>
 
-        {/* Kitchen */}
+        {/* ================= KITCHEN ================= */}
         <Route element={<RoleRoute allowedRoles={["admin", "kitchen"]}/>}>
-          <Route path="/kitchen" element={<h1>Kitchen Dashboard</h1>}/>
+
+          <Route element={<DashboardLayout />}>
+
+            <Route path="/kitchen" 
+               element={
+               <h1 className="text-2xl font-bold">
+                  Kitchen Dashboard
+                </h1>
+              }
+            />
+          </Route>
         </Route>
 
-        {/* Waiter */}
+        {/* ================= WAITER ================= */}
         <Route element={<RoleRoute allowedRoles={["admin", "waiter"]}/>}>
-          <Route path="/waiter" element={<h1>Waiter Dashboard</h1>}/>
+
+          <Route element={<DashboardLayout />}>
+
+            <Route path="/waiter"
+              element={
+                <h1 className="text-2xl font-bold">
+                  Waiter Dashboard
+                </h1>
+              }
+            />
+          </Route>
         </Route>
+
 
       </Route>
 
