@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import RoleRoute from "./RoleRoutes";
 import Login from "../pages/auth/Login";
+import Register from "../pages/auth/Register";
+
 
 const AppRoutes = () => {
   return (
@@ -10,6 +12,8 @@ const AppRoutes = () => {
 
       {/* Public */}
       <Route path="/login" element={<Login />} />
+
+      <Route path="/register" element={<Register />}/>
 
       <Route path="/unauthorized" element={<h1>Unauthorized</h1>} />
 

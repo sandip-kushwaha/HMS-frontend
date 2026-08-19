@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext';
 import { useState } from 'react';
 
+
 const Login = () => {
 
     const navigate = useNavigate();
@@ -60,7 +61,10 @@ const Login = () => {
         }
         
        } catch (error) {
-         setError(error.respose?.data?.message || "Login failed");
+         setError(error.response?.data?.message || 
+                  error.message  ||
+                  "Login failed"
+                );
        } finally {
         setLoading(false);
        }
@@ -68,25 +72,25 @@ const Login = () => {
 
   return (
     <>
-    <div onSubmit={handleSubmit}>
+    <div>
         <h1>Login</h1>
 
         {error && ( <p style={{color: "red"}}>{error}</p> )}
 
-     <form>
+     <form onSubmit={handleSubmit}>
         <div>
             <label>Email</label>
-            <input type="email" name="email" 
+            <input className='bg-white text-black ' type="email" name="email" 
             value={formData.email} 
             onChange={handleChange} placeholder="Enter email" />
         </div>
         <div>
             <label>Password</label>
-            <input type="password" name="password"
+            <input className='bg-white text-black ' type="password" name="password"
             value={formData.password} 
             onChange={handleChange} placeholder="Enter password" />
         </div>
-        <button type="submit" disabled={loading}>
+        <button className='bg-white text-black ' type="submit" disabled={loading}>
          {loading ? "Logging in..." : "Login"}
         </button>
      </form>
