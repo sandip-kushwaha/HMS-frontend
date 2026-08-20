@@ -2,7 +2,8 @@ const UserDetailsModal = ({ user, onClose }) => {
   if (!user) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm">
+        
       <div className="w-full max-w-lg overflow-hidden rounded-xl border border-gray-800 bg-gray-900 shadow-2xl">
 
         {/* Header */}
@@ -17,12 +18,16 @@ const UserDetailsModal = ({ user, onClose }) => {
             </p>
           </div>
 
-          <button
+        <button
             onClick={onClose}
-            className="rounded-lg px-2 py-1 text-2xl text-gray-500 transition hover:bg-gray-800 hover:text-white"
+            className="w-9 h-9 rounded-lg flex items-center justify-center cursor-pointer
+                       text-gray-400 hover:text-white hover:bg-gray-800
+                       transition"
           >
-            ×
+            ✕
           </button>
+    
+
         </div>
 
         {/* Body */}

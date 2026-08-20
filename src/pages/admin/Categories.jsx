@@ -218,14 +218,11 @@ const Category = () => {
 
         <button
           onClick={handleCreate}
-          className="px-5 py-3 rounded-xl cursor-pointer
-                     bg-blue-600 hover:bg-blue-700
-                     transition font-medium
-                     flex items-center justify-center gap-2"
+          className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
         >
-          <span className="text-lg">+</span>
-          Add Category
+          + Add Category
         </button>
+        
       </div>
 
       {/* ================= Messages ================= */}

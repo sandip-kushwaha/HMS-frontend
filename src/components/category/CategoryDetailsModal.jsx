@@ -8,9 +8,9 @@ const CategoryDetailsModal = ({
 
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
 
-      <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl bg-gray-900 text-white border border-gray-700 shadow-2xl scrollbar-thin overflow-auto">
+      <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl bg-gray-900 text-white border border-gray-700 shadow-2xl">
 
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-700">

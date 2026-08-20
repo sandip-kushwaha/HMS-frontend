@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 
-import UserModal from "../../components/user/UserModal";
 import UserDetailsModal from "../../components/user/UserDetailsModal";
 
 import {

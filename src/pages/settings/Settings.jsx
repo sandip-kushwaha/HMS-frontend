@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
+
 import { useAuth } from "../../context/AuthContext";
 import { changePassword } from "../../api/auth.api";
 import { updateProfile } from "../../api/users.api";
 
-
-
 const Settings = () => {
   const { user, getCurrentUser } = useAuth();
-  
+
   // Modal states
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -19,10 +18,8 @@ const Settings = () => {
   // Messages
   const [profileError, setProfileError] = useState("");
   const [profileSuccess, setProfileSuccess] = useState("");
-
   const [passwordError, setPasswordError] = useState("");
   const [passwordSuccess, setPasswordSuccess] = useState("");
-
 
   // Profile form
   const [profileData, setProfileData] = useState({
@@ -49,7 +46,8 @@ const Settings = () => {
     }
   }, [user]);
 
-  //------- PROFILE MODAL
+  // ================= PROFILE MODAL =================
+
   const openProfileModal = () => {
     setProfileData({
       fullName: user?.fullName || "",
@@ -59,7 +57,6 @@ const Settings = () => {
 
     setProfileError("");
     setProfileSuccess("");
-
     setShowProfileModal(true);
   };
 
@@ -104,7 +101,6 @@ const Settings = () => {
     return null;
   };
 
-
   // Update Profile
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
@@ -128,33 +124,28 @@ const Settings = () => {
         phone: profileData.phone.trim(),
       });
 
-      setProfileSuccess(
-        response?.message || "Profile updated successfully."
-      );
+      setProfileSuccess(response?.message || "Profile updated successfully.");
 
-      // Refresh current user in AuthContext
       await getCurrentUser();
 
-      // Close modal after short delay
       setTimeout(() => {
         setShowProfileModal(false);
         setProfileSuccess("");
       }, 1200);
-
     } catch (error) {
       console.error("Update profile error:", error);
 
       setProfileError(
         error.response?.data?.message ||
-        "Failed to update profile. Please try again."
+          "Failed to update profile. Please try again.",
       );
     } finally {
       setProfileLoading(false);
     }
   };
 
+  // ================= PASSWORD MODAL =================
 
-  //-----PASSWORD MODAL
   const openPasswordModal = () => {
     setPasswordData({
       oldPassword: "",
@@ -164,7 +155,6 @@ const Settings = () => {
 
     setPasswordError("");
     setPasswordSuccess("");
-
     setShowPasswordModal(true);
   };
 
@@ -181,7 +171,6 @@ const Settings = () => {
       confirmPassword: "",
     });
   };
-
 
   // Password validation
   const validatePassword = () => {
@@ -201,17 +190,11 @@ const Settings = () => {
       return "Please confirm your new password.";
     }
 
-    if (
-      passwordData.newPassword !==
-      passwordData.confirmPassword
-    ) {
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
       return "New password and confirm password do not match.";
     }
 
-    if (
-      passwordData.oldPassword ===
-      passwordData.newPassword
-    ) {
+    if (passwordData.oldPassword === passwordData.newPassword) {
       return "New password must be different from current password.";
     }
 
@@ -240,10 +223,7 @@ const Settings = () => {
         newPassword: passwordData.newPassword,
       });
 
-      setPasswordSuccess(
-        response?.message ||
-        "Password changed successfully."
-      );
+      setPasswordSuccess(response?.message || "Password changed successfully.");
 
       setPasswordData({
         oldPassword: "",
@@ -251,605 +231,463 @@ const Settings = () => {
         confirmPassword: "",
       });
 
-      // Close after success
       setTimeout(() => {
         setShowPasswordModal(false);
         setPasswordSuccess("");
       }, 1200);
-
     } catch (error) {
       console.error("Change password error:", error);
 
       setPasswordError(
         error.response?.data?.message ||
-        "Failed to change password. Please try again."
+          "Failed to change password. Please try again.",
       );
     } finally {
       setPasswordLoading(false);
     }
   };
 
-
   return (
     <div className="space-y-6">
-
       {/* ================= HEADER ================= */}
 
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">
-          Settings
-        </h1>
+      <div>
+        <h1 className="text-3xl font-bold text-gray-800">Settings</h1>
 
         <p className="mt-1 text-gray-500 text-lg">
           Manage your account information and security.
         </p>
       </div>
 
-
       {/* ================= PROFILE CARD ================= */}
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-
+      <div className="overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
         {/* Card Header */}
 
-        <div className="px-6 py-5 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-800">
+        <div className="border-b border-gray-800 px-6 py-5">
+          <h2 className="text-xl font-semibold text-white">
             Profile Information
           </h2>
 
-          <p className="text-sm text-gray-500 mt-1">
-            Your account information
-          </p>
+          <p className="mt-1 text-sm text-gray-400">Your account information</p>
         </div>
 
-
-        {/* Profile Content */}
+        {/* Card Body */}
 
         <div className="p-6">
+          {/* User */}
 
-          {/* User avatar */}
-
-          <div className="flex items-center gap-4 mb-8">
-
-            <div className="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold">
+          <div className="mb-8 flex items-center gap-4">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-2xl font-bold text-blue-400">
               {user?.fullName?.charAt(0)?.toUpperCase() || "U"}
             </div>
 
             <div>
-              <h3 className="text-xl font-semibold text-gray-800">
+              <h3 className="text-xl font-semibold text-white">
                 {user?.fullName || "User"}
               </h3>
 
-              <p className="text-gray-500">
-                {user?.email}
-              </p>
+              <p className="text-gray-400">{user?.email || "No email"}</p>
             </div>
-
           </div>
-
 
           {/* User Details */}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {/* Full Name */}
 
-            <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-sm text-gray-500">
-                Full Name
-              </p>
-
-              <p className="mt-1 font-medium text-gray-800">
-                {user?.fullName || "—"}
-              </p>
-            </div>
-
+            <SettingInfo title="Full Name" value={user?.fullName || "—"} />
 
             {/* Email */}
 
-            <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-sm text-gray-500">
-                Email
-              </p>
-
-              <p className="mt-1 font-medium text-gray-800 break-all">
-                {user?.email || "—"}
-              </p>
-            </div>
-
+            <SettingInfo title="Email" value={user?.email || "—"} breakAll />
 
             {/* Phone */}
 
-            <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-sm text-gray-500">
-                Phone
-              </p>
-
-              <p className="mt-1 font-medium text-gray-800">
-                {user?.phone || "—"}
-              </p>
-            </div>
-
+            <SettingInfo title="Phone" value={user?.phone || "—"} />
 
             {/* Role */}
 
-            <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-sm text-gray-500">
+            <div className="rounded-xl border border-gray-800 bg-gray-800/50 p-4">
+              <p className="text-xs uppercase tracking-wider text-gray-500">
                 Role
               </p>
 
-              <p className="mt-1 font-semibold text-blue-600 capitalize">
+              <p className="mt-2 font-semibold capitalize text-blue-400">
                 {user?.role || "—"}
               </p>
             </div>
 
-
             {/* Status */}
 
-            <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-sm text-gray-500">
+            <div className="rounded-xl border border-gray-800 bg-gray-800/50 p-4">
+              <p className="text-xs uppercase tracking-wider text-gray-500">
                 Account Status
               </p>
 
               <span
-                className={`inline-flex mt-2 px-3 py-1 rounded-full text-sm font-medium ${
+                className={`mt-2 inline-flex rounded-full px-3 py-1 text-xs font-medium ${
                   user?.isActive
-                    ? "bg-green-100 text-green-700"
-                    : "bg-red-100 text-red-700"
+                    ? "bg-green-500/10 text-green-400"
+                    : "bg-red-500/10 text-red-400"
                 }`}
               >
                 {user?.isActive ? "Active" : "Inactive"}
               </span>
             </div>
 
-
             {/* Last Login */}
 
-            <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-sm text-gray-500">
-                Last Login
-              </p>
-
-              <p className="mt-1 font-medium text-gray-800">
-                {user?.lastLogin
+            <SettingInfo
+              title="Last Login"
+              value={
+                user?.lastLogin
                   ? new Date(user.lastLogin).toLocaleString()
-                  : "—"}
-              </p>
-            </div>
-
+                  : "—"
+              }
+            />
           </div>
 
+          {/* Button */}
 
-          {/* Update Profile Button */}
-
-          <div className="mt-6">
-
+          <div className="mt-6 border-t border-gray-800 pt-6">
             <button
               onClick={openProfileModal}
-              className="px-5 py-2.5 rounded-lg cursor-pointer bg-blue-600 text-white font-medium hover:bg-blue-700 transition"
+              className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
             >
-              Update Profile
+              Edit Profile
             </button>
-
           </div>
-
         </div>
       </div>
-
 
       {/* ================= SECURITY CARD ================= */}
 
-      <div className="mt-6 bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+      <div className="overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
+        {/* Header */}
 
-        <div className="px-6 py-5 border-b border-gray-200">
+        <div className="border-b border-gray-800 px-6 py-5">
+          <h2 className="text-xl font-semibold text-white">Security</h2>
 
-          <h2 className="text-xl font-semibold text-gray-800">
-            Security
-          </h2>
-
-          <p className="text-sm text-gray-500 mt-1">
-            Manage your account password.
+          <p className="mt-1 text-sm text-gray-400">
+            Manage your account password and security.
           </p>
-
         </div>
 
+        {/* Security Content */}
 
-        <div className="p-6 flex items-center justify-between gap-5">
+        <div className="flex flex-col gap-5 p-6 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-xl text-blue-400">
+              🔒
+            </div>
 
-          <div>
+            <div>
+              <h3 className="font-semibold text-white">Password</h3>
 
-            <h3 className="font-semibold text-gray-800">
-              Password
-            </h3>
-
-            <p className="text-sm text-gray-500 mt-1">
-              Change your account password regularly
-              to keep your account secure.
-            </p>
-
+              <p className="mt-1 text-sm text-gray-400">
+                Change your account password regularly to keep your account
+                secure.
+              </p>
+            </div>
           </div>
-
 
           <button
             onClick={openPasswordModal}
-            className="shrink-0 px-5 py-2.5 cursor-pointer rounded-lg bg-gray-800 text-white font-medium hover:bg-gray-900 transition"
+            className="shrink-0 rounded-lg bg-gray-800 px-5 py-3 text-sm font-semibold text-gray-300 transition hover:bg-gray-700 hover:text-white"
           >
             Change Password
           </button>
-
         </div>
-
       </div>
 
-
-      {/* UPDATE PROFILE MODAL */}
+      {/* ================= UPDATE PROFILE MODAL ================= */}
 
       {showProfileModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+          <div className="absolute inset-0" />
 
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="relative w-full max-w-lg overflow-hidden rounded-xl border border-gray-800 bg-gray-900 shadow-2xl">
+            {/* Modal Header */}
 
-          {/* Overlay */}
-
-          <div
-            onClick={closeProfileModal}
-            className="absolute inset-0 bg-black/50"
-          />
-
-
-          {/* Modal */}
-
-          <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-xl">
-
-            {/* Header */}
-
-            <div className="flex items-center justify-between px-6 py-5 border-b">
-
+            <div className="flex items-center justify-between border-b border-gray-800 px-6 py-5">
               <div>
-                <h2 className="text-xl font-semibold text-gray-800">
+                <h2 className="text-xl font-semibold text-white">
                   Update Profile
                 </h2>
 
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="mt-1 text-sm text-gray-400">
                   Update your personal information.
                 </p>
               </div>
 
-
               <button
                 onClick={closeProfileModal}
                 disabled={profileLoading}
-                className="text-gray-500 cursor-pointer hover:text-gray-800 text-2xl disabled:opacity-50"
+                className="w-9 h-9 rounded-lg flex items-center justify-center cursor-pointer
+                       text-gray-400 hover:text-white hover:bg-gray-800
+                       transition"
               >
-                ×
+                ✕
               </button>
-
             </div>
-
 
             {/* Form */}
 
-            <form
-              onSubmit={handleUpdateProfile}
-              className="p-6"
-            >
-
+            <form onSubmit={handleUpdateProfile} className="p-6">
               {/* Error */}
 
               {profileError && (
-
-                <div className="mb-5 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+                <div className="mb-5 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
                   {profileError}
                 </div>
-
               )}
-
 
               {/* Success */}
 
               {profileSuccess && (
-
-                <div className="mb-5 p-3 rounded-lg bg-green-50 border border-green-200 text-green-700 text-sm">
+                <div className="mb-5 rounded-lg border border-green-500/20 bg-green-500/10 px-4 py-3 text-sm text-green-400">
                   {profileSuccess}
                 </div>
-
               )}
-
 
               {/* Full Name */}
 
-              <div className="mb-4">
-
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Full Name
-                </label>
-
-                <input
-                  type="text"
-                  value={profileData.fullName}
-                  disabled={profileLoading}
-                  onChange={(e) =>
-                    setProfileData({
-                      ...profileData,
-                      fullName: e.target.value,
-                    })
-                  }
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-                />
-
-              </div>
-
+              <DarkInput
+                label="Full Name"
+                type="text"
+                value={profileData.fullName}
+                disabled={profileLoading}
+                onChange={(e) =>
+                  setProfileData({
+                    ...profileData,
+                    fullName: e.target.value,
+                  })
+                }
+              />
 
               {/* Email */}
 
-              <div className="mb-4">
-
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Email
-                </label>
-
-                <input
-                  type="email"
-                  value={profileData.email}
-                  disabled={profileLoading}
-                  onChange={(e) =>
-                    setProfileData({
-                      ...profileData,
-                      email: e.target.value,
-                    })
-                  }
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-                />
-
-              </div>
-
+              <DarkInput
+                label="Email"
+                type="email"
+                value={profileData.email}
+                disabled={profileLoading}
+                onChange={(e) =>
+                  setProfileData({
+                    ...profileData,
+                    email: e.target.value,
+                  })
+                }
+              />
 
               {/* Phone */}
 
-              <div className="mb-6">
-
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Phone
-                </label>
-
-                <input
-                  type="text"
-                  value={profileData.phone}
-                  disabled={profileLoading}
-                  onChange={(e) =>
-                    setProfileData({
-                      ...profileData,
-                      phone: e.target.value,
-                    })
-                  }
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-                />
-
-              </div>
-
+              <DarkInput
+                label="Phone"
+                type="text"
+                value={profileData.phone}
+                disabled={profileLoading}
+                onChange={(e) =>
+                  setProfileData({
+                    ...profileData,
+                    phone: e.target.value,
+                  })
+                }
+              />
 
               {/* Buttons */}
 
-              <div className="flex justify-end gap-3">
-
+              <div className="mt-6 flex justify-end gap-3 border-t border-gray-800 pt-5">
                 <button
                   type="button"
                   onClick={closeProfileModal}
                   disabled={profileLoading}
-                  className="px-5 py-2.5 cursor-pointer rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-200 disabled:opacity-50"
+                  className="rounded-lg border border-gray-700 bg-gray-800 px-5 py-2.5 text-sm font-medium text-gray-300 transition hover:bg-gray-700 hover:text-white disabled:opacity-50"
                 >
                   Cancel
                 </button>
-
 
                 <button
                   type="submit"
                   disabled={profileLoading}
-                  className="px-5 py-2.5 rounded-lg cursor-pointer bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+                  className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"
                 >
-                  {profileLoading
-                    ? "Updating..."
-                    : "Update Profile"}
+                  {profileLoading ? "Updating..." : "Update Profile"}
                 </button>
-
               </div>
-
             </form>
-
           </div>
-
         </div>
-
       )}
 
-
-      {/* CHANGE PASSWORD MODAL */}
+      {/* ================= CHANGE PASSWORD MODAL ================= */}
 
       {showPasswordModal && (
-
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-
-          {/* Overlay */}
-
-          <div
-            onClick={closePasswordModal}
-            className="absolute inset-0 bg-black/50"
-          />
-
-
-          {/* Modal */}
-
-          <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-xl">
-
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+          <div className="relative w-full max-w-lg overflow-hidden rounded-xl border border-gray-800 bg-gray-900 shadow-2xl">
             {/* Header */}
 
-            <div className="flex items-center justify-between px-6 py-5 border-b">
-
+            <div className="flex items-center justify-between border-b border-gray-800 px-6 py-5">
               <div>
-
-                <h2 className="text-xl font-semibold text-gray-800">
+                <h2 className="text-xl font-semibold text-white">
                   Change Password
                 </h2>
 
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="mt-1 text-sm text-gray-400">
                   Create a new password for your account.
                 </p>
-
               </div>
-
 
               <button
                 onClick={closePasswordModal}
                 disabled={passwordLoading}
-                className="text-gray-500 cursor-pointer hover:text-gray-800 text-2xl disabled:opacity-50"
+                className="w-9 h-9 rounded-lg flex items-center justify-center cursor-pointer
+                       text-gray-400 hover:text-white hover:bg-gray-800
+                       transition"
               >
-                ×
+                ✕
               </button>
-
             </div>
-
 
             {/* Form */}
 
-            <form
-              onSubmit={handleChangePassword}
-              className="p-6"
-            >
-
+            <form onSubmit={handleChangePassword} className="p-6">
               {/* Error */}
 
               {passwordError && (
-
-                <div className="mb-5 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+                <div className="mb-5 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
                   {passwordError}
                 </div>
-
               )}
-
 
               {/* Success */}
 
               {passwordSuccess && (
-
-                <div className="mb-5 p-3 rounded-lg bg-green-50 border border-green-200 text-green-700 text-sm">
+                <div className="mb-5 rounded-lg border border-green-500/20 bg-green-500/10 px-4 py-3 text-sm text-green-400">
                   {passwordSuccess}
                 </div>
-
               )}
-
 
               {/* Current Password */}
 
-              <div className="mb-4">
-
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Current Password
-                </label>
-
-                <input
-                  type="password"
-                  value={passwordData.oldPassword}
-                  disabled={passwordLoading}
-                  onChange={(e) =>
-                    setPasswordData({
-                      ...passwordData,
-                      oldPassword: e.target.value,
-                    })
-                  }
-                  placeholder="Enter current password"
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-                />
-
-              </div>
-
+              <DarkInput
+                label="Current Password"
+                type="password"
+                value={passwordData.oldPassword}
+                disabled={passwordLoading}
+                placeholder="Enter current password"
+                onChange={(e) =>
+                  setPasswordData({
+                    ...passwordData,
+                    oldPassword: e.target.value,
+                  })
+                }
+              />
 
               {/* New Password */}
 
-              <div className="mb-4">
+              <DarkInput
+                label="New Password"
+                type="password"
+                value={passwordData.newPassword}
+                disabled={passwordLoading}
+                placeholder="Enter new password"
+                onChange={(e) =>
+                  setPasswordData({
+                    ...passwordData,
+                    newPassword: e.target.value,
+                  })
+                }
+              />
 
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  New Password
-                </label>
-
-                <input
-                  type="password"
-                  value={passwordData.newPassword}
-                  disabled={passwordLoading}
-                  onChange={(e) =>
-                    setPasswordData({
-                      ...passwordData,
-                      newPassword: e.target.value,
-                    })
-                  }
-                  placeholder="Enter new password"
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-                />
-
-                <p className="mt-1 text-xs text-gray-500">
-                  Password must be at least 8 characters.
-                </p>
-
-              </div>
-
+              <p className="-mt-2 mb-4 text-xs text-gray-500">
+                Password must be at least 8 characters.
+              </p>
 
               {/* Confirm Password */}
 
-              <div className="mb-6">
-
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Confirm New Password
-                </label>
-
-                <input
-                  type="password"
-                  value={passwordData.confirmPassword}
-                  disabled={passwordLoading}
-                  onChange={(e) =>
-                    setPasswordData({
-                      ...passwordData,
-                      confirmPassword: e.target.value,
-                    })
-                  }
-                  placeholder="Confirm new password"
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-                />
-
-              </div>
-
+              <DarkInput
+                label="Confirm New Password"
+                type="password"
+                value={passwordData.confirmPassword}
+                disabled={passwordLoading}
+                placeholder="Confirm new password"
+                onChange={(e) =>
+                  setPasswordData({
+                    ...passwordData,
+                    confirmPassword: e.target.value,
+                  })
+                }
+              />
 
               {/* Buttons */}
 
-              <div className="flex justify-end gap-3">
-
+              <div className="mt-6 flex justify-end gap-3 border-t border-gray-800 pt-5">
                 <button
                   type="button"
                   onClick={closePasswordModal}
                   disabled={passwordLoading}
-                  className="px-5 py-2.5 cursor-pointer rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-200 disabled:opacity-50"
+                  className="rounded-lg border border-gray-700 bg-gray-800 px-5 py-2.5 text-sm font-medium text-gray-300 transition hover:bg-gray-700 hover:text-white disabled:opacity-50"
                 >
                   Cancel
                 </button>
 
-
                 <button
                   type="submit"
                   disabled={passwordLoading}
-                  className="px-5 py-2.5 cursor-pointer rounded-lg bg-gray-800 text-white hover:bg-gray-900 disabled:opacity-50"
+                  className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"
                 >
-                  {passwordLoading
-                    ? "Changing..."
-                    : "Change Password"}
+                  {passwordLoading ? "Changing..." : "Change Password"}
                 </button>
-
               </div>
-
             </form>
-
           </div>
-
         </div>
-
       )}
+    </div>
+  );
+};
 
+// ========================================
+// Setting Info Component
+// ========================================
+
+const SettingInfo = ({ title, value, breakAll = false }) => {
+  return (
+    <div className="rounded-xl border border-gray-800 bg-gray-800/50 p-4">
+      <p className="text-xs uppercase tracking-wider text-gray-500">{title}</p>
+
+      <p
+        className={`mt-2 font-medium text-gray-200 ${
+          breakAll ? "break-all" : ""
+        }`}
+      >
+        {value}
+      </p>
+    </div>
+  );
+};
+
+// ========================================
+// Dark Input Component
+// ========================================
+
+const DarkInput = ({ label, type, value, onChange, disabled, placeholder }) => {
+  return (
+    <div className="mb-4">
+      <label className="mb-2 block text-sm font-medium text-gray-300">
+        {label}
+      </label>
+
+      <input
+        type={type}
+        value={value}
+        disabled={disabled}
+        placeholder={placeholder}
+        onChange={onChange}
+        className="w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white outline-none transition placeholder:text-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
+      />
     </div>
   );
 };

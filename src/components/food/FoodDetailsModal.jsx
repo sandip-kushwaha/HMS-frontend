@@ -2,7 +2,7 @@ const FoodDetailsModal = ({ food, onClose }) => {
   if (!food) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 ">
 
       <div className="flex max-h-[92vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-gray-900 text-white shadow-2xl">
 
@@ -21,9 +21,11 @@ const FoodDetailsModal = ({ food, onClose }) => {
 
           <button
             onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-800 text-xl text-gray-400 transition hover:bg-red-600 hover:text-white"
+            className="w-9 h-9 rounded-lg flex items-center justify-center cursor-pointer
+                       text-gray-400 hover:text-white hover:bg-gray-800
+                       transition"
           >
-            ×
+            ✕
           </button>
 
         </div>

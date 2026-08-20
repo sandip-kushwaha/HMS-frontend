@@ -211,9 +211,9 @@ const validate = () => {
 
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 ">
 
-      <div className="flex max-h-[95vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-gray-900 text-white shadow-2xl">
+      <div className="flex max-h-[95vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-gray-900 text-white shadow-2xl ">
 
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-700 px-6 py-5">
@@ -231,12 +231,13 @@ const validate = () => {
           </div>
 
           <button
-            type="button"
-            onClick={onClose}
+           onClick={onClose}
             disabled={loading}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-800 text-xl text-gray-400 transition hover:bg-red-600 hover:text-white disabled:opacity-50"
+            className="w-9 h-9 rounded-lg flex items-center justify-center cursor-pointer
+                       text-gray-400 hover:text-white hover:bg-gray-800
+                       transition"
           >
-            ×
+            ✕
           </button>
 
         </div>
