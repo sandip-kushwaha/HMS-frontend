@@ -9,6 +9,7 @@ import DashboardLayout from "../components/layout/DashboardLayout";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import Settings from "../pages/settings/Settings";
 import Users from "../pages/admin/Users";
+import Category from "../pages/admin/Categories";
 
 
 
@@ -34,6 +35,7 @@ const AppRoutes = () => {
           <Route element={<DashboardLayout />}>
             <Route path="/admin" element={<AdminDashboard />}/>
             <Route path="/admin/users" element={<Users />}/>
+            <Route path="/admin/categories" element={<Category />}/>
             <Route path="/admin/settings" element={<Settings />} />
           </Route>
         </Route>
