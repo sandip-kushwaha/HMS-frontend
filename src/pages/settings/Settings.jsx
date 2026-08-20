@@ -271,7 +271,7 @@ const Settings = () => {
 
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <div className="space-y-6">
 
       {/* ================= HEADER ================= */}
 
@@ -280,7 +280,7 @@ const Settings = () => {
           Settings
         </h1>
 
-        <p className="mt-1 text-gray-500">
+        <p className="mt-1 text-gray-500 text-lg">
           Manage your account information and security.
         </p>
       </div>

@@ -358,7 +358,7 @@ const CategoryModal = ({
                 className="w-11 h-6 bg-gray-600 rounded-full mt-px pt-0.5
                            peer peer-checked:bg-blue-600
                            after:content-[''] after:absolute
-                           `after:top-[2px]` `after:left-[2px]`
+                           after:top-0.5 after:left-0.5
                            after:bg-white after:rounded-full
                            after:h-5 after:w-5
                            after:transition-all

@@ -169,9 +169,7 @@ const Category = () => {
       }
 
       setSuccess(
-        `Category ${
-          category.isActive ? "deactivated" : "activated"
-        } successfully.`,
+        `Category ${ category.isActive ? "deactivated" : "activated"} successfully.`,
       );
     } catch (error) {
       console.error(error);
@@ -209,13 +207,13 @@ const Category = () => {
 
  //-----UI-----
   return (
-    <div className="p-6 text-white">
+    <div className="space-y-6 text-white">
       {/* ================= Header ================= */}
 
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-black">Categories</h1>
-          <p className="text-gray-400 mt-1">Manage your food categories</p>
+          <h1 className="text-3xl font-bold text-gray-800">Categories</h1>
+          <p className="mt-1 text-gray-500 text-lg">Manage your food categories</p>
         </div>
 
         <button

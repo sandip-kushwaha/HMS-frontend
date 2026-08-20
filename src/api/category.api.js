@@ -30,14 +30,10 @@ export const updateCategory = async (id, formData) => {
 };
 
 // Update category status
-export const updateCategoryStatus = async (
-  id,
-  isActive
-) => {
-  const response = await api.patch(
-    `/category/${id}/status`,
-    { isActive }
-  );
+export const updateCategoryStatus = async (id, isActive) => {
+  const response = await api.patch(`/category/${id}/status`,{ 
+    isActive, 
+   });
 
   return response.data;
 };
