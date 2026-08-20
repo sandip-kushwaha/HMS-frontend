@@ -43,15 +43,13 @@ const AdminDashboard = () => {
 
       {/* Header */}
       <div>
-
-        <h1 className="text-2xl font-bold text-gray-800">
+        <h1 className="text-3xl font-bold text-gray-800">
           Admin Dashboard
         </h1>
 
-        <p className="mt-1 text-gray-500">
+        <p className="mt-1 text-gray-500 text-lg">
           Welcome back! Here's what's happening today.
         </p>
-
       </div>
 
 
@@ -95,7 +93,6 @@ const AdminDashboard = () => {
       <div className="overflow-hidden bg-white border rounded-xl shadow-sm">
 
         <div className="p-5 border-b">
-
           <h2 className="text-lg font-semibold text-gray-800">
             Recent Orders
           </h2>
@@ -138,7 +135,7 @@ const AdminDashboard = () => {
 
                 <tr
                   key={order.id}
-                  className="border-t hover:bg-gray-50"
+                  className="border-t hover:bg-gray-200"
                 >
 
                   <td className="p-4 font-medium">
@@ -248,7 +245,6 @@ const OrderStatus = ({ status }) => {
     Ready: "bg-green-100 text-green-700",
     Completed: "bg-gray-100 text-gray-700",
   };
-
 
   return (
     <span

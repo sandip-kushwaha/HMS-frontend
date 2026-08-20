@@ -7,6 +7,9 @@ import Register from "../pages/auth/Register";
 
 import DashboardLayout from "../components/layout/DashboardLayout";
 import AdminDashboard from "../pages/admin/AdminDashboard";
+import Settings from "../pages/settings/Settings";
+import Users from "../pages/admin/Users";
+
 
 
 const AppRoutes = () => {
@@ -24,14 +27,14 @@ const AppRoutes = () => {
      {/* ================= PROTECTED ================= */}
       <Route element={<ProtectedRoute />}>
 
+
         {/* ================= ADMIN ================= */}
         <Route element={<RoleRoute allowedRoles={["admin"]} />}>
 
           <Route element={<DashboardLayout />}>
-
-            <Route path="/admin"
-              element={<AdminDashboard />}
-            />
+            <Route path="/admin" element={<AdminDashboard />}/>
+            <Route path="/admin/users" element={<Users />}/>
+            <Route path="/admin/settings" element={<Settings />} />
           </Route>
         </Route>
 
@@ -44,9 +47,8 @@ const AppRoutes = () => {
                element={
                <h1 className="text-2xl font-bold">
                   Kitchen Dashboard
-                </h1>
-              }
-            />
+                </h1>}/>
+          <Route path="/kitchen/settings" element={<Settings />} />
           </Route>
         </Route>
 
@@ -59,9 +61,8 @@ const AppRoutes = () => {
               element={
                 <h1 className="text-2xl font-bold">
                   Waiter Dashboard
-                </h1>
-              }
-            />
+                </h1>}/>
+            <Route path="/waiter/settings" element={<Settings />} />
           </Route>
         </Route>
 

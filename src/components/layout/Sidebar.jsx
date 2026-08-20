@@ -9,6 +9,7 @@ const Sidebar = () => {
       {
         name: "Dashboard",
         path: "/admin",
+        end: true,
       },
       {
         name: "Users",
@@ -34,12 +35,18 @@ const Sidebar = () => {
         name: "Sessions",
         path: "/admin/sessions",
       },
+      {
+        name: "Settings",
+        path: `/${user?.role}/settings`,
+        end: true,
+      },
     ],
 
     waiter: [
       {
         name: "Dashboard",
         path: "/waiter",
+        end: true,
       },
       {
         name: "Tables",
@@ -53,16 +60,27 @@ const Sidebar = () => {
         name: "Orders",
         path: "/waiter/orders",
       },
+      {
+        name: "Settings",
+        path: `/${user?.role}/settings`,
+        end: true,
+      },
     ],
 
     kitchen: [
       {
         name: "Dashboard",
         path: "/kitchen",
+        end: true,
       },
       {
         name: "Orders",
         path: "/kitchen/orders",
+      },
+      {
+        name: "Settings",
+        path: `/${user?.role}/settings`,
+        end: true,
       },
     ],
   };
@@ -86,6 +104,7 @@ const Sidebar = () => {
           <NavLink
             key={item.path}
             to={item.path}
+            end={item.end}
             className={({ isActive }) =>
               `block px-4 py-3 rounded-lg transition ${
                 isActive
@@ -96,8 +115,8 @@ const Sidebar = () => {
           >
             {item.name}
           </NavLink>
-        ))}
 
+        ))}
       </nav>
 
       {/* Logout */}
