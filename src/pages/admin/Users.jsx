@@ -14,7 +14,10 @@ const Users = () => {
   const [users, setUsers] = useState([]);
 
   const [loading, setLoading] = useState(true);
+
   const [error, setError] = useState("");
+  const [userError, setUserError] = useState("");
+
   const [success, setSuccess] = useState("");
 
   const [search, setSearch] = useState("");
@@ -31,7 +34,7 @@ const Users = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      setError("");
+      setUserError("");
 
       const response = await getAllUsers();
 
@@ -41,7 +44,7 @@ const Users = () => {
     } catch (error) {
       console.error(error);
 
-      setError( error.response?.data?.message || "Failed to fetch users.");
+      setUserError( error.response?.data?.message || "Failed to fetch users.");
     } finally {
       setLoading(false);
     }
@@ -192,25 +195,6 @@ const Users = () => {
 
   const adminUsers = users.filter((user) => user.role === "admin").length;
 
-  
-  //----Loading---
-  if (loading) {
-    return (
-      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center">
-        <div className="text-center">
-          <div
-            className="mx-auto h-10 w-10 animate-spin
-                       rounded-full border-4 border-gray-700
-                       border-t-blue-500"
-          />
-
-          <p className="mt-4 text-gray-400">
-            Loading users...
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-6">
@@ -343,6 +327,9 @@ const Users = () => {
       {/* ================================= */}
       {/* Users Table */}
       {/* ================================= */}
+      {userError && (
+         <div className="text-sm text-red-600">{userError}</div>
+      )}
 
       <div className="overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
         <div className="overflow-x-auto">
@@ -356,7 +343,7 @@ const Users = () => {
             >
               <tr>
 
-                <th className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">
+                <th className="px-15 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">
                   User
                 </th>
 
@@ -376,7 +363,7 @@ const Users = () => {
                   Status
                 </th>
 
-                <th className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wider text-gray-400">
+                <th className="px-5 py-4 text-center text-xs font-semibold uppercase tracking-wider text-gray-400">
                   Actions
                 </th>
 
@@ -386,8 +373,9 @@ const Users = () => {
             {/* Table Body */}
 
             <tbody className="divide-y divide-gray-800">
-
-              {filteredUsers.length === 0 ? (
+             {loading ? (
+               <LoadingRows/>
+             ) : filteredUsers.length === 0 ? (
                 <tr>
                   <td
                     colSpan="6"
@@ -532,8 +520,7 @@ const Users = () => {
 
                   </tr>
                 ))
-              )}
-
+              )};
             </tbody>
           </table>
 
@@ -597,9 +584,7 @@ const Users = () => {
 };
 
 
-// ===================================
-// Stat Card
-// ===================================
+//------Stat Card-----
 
 const StatCard = ({
   title,
@@ -629,6 +614,32 @@ const StatCard = ({
 
       </div>
     </div>
+  );
+};
+
+//------Loading Rows-----
+const LoadingRows = () => {
+  return (
+    <>
+      {[1, 2, 3, 4, 5].map((item) => (
+        <tr key={item}>
+          <td className="px-5 py-5" colSpan="7">
+            <div className="flex animate-pulse items-center gap-4">
+              <div className="h-12 w-12 rounded-lg bg-gray-800" />
+              <div>
+              <div className="h-5 w-30 rounded bg-gray-800" />
+               <div className="h-3 w-40 mt-2 rounded bg-gray-800" />
+              </div>
+              <div className="h-5 w-35 ml-4 rounded bg-gray-800" />
+              <div className="h-5 w-30 rounded bg-gray-800" />
+              <div className="h-9 w-25 rounded bg-gray-800" />
+              <div className="h-5 w-30 ml-10 rounded bg-gray-800" />
+              <div className="h-8 w-11 ml-15 rounded bg-gray-800" />
+            </div>
+          </td>
+        </tr>
+      ))}
+    </>
   );
 };
 

@@ -325,15 +325,29 @@ const Settings = () => {
                 Account Status
               </p>
 
-              <span
-                className={`mt-2 inline-flex rounded-full px-3 py-1 text-xs font-medium ${
-                  user?.isActive
-                    ? "bg-green-500/10 text-green-400"
-                    : "bg-red-500/10 text-red-400"
-                }`}
-              >
-                {user?.isActive ? "Active" : "Inactive"}
-              </span>
+              <div className="mt-2 flex items-center gap-2">
+                <span className="relative flex h-3 w-3">
+                  <span
+                    className={`absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping ${
+                      user.isActive ? "bg-green-500" : "bg-red-500"
+                    }`}
+                  />
+
+                  <span
+                    className={`relative inline-flex h-3 w-3 rounded-full ${
+                      user.isActive ? "bg-green-500" : "bg-red-500"
+                    }`}
+                  />
+                </span>
+
+                <span
+                  className={`text-sm font-medium 
+                ${user.isActive ? "text-green-400" : "text-red-400"}`}
+                >
+                  {user.isActive ? "Active" : "Inactive"}
+                </span>
+              </div>
+              
             </div>
 
             {/* Last Login */}

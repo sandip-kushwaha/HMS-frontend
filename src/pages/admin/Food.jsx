@@ -373,15 +373,7 @@ const Food = () => {
 
       {/* -----Food--Error-------- */}
       {foodError && (
-        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
-          <div className="flex items-center justify-between">
-            <span>{foodError}</span>
-
-            <button onClick={() => setFoodError("")} className="font-bold">
-              ×
-            </button>
-          </div>
-        </div>
+        <div className="text-sm text-red-600">{foodError}</div>
       )}
 
       {/* Food Table */}
@@ -390,7 +382,7 @@ const Food = () => {
           <table className="w-full min-w-250">
             <thead className="border-b border-gray-800 bg-gray-800/50">
               <tr>
-                <th className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">
+                <th className="px-14 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">
                   Food
                 </th>
 
@@ -414,7 +406,7 @@ const Food = () => {
                   Status
                 </th>
 
-                <th className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wider text-gray-400">
+                <th className="px-5 py-4 text-center text-xs font-semibold uppercase tracking-wider text-gray-400">
                   Actions
                 </th>
               </tr>
@@ -525,7 +517,7 @@ const Food = () => {
                         className={`rounded-full px-3 py-1 text-xs font-medium cursor-pointer transition ${
                           food.isActive
                             ? "bg-blue-500/10 text-blue-400 hover:bg-blue-500/20"
-                            : "bg-gray-700 text-gray-400 hover:bg-gray-600"
+                            : "bg-red-500/10 text-red-400"
                         }`}
                       >
                         {actionId === food._id
@@ -599,10 +591,8 @@ const Food = () => {
   );
 };
 
-// -----------------------------------
-// Stat Card
-// -----------------------------------
 
+//-------Stat Card------
 const StatCard = ({ title, value, icon }) => {
   return (
     <div className="rounded-xl border border-gray-800 bg-gray-900 p-5">
@@ -620,9 +610,8 @@ const StatCard = ({ title, value, icon }) => {
   );
 };
 
-// -----------------------------------
-// Loading Rows
-// -----------------------------------
+
+//------Loading Rows-----
 const LoadingRows = () => {
   return (
     <>
@@ -631,8 +620,17 @@ const LoadingRows = () => {
           <td className="px-5 py-5" colSpan="7">
             <div className="flex animate-pulse items-center gap-4">
               <div className="h-12 w-12 rounded-lg bg-gray-800" />
-
-              <div className="h-4 w-48 rounded bg-gray-800" />
+              <div>
+              <div className="h-5 w-30 rounded bg-gray-800" />
+               <div className="h-3 w-30 mt-2 rounded bg-gray-800" />
+              </div>
+              <div className="h-5 w-30 rounded bg-gray-800" />
+              <div className="h-5 w-30 rounded bg-gray-800" />
+              <div className="h-5 w-30 rounded bg-gray-800" />
+              <div className="h-5 w-30 rounded bg-gray-800" />
+              <div className="h-5 w-30 rounded bg-gray-800" />
+              <div className="h-7 w-10 rounded bg-gray-800" />
+              <div className="h-7 w-10 rounded bg-gray-800" />
             </div>
           </td>
         </tr>

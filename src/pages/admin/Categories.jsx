@@ -180,7 +180,7 @@ const Category = () => {
       console.error(error);
 
       setError(error.response?.data?.message || "Failed to update category status.");
-      
+
     } finally {
       setStatusLoading(null);
     }
