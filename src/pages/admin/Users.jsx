@@ -26,10 +26,8 @@ const Users = () => {
   const [viewLoading, setViewLoading] = useState(false);
   const [actionId, setActionId] = useState(null);
 
-  // -----------------------------------
-  // Fetch Users
-  // -----------------------------------
 
+  //-----Fetch Users------
   const fetchUsers = async () => {
     try {
       setLoading(true);
@@ -43,27 +41,19 @@ const Users = () => {
     } catch (error) {
       console.error(error);
 
-      setError(
-        error.response?.data?.message ||
-          "Failed to fetch users.",
-      );
+      setError( error.response?.data?.message || "Failed to fetch users.");
     } finally {
       setLoading(false);
     }
   };
 
-  // -----------------------------------
   // Initial Load
-  // -----------------------------------
-
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  // -----------------------------------
-  // View User
-  // -----------------------------------
 
+  //-------View User--------
   const handleViewUser = async (userId) => {
     try {
       setViewLoading(true);
@@ -75,18 +65,14 @@ const Users = () => {
     } catch (error) {
       console.error(error);
 
-      setError(
-        error.response?.data?.message ||
-          "Failed to fetch user details.",
-      );
+      setError( error.response?.data?.message || "Failed to fetch user details.");
     } finally {
       setViewLoading(false);
     }
   };
 
-  // -----------------------------------
-  // Change Role
-  // -----------------------------------
+
+  //--------Change Role---------
 
   const handleChangeRole = async (userId, role) => {
     try {
@@ -112,22 +98,19 @@ const Users = () => {
 
       setTimeout(() => {
         setSuccess("");
-      }, 3000);
+      }, 2500);
+
     } catch (error) {
       console.error(error);
 
-      setError(
-        error.response?.data?.message ||
-          "Failed to update user role.",
-      );
+      setError( error.response?.data?.message ||"Failed to update user role.");
     } finally {
       setActionId(null);
     }
   };
 
-  // -----------------------------------
-  // Change Status
-  // -----------------------------------
+
+  //--------Change Status----------
 
   const handleStatusChange = async (
     userId,
@@ -155,52 +138,35 @@ const Users = () => {
         setSelectedUser(userResponse.data);
       }
 
-      setSuccess(
-        `User ${
-          !currentStatus
-            ? "activated"
-            : "deactivated"
-        } successfully.`,
-      );
+      setSuccess( `User ${!currentStatus ? "activated" : "deactivated"} successfully.`);
 
       setTimeout(() => {
         setSuccess("");
-      }, 3000);
+      }, 2500);
+
     } catch (error) {
       console.error(error);
 
-      setError(
-        error.response?.data?.message ||
-          "Failed to update user status.",
-      );
+      setError(error.response?.data?.message || "Failed to update user status.");
     } finally {
       setActionId(null);
     }
   };
 
-  // -----------------------------------
-  // Filter Users
-  // -----------------------------------
+
+  //-------Filter Users----
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) => {
       const searchText = search.trim().toLowerCase();
 
-      const matchesSearch =
+      const matchesSearch = 
         !searchText ||
-        user.fullName
-          ?.toLowerCase()
-          .includes(searchText) ||
-        user.email
-          ?.toLowerCase()
-          .includes(searchText) ||
-        user.phone
-          ?.toLowerCase()
-          .includes(searchText);
+        user.fullName?.toLowerCase().includes(searchText) ||
+        user.email?.toLowerCase().includes(searchText) ||
+        user.phone?.toLowerCase().includes(searchText);
 
-      const matchesRole =
-        roleFilter === "all" ||
-        user.role === roleFilter;
+      const matchesRole = roleFilter === "all" || user.role === roleFilter;
 
       let matchesStatus = true;
 
@@ -212,41 +178,22 @@ const Users = () => {
         matchesStatus = !user.isActive;
       }
 
-      return (
-        matchesSearch &&
-        matchesRole &&
-        matchesStatus
-      );
+      return (matchesSearch && matchesRole && matchesStatus);
     });
-  }, [
-    users,
-    search,
-    roleFilter,
-    statusFilter,
-  ]);
+  }, [users, search, roleFilter, statusFilter,]);
 
-  // -----------------------------------
-  // Statistics
-  // -----------------------------------
 
+  //------Statistics------
   const totalUsers = users.length;
 
-  const activeUsers = users.filter(
-    (user) => user.isActive,
-  ).length;
+  const activeUsers = users.filter((user) => user.isActive).length;
 
-  const inactiveUsers = users.filter(
-    (user) => !user.isActive,
-  ).length;
+  const inactiveUsers = users.filter((user) => !user.isActive).length;
 
-  const adminUsers = users.filter(
-    (user) => user.role === "admin",
-  ).length;
+  const adminUsers = users.filter((user) => user.role === "admin").length;
 
-  // -----------------------------------
-  // Loading
-  // -----------------------------------
-
+  
+  //----Loading---
   if (loading) {
     return (
       <div className="min-h-[calc(100vh-64px)] flex items-center justify-center">
@@ -272,11 +219,7 @@ const Users = () => {
       {/* Header */}
       {/* ================================= */}
 
-      <div
-        className="flex flex-col gap-4
-                   md:flex-row md:items-center
-                   md:justify-between"
-      >
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-800">
             User Management
@@ -304,12 +247,8 @@ const Users = () => {
       {/* ================================= */}
 
       {success && (
-        <div
-          className="rounded-lg border
-                     border-green-500/20
-                     bg-green-500/10
-                     px-4 py-3 text-sm
-                     text-green-400"
+        <div className="rounded-lg border border-green-500/20 bg-green-500/10
+                     px-4 py-3 text-sm text-green-400"
         >
           {success}
         </div>
@@ -321,18 +260,14 @@ const Users = () => {
 
       {error && (
         <div
-          className="flex items-center
-                     justify-between rounded-lg
-                     border border-red-500/20
-                     bg-red-500/10 px-4 py-3
-                     text-sm text-red-400"
+          className="flex items-center justify-between rounded-lg border border-red-500/20
+                     bg-red-500/10 px-4 py-3 text-sm text-red-400"
         >
           <span>{error}</span>
 
           <button
             onClick={() => setError("")}
-            className="ml-4 text-lg
-                       hover:text-red-300"
+            className="ml-4 text-lg hover:text-red-300"
           >
             ×
           </button>
@@ -343,130 +278,63 @@ const Users = () => {
       {/* Statistics */}
       {/* ================================= */}
 
-      <div
-        className="grid grid-cols-1 gap-4
-                   sm:grid-cols-2 xl:grid-cols-4"
-      >
-        <StatCard
-          title="Total Users"
-          value={totalUsers}
-          icon="👥"
-        />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <StatCard title="Total Users" value={totalUsers} icon="👥"/>
 
-        <StatCard
-          title="Active Users"
-          value={activeUsers}
-          icon="✓"
-        />
+        <StatCard title="Active Users" value={activeUsers} icon="✓"/>
 
-        <StatCard
-          title="Inactive Users"
-          value={inactiveUsers}
-          icon="●"
-        />
+        <StatCard title="Inactive Users" value={inactiveUsers} icon="●"/>
 
-        <StatCard
-          title="Administrators"
-          value={adminUsers}
-          icon="★"
-        />
+        <StatCard title="Administrators" value={adminUsers} icon="★"/>
       </div>
 
       {/* ================================= */}
       {/* Filters */}
       {/* ================================= */}
 
-      <div
-        className="rounded-xl border
-                   border-gray-800 bg-gray-900 p-4"
-      >
-        <div
-          className="grid grid-cols-1 gap-3
-                     md:grid-cols-3"
-        >
+      <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
 
           {/* Search */}
 
           <div className="relative">
-            <span
-              className="absolute left-3
-                         top-1/2 -translate-y-1/2
-                         text-gray-500"
-            >
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
               <Search/>
             </span>
 
-            <input
-              type="text"
-              value={search}
-              onChange={(e) =>
-                setSearch(e.target.value)
-              }
+            <input type="text" value={search} 
+            onChange={(e) => setSearch(e.target.value)}
               placeholder="Search users..."
-              className="w-full rounded-lg
-                         border border-gray-700
-                         bg-gray-800 py-3 pl-10
-                         pr-4 text-sm text-white
-                         outline-none
-                         placeholder:text-gray-500
+              className="w-full rounded-lg border border-gray-700 bg-gray-800 py-3 pl-10
+                         pr-4 text-sm text-white outline-none placeholder:text-gray-500
                          focus:border-blue-500"
             />
           </div>
 
           {/* Role */}
 
-          <select
-            value={roleFilter}
-            onChange={(e) =>
-              setRoleFilter(e.target.value)
-            }
-            className="rounded-lg border
-                       border-gray-700 bg-gray-800
-                       px-4 py-3 text-sm text-white
-                       outline-none
-                       focus:border-blue-500"
+          <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)}
+            className="rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white
+                       outline-none focus:border-blue-500"
           >
-            <option value="all">
-              All Roles
-            </option>
-
-            <option value="admin">
-              Admin
-            </option>
-
-            <option value="waiter">
-              Waiter
-            </option>
-
-            <option value="kitchen">
-              Kitchen
-            </option>
+            <option value="all"> All Roles </option>
+            <option value="admin"> Admin </option>
+            <option value="waiter"> Waiter </option>
+            <option value="kitchen"> Kitchen </option>
           </select>
 
           {/* Status */}
 
-          <select
-            value={statusFilter}
+          <select value={statusFilter}
             onChange={(e) =>
               setStatusFilter(e.target.value)
             }
-            className="rounded-lg border
-                       border-gray-700 bg-gray-800
-                       px-4 py-3 text-sm text-white
-                       outline-none
-                       focus:border-blue-500"
+            className="rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white
+                       outline-none focus:border-blue-500"
           >
-            <option value="all">
-              All Status
-            </option>
-
-            <option value="active">
-              Active
-            </option>
-
-            <option value="inactive">
-              Inactive
-            </option>
+            <option value="all"> All Status </option>
+            <option value="active"> Active </option>
+            <option value="inactive"> Inactive </option>
           </select>
 
         </div>
@@ -476,11 +344,7 @@ const Users = () => {
       {/* Users Table */}
       {/* ================================= */}
 
-      <div
-        className="overflow-hidden rounded-xl
-                   border border-gray-800
-                   bg-gray-900"
-      >
+      <div className="overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
         <div className="overflow-x-auto">
 
           <table className="w-full min-w-250">
@@ -488,9 +352,7 @@ const Users = () => {
             {/* Table Header */}
 
             <thead
-              className="border-b
-                         border-gray-800
-                         bg-gray-800/50"
+              className="border-b border-gray-800 bg-gray-800/50"
             >
               <tr>
 
@@ -559,35 +421,19 @@ const Users = () => {
                       <div className="flex items-center gap-3">
 
                         <div
-                          className="flex h-11 w-11
-                                     shrink-0
-                                     items-center
-                                     justify-center
-                                     rounded-xl
-                                     bg-blue-500/10
-                                     text-sm font-bold
-                                     text-blue-400"
+                          className="flex h-11 w-11 shrink-0 items-center justify-center
+                                     rounded-xl bg-blue-500/10 text-sm font-bold text-blue-400"
                         >
-                          {user.fullName
-                            ?.charAt(0)
-                            .toUpperCase()}
+                          {user.fullName ?.charAt(0).toUpperCase()}
                         </div>
 
                         <div className="min-w-0">
 
-                          <p
-                            className="truncate
-                                       font-medium
-                                       text-white"
-                          >
+                          <p className="truncate font-medium text-white">
                             {user.fullName}
                           </p>
 
-                          <p
-                            className="mt-1 max-w-45
-                                       truncate text-xs
-                                       text-gray-500"
-                          >
+                          <p className="mt-1 max-w-45 truncate text-xs text-gray-500">
                             ID: {user._id}
                           </p>
 
@@ -599,11 +445,7 @@ const Users = () => {
                     {/* Email */}
 
                     <td className="px-5 py-4">
-                      <p
-                        className="max-w-55
-                                   truncate text-sm
-                                   text-gray-300"
-                      >
+                      <p className="max-w-55 truncate text-sm text-gray-300">
                         {user.email}
                       </p>
                     </td>
@@ -631,26 +473,13 @@ const Users = () => {
                             e.target.value,
                           )
                         }
-                        className="rounded-lg
-                                   border border-gray-700
-                                   bg-gray-800 px-3 py-2
-                                   text-sm capitalize
-                                   text-white outline-none
-                                   focus:border-blue-500
-                                   disabled:cursor-not-allowed
-                                   disabled:opacity-50"
+                        className="rounded-lg border border-gray-700 bg-gray-800 px-3 py-2
+                                   text-sm capitalize text-white outline-none focus:border-blue-500
+                                   disabled:cursor-not-allowed disabled:opacity-50"
                       >
-                        <option value="admin">
-                          Admin
-                        </option>
-
-                        <option value="waiter">
-                          Waiter
-                        </option>
-
-                        <option value="kitchen">
-                          Kitchen
-                        </option>
+                        <option value="admin"> Admin </option>
+                        <option value="waiter"> Waiter </option>
+                        <option value="kitchen"> Kitchen </option>
                       </select>
 
                     </td>
@@ -660,30 +489,21 @@ const Users = () => {
                     <td className="px-5 py-4">
 
                       <button
-                        disabled={
-                          actionId === user._id
-                        }
+                        disabled={ actionId === user._id }
                         onClick={() =>
                           handleStatusChange(
                             user._id,
                             user.isActive,
                           )
                         }
-                        className={`rounded-full
-                                    px-3 py-1.5
-                                    text-xs font-medium
-                                    transition
+                        className={`rounded-full px-3 py-1.5 text-xs font-medium transition
                                     ${
                                       user.isActive
                                         ? "bg-green-500/10 text-green-400 hover:bg-green-500/20"
                                         : "bg-red-500/10 text-red-400 hover:bg-red-500/20"
                                     }`}
                       >
-                        {actionId === user._id
-                          ? "..."
-                          : user.isActive
-                            ? "Active"
-                            : "Inactive"}
+                        {actionId === user._id ? "..." : user.isActive ? "Active" : "Inactive"}
                       </button>
 
                     </td>
@@ -700,14 +520,8 @@ const Users = () => {
                               user._id,
                             )
                           }
-                          className="rounded-lg
-                                     bg-gray-800
-                                     px-3 py-2
-                                     text-xs font-medium
-                                     text-gray-300
-                                     transition
-                                     hover:bg-gray-700
-                                     hover:text-white"
+                          className="rounded-lg bg-gray-800 px-3 py-2 text-xs font-medium
+                                     text-gray-300 transition hover:bg-gray-700 hover:text-white"
                         >
                           View
                         </button>
@@ -759,23 +573,14 @@ const Users = () => {
 
       {viewLoading && (
         <div
-          className="fixed inset-0 z-60
-                     flex items-center justify-center
-                     bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-60 flex items-center justify-center bg-black/50 backdrop-blur-sm"
         >
           <div
-            className="rounded-xl border
-                       border-gray-800
-                       bg-gray-900 px-6 py-5
-                       shadow-xl"
-          >
+            className="rounded-xl border border-gray-800 bg-gray-900 px-6 py-5 shadow-xl">
             <div className="flex items-center gap-3">
 
               <div
-                className="h-5 w-5 animate-spin
-                           rounded-full border-2
-                           border-gray-700
-                           border-t-blue-500"
+                className="h-5 w-5 animate-spin rounded-full border-2 border-gray-700 border-t-blue-500"
               />
 
               <p className="text-sm text-gray-300">
@@ -802,11 +607,7 @@ const StatCard = ({
   icon,
 }) => {
   return (
-    <div
-      className="rounded-xl border
-                 border-gray-800
-                 bg-gray-900 p-5"
-    >
+    <div className="rounded-xl border border-gray-800 bg-gray-900 p-5">
       <div className="flex items-center justify-between">
 
         <div>
@@ -820,9 +621,7 @@ const StatCard = ({
         </div>
 
         <div
-          className="flex h-11 w-11
-                     items-center justify-center
-                     rounded-xl bg-blue-500/10
+          className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/10
                      text-lg text-blue-400"
         >
           {icon}

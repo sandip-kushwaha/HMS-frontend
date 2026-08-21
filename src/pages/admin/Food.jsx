@@ -10,6 +10,7 @@ import {
   updateFoodAvailability,
   updateFoodStatus,
 } from "../../api/food.api";
+
 import { getAllCategories } from "../../api/category.api";
 import { Search } from "lucide-react";
 
@@ -21,6 +22,9 @@ const Food = () => {
   const [categoryLoading, setCategoryLoading] = useState(true);
 
   const [error, setError] = useState("");
+  const [foodError, setFoodError] = useState("");
+  const [categoryError, setCategoryError] = useState("");
+
   const [success, setSuccess] = useState("");
 
   const [search, setSearch] = useState("");
@@ -35,12 +39,11 @@ const Food = () => {
   const [saving, setSaving] = useState(false);
   const [actionId, setActionId] = useState(null);
 
-
   //--------Fetch Foods--------
   const fetchFoods = async () => {
     try {
       setLoading(true);
-      setError("");
+      setFoodError("");
 
       const response = await getAllFood();
 
@@ -50,18 +53,19 @@ const Food = () => {
     } catch (err) {
       console.error(err);
 
-      setError(err.response?.data?.message || "Failed to fetch food items.");
+      setFoodError(
+        err.response?.data?.message || "Failed to fetch food items.",
+      );
     } finally {
       setLoading(false);
     }
   };
 
-
   //---------Fetch Categories------------
   const fetchCategories = async () => {
     try {
       setCategoryLoading(true);
-      setError("");
+      setCategoryError("");
 
       const response = await getAllCategories();
 
@@ -69,7 +73,9 @@ const Food = () => {
 
       setCategories(Array.isArray(categoryData) ? categoryData : []);
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to fetch categories.");
+      setCategoryError(
+        err.response?.data?.message || "Failed to fetch categories.",
+      );
     } finally {
       setCategoryLoading(false);
     }
@@ -80,10 +86,8 @@ const Food = () => {
     fetchCategories();
   }, []);
 
-
   //-----------Filter Foods---------
   const filteredFoods = useMemo(() => {
-
     return foods.filter((food) => {
       const searchText = search.trim().toLowerCase();
 
@@ -94,7 +98,8 @@ const Food = () => {
 
       const foodCategory = food.category?._id || food.category;
 
-      const matchesCategory = categoryFilter === "all" || foodCategory === categoryFilter;
+      const matchesCategory =
+        categoryFilter === "all" || foodCategory === categoryFilter;
 
       let matchesStatus = true;
 
@@ -118,7 +123,6 @@ const Food = () => {
     });
   }, [foods, search, categoryFilter, statusFilter]);
 
-  
   //------Open Create Modal--------
   const handleAddFood = () => {
     setEditingFood(null);
@@ -126,7 +130,6 @@ const Food = () => {
     setError("");
     setSuccess("");
   };
-
 
   //-----Open Edit Modal------
   const handleEdit = (food) => {
@@ -136,7 +139,6 @@ const Food = () => {
     setSuccess("");
   };
 
-  
   //--------Create / Update Food-----------
   const handleSubmit = async (foodData) => {
     try {
@@ -172,8 +174,8 @@ const Food = () => {
       setModalOpen(false);
       setEditingFood(null);
     } catch (error) {
-      console.error("FOOD ERROR:", error);
-      console.error("BACKEND ERROR:", error.response?.data);
+      console.error("FOOD ERROR: ", error);
+      console.error("BACKEND ERROR: ", error.response?.data);
 
       setError(
         error.response?.data?.message ||
@@ -184,7 +186,6 @@ const Food = () => {
       setSaving(false);
     }
   };
-
 
   //-------Toggle Active Status---------
   const handleStatusToggle = async (food) => {
@@ -212,7 +213,7 @@ const Food = () => {
 
       setTimeout(() => {
         setSuccess("");
-      }, 3000);
+      }, 2500);
     } catch (err) {
       console.error(err);
 
@@ -221,7 +222,6 @@ const Food = () => {
       setActionId(null);
     }
   };
-
 
   //-------Toggle Availability---------
   const handleAvailabilityToggle = async (food) => {
@@ -249,7 +249,7 @@ const Food = () => {
 
       setTimeout(() => {
         setSuccess("");
-      }, 3000);
+      }, 2500);
     } catch (err) {
       console.error(err);
 
@@ -259,7 +259,6 @@ const Food = () => {
     }
   };
 
-
   //--------Stats--------
   const totalFoods = foods.length;
 
@@ -268,22 +267,6 @@ const Food = () => {
   const availableFoods = foods.filter((food) => food.isAvailable).length;
 
   const featuredFoods = foods.filter((food) => food.isFeatured).length;
-
-  //----Loading
-  if (loading) {
-    return (
-      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center">
-        <div className="text-center">
-          <div
-            className="w-10 h-10 border-4 border-gray-700
-                       border-t-blue-500 rounded-full
-                       animate-spin mx-auto"
-          />
-          <p className="text-gray-400 mt-4">Loading foods...</p>
-        </div>
-      </div>
-    );
-  }
 
   ///----UI-------
   return (
@@ -335,6 +318,11 @@ const Food = () => {
         <StatCard title="Featured" value={featuredFoods} icon="★" />
       </div>
 
+      {/*--------Category---Error--------- */}
+      {categoryError && (
+        <div className="text-sm text-red-600">{categoryError}</div>
+      )}
+
       {/* Filters */}
       <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -375,17 +363,26 @@ const Food = () => {
             className="rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white outline-none focus:border-blue-500"
           >
             <option value="all">All Status</option>
-
             <option value="active">Active</option>
-
             <option value="inactive">Inactive</option>
-
             <option value="available">Available</option>
-
             <option value="unavailable">Unavailable</option>
           </select>
         </div>
       </div>
+
+      {/* -----Food--Error-------- */}
+      {foodError && (
+        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
+          <div className="flex items-center justify-between">
+            <span>{foodError}</span>
+
+            <button onClick={() => setFoodError("")} className="font-bold">
+              ×
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Food Table */}
       <div className="overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
@@ -476,7 +473,6 @@ const Food = () => {
                         </div>
                       </div>
                     </td>
-
                     {/* Category */}
                     <td className="px-5 py-4 text-sm capitalize text-gray-300">
                       {food.category?.name || "N/A"}
@@ -507,7 +503,7 @@ const Food = () => {
                       <button
                         disabled={actionId === food._id}
                         onClick={() => handleAvailabilityToggle(food)}
-                        className={`rounded-full px-3 py-1 text-xs font-medium transition ${
+                        className={`rounded-full px-3 py-1 text-xs font-medium cursor-pointer transition ${
                           food.isAvailable
                             ? "bg-green-500/10 text-green-400 hover:bg-green-500/20"
                             : "bg-red-500/10 text-red-400 hover:bg-red-500/20"
@@ -526,7 +522,7 @@ const Food = () => {
                       <button
                         disabled={actionId === food._id}
                         onClick={() => handleStatusToggle(food)}
-                        className={`rounded-full px-3 py-1 text-xs font-medium transition ${
+                        className={`rounded-full px-3 py-1 text-xs font-medium cursor-pointer transition ${
                           food.isActive
                             ? "bg-blue-500/10 text-blue-400 hover:bg-blue-500/20"
                             : "bg-gray-700 text-gray-400 hover:bg-gray-600"
@@ -545,14 +541,14 @@ const Food = () => {
                       <div className="flex justify-end gap-2">
                         <button
                           onClick={() => setSelectedFood(food)}
-                          className="rounded-lg bg-gray-800 px-3 py-2 text-xs font-medium text-gray-300 transition hover:bg-gray-700 hover:text-white"
+                          className="rounded-lg bg-gray-800 px-3 py-2 text-xs font-medium cursor-pointer text-gray-300 transition hover:bg-gray-700 hover:text-white"
                         >
                           View
                         </button>
 
                         <button
                           onClick={() => handleEdit(food)}
-                          className="rounded-lg bg-blue-600/10 px-3 py-2 text-xs font-medium text-blue-400 transition hover:bg-blue-600 hover:text-white"
+                          className="rounded-lg bg-blue-600/10 px-3 py-2 text-xs font-medium cursor-pointer text-blue-400 transition hover:bg-blue-600 hover:text-white"
                         >
                           Edit
                         </button>
@@ -613,7 +609,6 @@ const StatCard = ({ title, value, icon }) => {
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm text-gray-400">{title}</p>
-
           <p className="mt-2 text-2xl font-bold text-white">{value}</p>
         </div>
 
@@ -628,7 +623,6 @@ const StatCard = ({ title, value, icon }) => {
 // -----------------------------------
 // Loading Rows
 // -----------------------------------
-
 const LoadingRows = () => {
   return (
     <>

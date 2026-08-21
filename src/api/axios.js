@@ -4,10 +4,24 @@ const  api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
     //Send cookies along with requests to my backend.(cross-origin requests)
     withCredentials: true,
-    //send JSON data
+    //send JSON data by default
     headers:{
         "Content-Type": "application/json",
     },
+});
+
+//---Request Interceptor
+// When sending FormData (e.g. file uploads), the hardcoded JSON
+// Content-Type above would otherwise stop axios/browser from setting
+// the correct "multipart/form-data; boundary=..." header, which breaks
+// multer parsing on the backend (req.file stays undefined). So we strip
+// it here and let the browser set it automatically for FormData requests.
+api.interceptors.request.use((config) => {
+  if (config.data instanceof FormData) {
+    delete config.headers["Content-Type"];
+  }
+
+  return config;
 });
 
 //---Axios Interceptor

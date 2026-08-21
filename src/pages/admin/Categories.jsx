@@ -171,12 +171,16 @@ const Category = () => {
       setSuccess(
         `Category ${ category.isActive ? "deactivated" : "activated"} successfully.`,
       );
+
+      setTimeout( ()=> {
+         setSuccess("")
+      }, 2500);
+
     } catch (error) {
       console.error(error);
 
-      setError(
-        error.response?.data?.message || "Failed to update category status.",
-      );
+      setError(error.response?.data?.message || "Failed to update category status.");
+      
     } finally {
       setStatusLoading(null);
     }
@@ -205,15 +209,18 @@ const Category = () => {
     );
   }
 
+ 
  //-----UI-----
-  return (
-    <div className="space-y-6 text-white">
-      {/* ================= Header ================= */}
-
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-800">Categories</h1>
-          <p className="mt-1 text-gray-500 text-lg">Manage your food categories</p>
+
+          <p className="mt-1 text-gray-500 text-lg">
+            Manage your food categories.
+          </p>
         </div>
 
         <button
@@ -222,109 +229,64 @@ const Category = () => {
         >
           + Add Category
         </button>
-        
       </div>
 
-      {/* ================= Messages ================= */}
-      {error && (
-        <div
-          className="mb-5 px-4 py-3 rounded-xl
-                        bg-red-500/10
-                        border border-red-500/20
-                        text-red-400 flex justify-between items-center"
-        >
-          <span>{error}</span>
-          <button
-            onClick={() => setError("")}
-            className="text-red-400 hover:text-red-300"
-          >
-            ✕
-          </button>
-        </div>
-      )}
-
+      {/* Success */}
       {success && (
-        <div
-          className="mb-5 px-4 py-3 rounded-xl
-                        bg-green-500/10
-                        border border-green-500/20
-                        text-green-400 flex justify-between items-center"
-        >
+        <div className="flex items-center justify-between rounded-lg border border-green-500/20 bg-green-500/10 px-4 py-3 text-sm text-green-400">
           <span>{success}</span>
-          <button
-            onClick={() => setSuccess("")}
-            className="text-green-400 hover:text-green-300"
-          >
-            ✕
+
+          <button onClick={() => setSuccess("")} className="ml-4 text-lg">
+            ×
           </button>
         </div>
       )}
 
-      {/* ================= Search ================= */}
-      <div className="mb-6">
-        <div className="relative max-w-md">
-          <span
-            className="absolute left-4 top-1/2
-                       -translate-y-1/2
-                       text-gray-500"
-          >
-             <Search />
-          </span>
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search categories..."
-            className="w-full pl-11 pr-4 py-3
-                       rounded-xl
-                       bg-gray-900
-                       border border-gray-700
-                       text-white
-                       placeholder-gray-500
-                       focus:outline-none
-                       focus:border-blue-500"
-          />
+      {/* Error */}
+      {error && (
+        <div className="flex items-center justify-between rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+          <span>{error}</span>
+
+          <button onClick={() => setError("")} className="ml-4 text-lg">
+            ×
+          </button>
         </div>
+      )}
+
+      {/* Stats */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <StatCard title="Total Categories" value={categories.length} icon="🍽️" />
+
+        <StatCard
+          title="Active"
+          value={categories.filter((category) => category.isActive).length}
+          icon="✓"
+        />
+
+        <StatCard
+          title="Inactive"
+          value={categories.filter((category) => !category.isActive).length}
+          icon="✕"
+        />
       </div>
 
-      {/* ================= Stats ================= */}
+      {/* Filters */}
+      <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+          {/* Search */}
+          <div className="relative">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+              <Search />
+            </span>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        {/* Total */}
-        <div
-          className="p-5 rounded-2xl
-                     bg-gray-900
-                     border border-gray-800"
-        >
-          <p className="text-sm text-gray-400">Total Categories</p>
-
-          <p className="text-2xl font-bold mt-2">{categories.length}</p>
-        </div>
-
-        {/* Active */}
-        <div
-          className="p-5 rounded-2xl
-                     bg-gray-900
-                     border border-gray-800"
-        >
-          <p className="text-sm text-gray-400">Active</p>
-
-          <p className="text-2xl font-bold text-green-400 mt-2">
-            {categories.filter((category) => category.isActive).length}
-          </p>
-        </div>
-
-        {/* Inactive */}
-        <div
-          className="p-5 rounded-2xl
-                     bg-gray-900
-                     border border-gray-800"
-        >
-          <p className="text-sm text-gray-400">Inactive</p>
-
-          <p className="text-2xl font-bold text-red-400 mt-2">
-            {categories.filter((category) => !category.isActive).length}
-          </p>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search categories..."
+              className="w-full rounded-lg border border-gray-700 bg-gray-800 py-3 pl-10 pr-4 text-sm text-white outline-none transition placeholder:text-gray-500 focus:border-blue-500"
+            />
+          </div>
         </div>
       </div>
 
@@ -334,7 +296,7 @@ const Category = () => {
         <div className="rounded-2xl border border-gray-800 bg-gray-900 py-16 text-center">
           <div className="text-5xl mb-4">🍽️</div>
 
-          <h2 className="text-lg font-semibold">No categories found</h2>
+          <h2 className="text-lg font-semibold text-white">No categories found</h2>
 
           <p className="text-gray-500 mt-2">
             {search
@@ -424,7 +386,7 @@ const Category = () => {
               {/* Content */}
 
               <div className="p-5">
-                <h2 className="text-lg font-semibold capitalize">
+                <h2 className="text-lg font-semibold capitalize text-white">
                   {category.name}
                 </h2>
 
@@ -496,9 +458,20 @@ const Category = () => {
           ))}
         </div>
       )}
+ 
+      {/* Result Count */}
+      <div className="text-base text-gray-800">
+        Showing{" "}
+        <span className="font-medium text-gray-900">
+          {filteredCategories.length}
+        </span>{" "}
+        of{" "}
+        <span className="font-medium text-gray-900">{categories.length}</span>{" "}
+        categories
+      </div>
 
-      {/* ================= Create / Edit Modal ================= */}
 
+      {/* Create / Edit Modal */}
       <CategoryModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
@@ -507,14 +480,35 @@ const Category = () => {
         loading={actionLoading}
       />
 
-      {/* ================= Details Modal ================= */}
-
+      {/* Details Modal */}
       <CategoryDetailsModal
         isOpen={isDetailsOpen}
         onClose={handleCloseDetails}
         category={detailsCategory}
         onEdit={handleEdit}
       />
+    </div>
+  );
+};
+
+// -----------------------------------
+// Stat Card
+// -----------------------------------
+
+const StatCard = ({ title, value, icon }) => {
+  return (
+    <div className="rounded-xl border border-gray-800 bg-gray-900 p-5">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm text-gray-400">{title}</p>
+
+          <p className="mt-2 text-2xl font-bold text-white">{value}</p>
+        </div>
+
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/10 text-lg text-blue-400">
+          {icon}
+        </div>
+      </div>
     </div>
   );
 };
