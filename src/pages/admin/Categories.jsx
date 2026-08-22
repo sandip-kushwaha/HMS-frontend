@@ -193,21 +193,21 @@ const Category = () => {
       category.description?.toLowerCase().includes(search.toLowerCase()),
   );
 
-  //----Loading
-  if (loading) {
-    return (
-      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center">
-        <div className="text-center">
-          <div
-            className="w-10 h-10 border-4 border-gray-700
-                       border-t-blue-500 rounded-full
-                       animate-spin mx-auto"
-          />
-          <p className="text-gray-400 mt-4">Loading categories...</p>
-        </div>
-      </div>
-    );
-  }
+  // //----Loading
+  // if (loading) {
+  //   return (
+  //     <div className="min-h-[calc(100vh-64px)] flex items-center justify-center">
+  //       <div className="text-center">
+  //         <div
+  //           className="w-10 h-10 border-4 border-gray-700
+  //                      border-t-blue-500 rounded-full
+  //                      animate-spin mx-auto"
+  //         />
+  //         <p className="text-gray-400 mt-4">Loading categories...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
  
  //-----UI-----
@@ -291,26 +291,22 @@ return (
       </div>
 
       {/* ================= Empty Search ================= */}
-
-      {filteredCategories.length === 0 ? (
+      { loading ? ( 
+        <LoadingRows />
+      ) : filteredCategories.length === 0 ? (
         <div className="rounded-2xl border border-gray-800 bg-gray-900 py-16 text-center">
           <div className="text-5xl mb-4">🍽️</div>
 
           <h2 className="text-lg font-semibold text-white">No categories found</h2>
 
           <p className="text-gray-500 mt-2">
-            {search
-              ? "Try a different search term."
-              : "Create your first food category."}
+            {search ? "Try a different search term." : "Create your first food category."}
           </p>
 
-          {!search && (
+          {search && (
             <button
               onClick={handleCreate}
-              className="mt-5 px-5 py-2.5
-                         rounded-xl
-                         bg-blue-600
-                         hover:bg-blue-700"
+              className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
             >
               Create Category
             </button>
@@ -319,22 +315,12 @@ return (
       ) : (
         /* ================= Category Grid ================= */
 
-        <div
-          className="grid grid-cols-1
-                     sm:grid-cols-2
-                     lg:grid-cols-3
-                     xl:grid-cols-3
-                     gap-5"
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
           {filteredCategories.map((category) => (
             <div
               key={category._id}
-              className="group rounded-2xl
-                         bg-gray-900
-                         border border-gray-800
-                         overflow-hidden
-                         hover:border-gray-700
-                         hover:-translate-y-1
+              className="group rounded-2xl bg-gray-900 border border-gray-800
+                         overflow-hidden hover:border-gray-700 hover:-translate-y-1
                          transition-all duration-200"
             >
               {/* Image */}
@@ -344,18 +330,11 @@ return (
                   <img
                     src={category.image}
                     alt={category.name}
-                    className="w-full h-full
-                               object-cover
-                               group-hover:scale-105
-                               transition-transform
-                               duration-300"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform
+                     duration-300"
                   />
                 ) : (
-                  <div
-                    className="w-full h-full
-                               flex items-center
-                               justify-center"
-                  >
+                  <div className="w-full h-full flex items-center justify-center">
                     <div className="text-center">
                       <div className="text-5xl">🍽️</div>
 
@@ -368,14 +347,9 @@ return (
 
                 <div className="absolute top-3 right-3">
                   <span
-                    className={`px-3 py-1.5
-                                rounded-full
-                                text-xs font-semibold
-                                backdrop-blur-md
+                    className={`px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-md
                                 ${
-                                  category.isActive
-                                    ? "bg-green-300 text-green-800"
-                                    : "bg-red-300 text-red-800"
+                                  category.isActive ? "bg-green-300 text-green-800" : "bg-red-300 text-red-800"
                                 }`}
                   >
                     {category.isActive ? "Active" : "Inactive"}
@@ -390,11 +364,7 @@ return (
                   {category.name}
                 </h2>
 
-                <p
-                  className="text-sm text-gray-400
-                             mt-2 h-10
-                             overflow-hidden"
-                >
+                <p className="text-sm text-gray-400 mt-2 h-10 overflow-hidden">
                   {category.description || "No description provided."}
                 </p>
 
@@ -406,12 +376,8 @@ return (
                   <button
                     onClick={() => handleView(category)}
                     className="flex-1 px-3 py-2 cursor-pointer flex items-center justify-center gap-1
-                               rounded-lg
-                               bg-gray-800
-                               hover:bg-gray-700
-                               text-gray-300
-                               text-sm
-                               transition"
+                               rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300
+                               text-sm transition"
                   >
                     <View />  View
                   </button>
@@ -421,12 +387,8 @@ return (
                   <button
                     onClick={() => handleEdit(category)}
                     className="flex-1 px-3 py-2 cursor-pointer flex items-center justify-center gap-1
-                               rounded-lg
-                               bg-blue-600/10
-                               hover:bg-blue-600/20
-                               text-blue-400
-                               text-sm
-                               transition"
+                               rounded-lg bg-blue-600/10 hover:bg-blue-600/20 text-blue-400
+                               text-sm transition"
                   >
                     <UserPen />Edit
                   </button>
@@ -437,10 +399,8 @@ return (
                 <button
                   onClick={() => handleStatusChange(category)}
                   disabled={statusLoading === category._id}
-                  className={`w-full mt-2 cursor-pointer
-                             px-3 py-2 rounded-lg
-                             text-sm transition
-                             disabled:opacity-50
+                  className={`w-full mt-2 cursor-pointer px-3 py-2 rounded-lg
+                             text-sm transition disabled:opacity-50
                              ${
                                category.isActive
                                  ? "bg-red-500/10 hover:bg-red-500/20 text-red-400"
@@ -455,7 +415,10 @@ return (
                 </button>
               </div>
             </div>
-          ))}
+          )
+          )}
+         
+         
         </div>
       )}
  
@@ -510,6 +473,36 @@ const StatCard = ({ title, value, icon }) => {
         </div>
       </div>
     </div>
+  );
+};
+
+//------Loading Rows-----
+const LoadingRows = () => {
+  return (
+    <>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+      {[1, 2, 3].map((item) => (
+        <div key={item} >
+              <div className="w-84 h-100 rounded-2xl bg-gray-800 border border-gray-800" >
+                <div className="animate-pulse">
+                 <div className="w-full h-48 rounded-t-2xl bg-gray-600 justify-items-end pt-4">
+                  <div className="w-15 h-7 rounded-4xl bg-gray-500 mr-3"/>
+                 </div>
+                 <div>
+                  <div className="w-48 h-8 bg-gray-600 mt-5 ml-5 rounded" />
+                  <div className="w-70 h-5 bg-gray-600 mt-2 ml-5 rounded" />
+                  <div className="flex mt-8 ml-5 gap-3">
+                  <div className="w-35 h-10 bg-gray-600 rounded"/>
+                  <div className="w-35 h-10 bg-gray-600 rounded"/>
+                  </div>
+                  <div className="w-73 h-8 bg-gray-600 mt-2 ml-5 rounded" />
+                 </div> 
+                 </div>
+              </div>
+        </div>
+      ))}
+      </div>
+    </>
   );
 };
 

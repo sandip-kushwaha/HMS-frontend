@@ -338,11 +338,8 @@ const Users = () => {
 
             {/* Table Header */}
 
-            <thead
-              className="border-b border-gray-800 bg-gray-800/50"
-            >
+            <thead className="border-b border-gray-800 bg-gray-800/50">
               <tr>
-
                 <th className="px-15 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">
                   User
                 </th>
@@ -371,16 +368,13 @@ const Users = () => {
             </thead>
 
             {/* Table Body */}
-
             <tbody className="divide-y divide-gray-800">
+              
              {loading ? (
                <LoadingRows/>
              ) : filteredUsers.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan="6"
-                    className="px-5 py-16 text-center"
-                  >
+                  <td colSpan="6" className="px-5 py-16 text-center">
                     <div className="text-4xl">
                       👥
                     </div>
@@ -390,21 +384,15 @@ const Users = () => {
                     </p>
 
                     <p className="mt-1 text-sm text-gray-500">
-                      Try changing your search
-                      or filters.
+                      Try changing your search or filters.
                     </p>
                   </td>
                 </tr>
               ) : (
                 filteredUsers.map((user) => (
-                  <tr
-                    key={user._id}
-                    className="transition
-                               hover:bg-gray-800/40"
-                  >
+                  <tr key={user._id} className="transition hover:bg-gray-800/40">
 
                     {/* User */}
-
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
 
@@ -431,7 +419,6 @@ const Users = () => {
                     </td>
 
                     {/* Email */}
-
                     <td className="px-5 py-4">
                       <p className="max-w-55 truncate text-sm text-gray-300">
                         {user.email}
@@ -439,7 +426,6 @@ const Users = () => {
                     </td>
 
                     {/* Phone */}
-
                     <td className="px-5 py-4">
                       <p className="text-sm text-gray-300">
                         {user.phone || "N/A"}
@@ -447,7 +433,6 @@ const Users = () => {
                     </td>
 
                     {/* Role */}
-
                     <td className="px-5 py-4">
 
                       <select
@@ -473,7 +458,6 @@ const Users = () => {
                     </td>
 
                     {/* Status */}
-
                     <td className="px-5 py-4">
 
                       <button
@@ -623,7 +607,7 @@ const LoadingRows = () => {
     <>
       {[1, 2, 3, 4, 5].map((item) => (
         <tr key={item}>
-          <td className="px-5 py-5" colSpan="7">
+          <td className="px-5 py-5" colSpan="6">
             <div className="flex animate-pulse items-center gap-4">
               <div className="h-12 w-12 rounded-lg bg-gray-800" />
               <div>

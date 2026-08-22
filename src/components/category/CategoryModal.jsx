@@ -140,7 +140,7 @@ const CategoryModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 ">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 ">
 
       {/* Modal */}
       <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-gray-900 text-white shadow-2xl border border-gray-700 scrollbar-thin overflow-auto">
@@ -175,63 +175,31 @@ const CategoryModal = ({
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
 
-          {/* Image */}
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+           {/* Image */}
+          <div className="mb-6">
+            <label className="mb-2 block text-sm font-medium text-gray-300">
               Category Image
             </label>
 
-            <div className="flex gap-5 items-center">
-
-              {/* Preview */}
-              <div className="w-28 h-28 rounded-xl overflow-hidden bg-gray-800 border border-gray-700 flex items-center justify-center shrink-0">
-
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+              <div className="h-32 w-32 shrink-0 overflow-hidden rounded-xl border border-gray-700 bg-gray-800">
                 {preview ? (
                   <img
                     src={preview}
-                    alt="Category preview"
-                    className="w-full h-full object-cover"
+                    alt="Food preview"
+                    className="h-full w-full object-cover"
                   />
                 ) : (
-                  <div className="text-gray-500 text-center">
-                    <div className="text-3xl">🍽️</div>
-                    <span className="text-xs">
-                      No Image
-                    </span>
+                  <div className="flex h-full items-center justify-center text-center text-xs text-gray-500">
+                    No Image
                   </div>
                 )}
-
               </div>
 
-              {/* Upload */}
-              <div className="flex-1">
-
-                <label
-                  htmlFor="category-image"
-                  className="flex items-center justify-center
-                             w-full h-28 rounded-xl border-2 border-dashed
-                             border-gray-700 hover:border-blue-500
-                             bg-gray-800/50 hover:bg-gray-800
-                             cursor-pointer transition"
-                >
-                  <div className="text-center">
-
-                    <div className="text-2xl mb-1">
-                      📷
-                    </div>
-
-                    <p className="text-sm text-gray-300">
-                      Click to upload image
-                    </p>
-
-                    <p className="text-xs text-gray-500 mt-1">
-                      PNG, JPG, WEBP • Max 5MB
-                    </p>
-
-                  </div>
-
+              <div>
+                <label className="inline-block cursor-pointer rounded-lg bg-gray-700 px-4 py-2.5 text-sm font-medium transition hover:bg-gray-600">
+                  Choose Image
                   <input
-                    id="category-image"
                     type="file"
                     accept="image/*"
                     onChange={handleChange}
@@ -239,12 +207,15 @@ const CategoryModal = ({
                   />
                 </label>
 
-                {errors.image && (
+                <p className="mt-2 text-xs text-gray-500">
+                  JPG, PNG, WEBP • Maximum 5MB
+                </p>
+
+                    {errors.image && (
                   <p className="text-red-400 text-xs mt-2">
                     {errors.image}
                   </p>
                 )}
-
               </div>
             </div>
           </div>
@@ -401,6 +372,7 @@ const CategoryModal = ({
           </div>
 
         </form>
+
       </div>
     </div>
   );

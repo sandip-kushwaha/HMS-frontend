@@ -162,8 +162,9 @@ const FoodModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 ">
-      <div className="flex max-h-[95vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-gray-900 text-white shadow-2xl ">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+       <div className="w-full max-w-3xl max-h-[92vh] overflow-y-auto rounded-2xl bg-gray-900 text-white shadow-2xl border border-gray-700 scrollbar-thin overflow-auto">
+
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-700 px-6 py-5">
           <div>
@@ -231,7 +232,7 @@ const FoodModal = ({
                 </label>
 
                 <p className="mt-2 text-xs text-gray-500">
-                  JPG, PNG • Maximum 5MB
+                  JPG, PNG, WEBP • Maximum 5MB
                 </p>
               </div>
             </div>

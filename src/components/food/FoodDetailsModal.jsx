@@ -3,7 +3,8 @@ const FoodDetailsModal = ({ food, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 ">
-      <div className="flex max-h-[92vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-gray-900 text-white shadow-2xl">
+       <div className="w-full max-w-4xl max-h-[92vh] overflow-y-auto rounded-2xl bg-gray-900 text-white shadow-2xl border border-gray-700 scrollbar-thin overflow-auto">
+        
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-700 px-6 py-5">
           <div>
