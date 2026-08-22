@@ -67,7 +67,6 @@ const UserDetailsModal = ({ user, onClose }) => {
               <p className="text-xs text-gray-500">Account Status</p>
 
               <div className="mt-2 flex items-center gap-2">
-    
                 <span className="relative flex h-3 w-3">
                   <span
                     className={`absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping ${
@@ -130,7 +129,7 @@ const UserDetailsModal = ({ user, onClose }) => {
         <div className="flex justify-end border-t border-gray-800 px-6 py-4">
           <button
             onClick={onClose}
-            className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
+            className="rounded-lg bg-blue-600 cursor-pointer px-5 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
           >
             Close
           </button>

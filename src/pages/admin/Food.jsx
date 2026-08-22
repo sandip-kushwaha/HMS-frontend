@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { CheckCircle, XCircle } from "lucide-react";
 
 import FoodModal from "../../components/food/FoodModal";
 import FoodDetailsModal from "../../components/food/FoodDetailsModal";
@@ -283,7 +284,7 @@ const Food = () => {
 
         <button
           onClick={handleAddFood}
-          className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
+          className="rounded-lg cursor-pointer bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
         >
           + Add Food
         </button>
@@ -345,7 +346,7 @@ const Food = () => {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white outline-none focus:border-blue-500"
+            className="rounded-lg cursor-pointer border  border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white outline-none focus:border-blue-500"
           >
             <option value="all">All Categories</option>
 
@@ -360,7 +361,7 @@ const Food = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white outline-none focus:border-blue-500"
+            className="rounded-lg cursor-pointer border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white outline-none focus:border-blue-500"
           >
             <option value="all">All Status</option>
             <option value="active">Active</option>
@@ -372,9 +373,7 @@ const Food = () => {
       </div>
 
       {/* -----Food--Error-------- */}
-      {foodError && (
-        <div className="text-sm text-red-600">{foodError}</div>
-      )}
+      {foodError && <div className="text-sm text-red-600">{foodError}</div>}
 
       {/* Food Table */}
       <div className="overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
@@ -479,15 +478,17 @@ const Food = () => {
 
                     {/* Type */}
                     <td className="px-5 py-4">
-                      <span
-                        className={`rounded-full px-3 py-1 text-xs font-medium ${
-                          food.isVeg
-                            ? "bg-green-500/10 text-green-400"
-                            : "bg-red-500/10 text-red-400"
-                        }`}
-                      >
-                        {food.isVeg ? "Veg" : "Non-Veg"}
-                      </span>
+                      {food.isVeg ? (
+                        <span className="inline-flex cursor-not-allowed items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700">
+                          <CheckCircle size={15} />
+                          Veg
+                        </span>
+                      ) : (
+                        <span className="inline-flex cursor-not-allowed items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-700">
+                          <XCircle size={15} />
+                          Inactive
+                        </span>
+                      )}
                     </td>
 
                     {/* Availability */}
@@ -495,17 +496,21 @@ const Food = () => {
                       <button
                         disabled={actionId === food._id}
                         onClick={() => handleAvailabilityToggle(food)}
-                        className={`rounded-full px-3 py-1 text-xs font-medium cursor-pointer transition ${
-                          food.isAvailable
-                            ? "bg-green-500/10 text-green-400 hover:bg-green-500/20"
-                            : "bg-red-500/10 text-red-400 hover:bg-red-500/20"
-                        }`}
+                        className="cursor-pointer"
                       >
-                        {actionId === food._id
-                          ? "..."
-                          : food.isAvailable
-                            ? "Available"
-                            : "Unavailable"}
+                        {actionId === food._id ? (
+                          "..."
+                        ) : food.isAvailable ? (
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700">
+                            <CheckCircle size={15} />
+                            Available
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-700">
+                            <XCircle size={15} />
+                            Unavailable
+                          </span>
+                        )}
                       </button>
                     </td>
 
@@ -514,17 +519,21 @@ const Food = () => {
                       <button
                         disabled={actionId === food._id}
                         onClick={() => handleStatusToggle(food)}
-                        className={`rounded-full px-3 py-1 text-xs font-medium cursor-pointer transition ${
-                          food.isActive
-                            ? "bg-blue-500/10 text-blue-400 hover:bg-blue-500/20"
-                            : "bg-red-500/10 text-red-400"
-                        }`}
+                        className="cursor-pointer"
                       >
-                        {actionId === food._id
-                          ? "..."
-                          : food.isActive
-                            ? "Active"
-                            : "Inactive"}
+                        {actionId === food._id ? (
+                          "..."
+                        ) : food.isActive ? (
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700">
+                            <CheckCircle size={15} />
+                            Active
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-700">
+                            <XCircle size={15} />
+                            Inactive
+                          </span>
+                        )}
                       </button>
                     </td>
 
@@ -591,7 +600,6 @@ const Food = () => {
   );
 };
 
-
 //-------Stat Card------
 const StatCard = ({ title, value, icon }) => {
   return (
@@ -610,7 +618,6 @@ const StatCard = ({ title, value, icon }) => {
   );
 };
 
-
 //------Loading Rows-----
 const LoadingRows = () => {
   return (
@@ -621,8 +628,8 @@ const LoadingRows = () => {
             <div className="flex animate-pulse items-center gap-4">
               <div className="h-12 w-12 rounded-lg bg-gray-800" />
               <div>
-              <div className="h-5 w-30 rounded bg-gray-800" />
-               <div className="h-3 w-30 mt-2 rounded bg-gray-800" />
+                <div className="h-5 w-30 rounded bg-gray-800" />
+                <div className="h-3 w-30 mt-2 rounded bg-gray-800" />
               </div>
               <div className="h-5 w-30 rounded bg-gray-800" />
               <div className="h-5 w-30 rounded bg-gray-800" />

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { CheckCircle, XCircle } from "lucide-react";
 
 import UserDetailsModal from "../../components/user/UserDetailsModal";
 
@@ -29,7 +30,6 @@ const Users = () => {
   const [viewLoading, setViewLoading] = useState(false);
   const [actionId, setActionId] = useState(null);
 
-
   //-----Fetch Users------
   const fetchUsers = async () => {
     try {
@@ -44,7 +44,7 @@ const Users = () => {
     } catch (error) {
       console.error(error);
 
-      setUserError( error.response?.data?.message || "Failed to fetch users.");
+      setUserError(error.response?.data?.message || "Failed to fetch users.");
     } finally {
       setLoading(false);
     }
@@ -54,7 +54,6 @@ const Users = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
-
 
   //-------View User--------
   const handleViewUser = async (userId) => {
@@ -68,12 +67,13 @@ const Users = () => {
     } catch (error) {
       console.error(error);
 
-      setError( error.response?.data?.message || "Failed to fetch user details.");
+      setError(
+        error.response?.data?.message || "Failed to fetch user details.",
+      );
     } finally {
       setViewLoading(false);
     }
   };
-
 
   //--------Change Role---------
 
@@ -102,32 +102,24 @@ const Users = () => {
       setTimeout(() => {
         setSuccess("");
       }, 2500);
-
     } catch (error) {
       console.error(error);
 
-      setError( error.response?.data?.message ||"Failed to update user role.");
+      setError(error.response?.data?.message || "Failed to update user role.");
     } finally {
       setActionId(null);
     }
   };
 
-
   //--------Change Status----------
 
-  const handleStatusChange = async (
-    userId,
-    currentStatus,
-  ) => {
+  const handleStatusChange = async (userId, currentStatus) => {
     try {
       setActionId(userId);
       setError("");
       setSuccess("");
 
-      await updateUserStatus(
-        userId,
-        !currentStatus,
-      );
+      await updateUserStatus(userId, !currentStatus);
 
       // Refresh users
       const response = await getAllUsers();
@@ -141,21 +133,23 @@ const Users = () => {
         setSelectedUser(userResponse.data);
       }
 
-      setSuccess( `User ${!currentStatus ? "activated" : "deactivated"} successfully.`);
+      setSuccess(
+        `User ${!currentStatus ? "activated" : "deactivated"} successfully.`,
+      );
 
       setTimeout(() => {
         setSuccess("");
       }, 2500);
-
     } catch (error) {
       console.error(error);
 
-      setError(error.response?.data?.message || "Failed to update user status.");
+      setError(
+        error.response?.data?.message || "Failed to update user status.",
+      );
     } finally {
       setActionId(null);
     }
   };
-
 
   //-------Filter Users----
 
@@ -163,7 +157,7 @@ const Users = () => {
     return users.filter((user) => {
       const searchText = search.trim().toLowerCase();
 
-      const matchesSearch = 
+      const matchesSearch =
         !searchText ||
         user.fullName?.toLowerCase().includes(searchText) ||
         user.email?.toLowerCase().includes(searchText) ||
@@ -181,10 +175,9 @@ const Users = () => {
         matchesStatus = !user.isActive;
       }
 
-      return (matchesSearch && matchesRole && matchesStatus);
+      return matchesSearch && matchesRole && matchesStatus;
     });
-  }, [users, search, roleFilter, statusFilter,]);
-
+  }, [users, search, roleFilter, statusFilter]);
 
   //------Statistics------
   const totalUsers = users.length;
@@ -195,34 +188,25 @@ const Users = () => {
 
   const adminUsers = users.filter((user) => user.role === "admin").length;
 
-
   return (
     <div className="space-y-6">
-
       {/* ================================= */}
       {/* Header */}
       {/* ================================= */}
 
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">
-            User Management
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-800">User Management</h1>
 
           <p className="mt-1 text-lg text-gray-500">
-            Manage hotel staff accounts and
-            permissions.
+            Manage hotel staff accounts and permissions.
           </p>
         </div>
 
         <div className="rounded-lg bg-gray-900 px-5 py-3">
-          <p className="text-xs text-gray-400">
-            Total Users
-          </p>
+          <p className="text-xs text-gray-400">Total Users</p>
 
-          <p className="mt-1 text-xl font-bold text-white">
-            {totalUsers}
-          </p>
+          <p className="mt-1 text-xl font-bold text-white">{totalUsers}</p>
         </div>
       </div>
 
@@ -231,7 +215,8 @@ const Users = () => {
       {/* ================================= */}
 
       {success && (
-        <div className="rounded-lg border border-green-500/20 bg-green-500/10
+        <div
+          className="rounded-lg border border-green-500/20 bg-green-500/10
                      px-4 py-3 text-sm text-green-400"
         >
           {success}
@@ -263,13 +248,13 @@ const Users = () => {
       {/* ================================= */}
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard title="Total Users" value={totalUsers} icon="👥"/>
+        <StatCard title="Total Users" value={totalUsers} icon="👥" />
 
-        <StatCard title="Active Users" value={activeUsers} icon="✓"/>
+        <StatCard title="Active Users" value={activeUsers} icon="✓" />
 
-        <StatCard title="Inactive Users" value={inactiveUsers} icon="●"/>
+        <StatCard title="Inactive Users" value={inactiveUsers} icon="●" />
 
-        <StatCard title="Administrators" value={adminUsers} icon="★"/>
+        <StatCard title="Administrators" value={adminUsers} icon="★" />
       </div>
 
       {/* ================================= */}
@@ -278,16 +263,17 @@ const Users = () => {
 
       <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-
           {/* Search */}
 
           <div className="relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-              <Search/>
+              <Search />
             </span>
 
-            <input type="text" value={search} 
-            onChange={(e) => setSearch(e.target.value)}
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               placeholder="Search users..."
               className="w-full rounded-lg border border-gray-700 bg-gray-800 py-3 pl-10
                          pr-4 text-sm text-white outline-none placeholder:text-gray-500
@@ -297,9 +283,11 @@ const Users = () => {
 
           {/* Role */}
 
-          <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)}
+          <select
+            value={roleFilter}
+            onChange={(e) => setRoleFilter(e.target.value)}
             className="rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white
-                       outline-none focus:border-blue-500"
+                       outline-none focus:border-blue-500 cursor-pointer"
           >
             <option value="all"> All Roles </option>
             <option value="admin"> Admin </option>
@@ -309,33 +297,27 @@ const Users = () => {
 
           {/* Status */}
 
-          <select value={statusFilter}
-            onChange={(e) =>
-              setStatusFilter(e.target.value)
-            }
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
             className="rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white
-                       outline-none focus:border-blue-500"
+                       outline-none focus:border-blue-500 cursor-pointer"
           >
             <option value="all"> All Status </option>
             <option value="active"> Active </option>
             <option value="inactive"> Inactive </option>
           </select>
-
         </div>
       </div>
 
       {/* ================================= */}
       {/* Users Table */}
       {/* ================================= */}
-      {userError && (
-         <div className="text-sm text-red-600">{userError}</div>
-      )}
+      {userError && <div className="text-sm text-red-600">{userError}</div>}
 
       <div className="overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
         <div className="overflow-x-auto">
-
           <table className="w-full min-w-250">
-
             {/* Table Header */}
 
             <thead className="border-b border-gray-800 bg-gray-800/50">
@@ -363,21 +345,17 @@ const Users = () => {
                 <th className="px-5 py-4 text-center text-xs font-semibold uppercase tracking-wider text-gray-400">
                   Actions
                 </th>
-
               </tr>
             </thead>
 
             {/* Table Body */}
             <tbody className="divide-y divide-gray-800">
-              
-             {loading ? (
-               <LoadingRows/>
-             ) : filteredUsers.length === 0 ? (
+              {loading ? (
+                <LoadingRows />
+              ) : filteredUsers.length === 0 ? (
                 <tr>
                   <td colSpan="6" className="px-5 py-16 text-center">
-                    <div className="text-4xl">
-                      👥
-                    </div>
+                    <div className="text-4xl">👥</div>
 
                     <p className="mt-3 font-medium text-gray-300">
                       No users found
@@ -390,21 +368,21 @@ const Users = () => {
                 </tr>
               ) : (
                 filteredUsers.map((user) => (
-                  <tr key={user._id} className="transition hover:bg-gray-800/40">
-
+                  <tr
+                    key={user._id}
+                    className="transition hover:bg-gray-800/40"
+                  >
                     {/* User */}
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
-
                         <div
                           className="flex h-11 w-11 shrink-0 items-center justify-center
                                      rounded-xl bg-blue-500/10 text-sm font-bold text-blue-400"
                         >
-                          {user.fullName ?.charAt(0).toUpperCase()}
+                          {user.fullName?.charAt(0).toUpperCase()}
                         </div>
 
                         <div className="min-w-0">
-
                           <p className="truncate font-medium text-white">
                             {user.fullName}
                           </p>
@@ -412,9 +390,7 @@ const Users = () => {
                           <p className="mt-1 max-w-45 truncate text-xs text-gray-500">
                             ID: {user._id}
                           </p>
-
                         </div>
-
                       </div>
                     </td>
 
@@ -434,80 +410,64 @@ const Users = () => {
 
                     {/* Role */}
                     <td className="px-5 py-4">
-
                       <select
                         value={user.role}
-                        disabled={
-                          actionId === user._id
-                        }
+                        disabled={actionId === user._id}
                         onChange={(e) =>
-                          handleChangeRole(
-                            user._id,
-                            e.target.value,
-                          )
+                          handleChangeRole(user._id, e.target.value)
                         }
                         className="rounded-lg border border-gray-700 bg-gray-800 px-3 py-2
                                    text-sm capitalize text-white outline-none focus:border-blue-500
-                                   disabled:cursor-not-allowed disabled:opacity-50"
+                                   disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
                       >
                         <option value="admin"> Admin </option>
                         <option value="waiter"> Waiter </option>
                         <option value="kitchen"> Kitchen </option>
                       </select>
-
                     </td>
 
                     {/* Status */}
                     <td className="px-5 py-4">
-
                       <button
-                        disabled={ actionId === user._id }
+                        disabled={actionId === user._id}
                         onClick={() =>
-                          handleStatusChange(
-                            user._id,
-                            user.isActive,
-                          )
+                          handleStatusChange(user._id, user.isActive)
                         }
-                        className={`rounded-full px-3 py-1.5 text-xs font-medium transition
-                                    ${
-                                      user.isActive
-                                        ? "bg-green-500/10 text-green-400 hover:bg-green-500/20"
-                                        : "bg-red-500/10 text-red-400 hover:bg-red-500/20"
-                                    }`}
                       >
-                        {actionId === user._id ? "..." : user.isActive ? "Active" : "Inactive"}
+                        {actionId === user._id ? (
+                          "..."
+                        ) : user.isActive ? (
+                          <span className="inline-flex cursor-pointer items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700">
+                            <CheckCircle size={15} />
+                            Active
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center cursor-pointer gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-700">
+                            <XCircle size={15} />
+                            Inactive
+                          </span>
+                        )}
                       </button>
-
                     </td>
 
                     {/* Actions */}
 
                     <td className="px-5 py-4">
-
                       <div className="flex justify-end gap-2">
-
                         <button
-                          onClick={() =>
-                            handleViewUser(
-                              user._id,
-                            )
-                          }
-                          className="rounded-lg bg-gray-800 px-3 py-2 text-xs font-medium
-                                     text-gray-300 transition hover:bg-gray-700 hover:text-white"
+                          onClick={() => handleViewUser(user._id)}
+                          className="rounded-lg bg-gray-800 px-3 py-2 text-xs font-medium cursor-pointer
+                                     text-gray-300 transition  hover:bg-gray-700 hover:text-white"
                         >
                           View
                         </button>
-
                       </div>
-
                     </td>
-
                   </tr>
                 ))
-              )};
+              )}
             </tbody>
           </table>
-
         </div>
       </div>
 
@@ -521,10 +481,7 @@ const Users = () => {
           <span className="font-medium text-gray-900">
             {filteredUsers.length}
           </span>{" "}
-          of{" "}
-          <span className="font-medium text-gray-900">
-            {users.length}
-          </span>{" "}
+          of <span className="font-medium text-gray-900">{users.length}</span>{" "}
           users
         </div>
       )}
@@ -543,50 +500,30 @@ const Users = () => {
       {/* ================================= */}
 
       {viewLoading && (
-        <div
-          className="fixed inset-0 z-60 flex items-center justify-center bg-black/50 backdrop-blur-sm"
-        >
-          <div
-            className="rounded-xl border border-gray-800 bg-gray-900 px-6 py-5 shadow-xl">
+        <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="rounded-xl border border-gray-800 bg-gray-900 px-6 py-5 shadow-xl">
             <div className="flex items-center gap-3">
+              <div className="h-5 w-5 animate-spin rounded-full border-2 border-gray-700 border-t-blue-500" />
 
-              <div
-                className="h-5 w-5 animate-spin rounded-full border-2 border-gray-700 border-t-blue-500"
-              />
-
-              <p className="text-sm text-gray-300">
-                Loading user details...
-              </p>
-
+              <p className="text-sm text-gray-300">Loading user details...</p>
             </div>
           </div>
         </div>
       )}
-
     </div>
   );
 };
 
-
 //------Stat Card-----
 
-const StatCard = ({
-  title,
-  value,
-  icon,
-}) => {
+const StatCard = ({ title, value, icon }) => {
   return (
     <div className="rounded-xl border border-gray-800 bg-gray-900 p-5">
       <div className="flex items-center justify-between">
-
         <div>
-          <p className="text-sm text-gray-400">
-            {title}
-          </p>
+          <p className="text-sm text-gray-400">{title}</p>
 
-          <p className="mt-2 text-2xl font-bold text-white">
-            {value}
-          </p>
+          <p className="mt-2 text-2xl font-bold text-white">{value}</p>
         </div>
 
         <div
@@ -595,7 +532,6 @@ const StatCard = ({
         >
           {icon}
         </div>
-
       </div>
     </div>
   );
@@ -611,8 +547,8 @@ const LoadingRows = () => {
             <div className="flex animate-pulse items-center gap-4">
               <div className="h-12 w-12 rounded-lg bg-gray-800" />
               <div>
-              <div className="h-5 w-30 rounded bg-gray-800" />
-               <div className="h-3 w-40 mt-2 rounded bg-gray-800" />
+                <div className="h-5 w-30 rounded bg-gray-800" />
+                <div className="h-3 w-40 mt-2 rounded bg-gray-800" />
               </div>
               <div className="h-5 w-35 ml-4 rounded bg-gray-800" />
               <div className="h-5 w-30 rounded bg-gray-800" />

@@ -163,8 +163,7 @@ const FoodModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-       <div className="w-full max-w-3xl max-h-[92vh] overflow-y-auto rounded-2xl bg-gray-900 text-white shadow-2xl border border-gray-700 scrollbar-thin overflow-auto">
-
+      <div className="w-full max-w-3xl max-h-[92vh] overflow-y-auto rounded-2xl bg-gray-900 text-white shadow-2xl border border-gray-700 scrollbar-thin overflow-auto">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-700 px-6 py-5">
           <div>
@@ -407,7 +406,7 @@ const FoodModal = ({
               type="button"
               onClick={onClose}
               disabled={loading}
-              className="rounded-lg bg-gray-700 px-6 py-3 text-sm font-medium transition hover:bg-gray-600 disabled:opacity-50"
+              className="rounded-lg cursor-pointer bg-gray-700 px-6 py-3 text-sm font-medium transition hover:bg-gray-600 disabled:opacity-50"
             >
               Cancel
             </button>
@@ -415,7 +414,7 @@ const FoodModal = ({
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-medium transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+              className="flex items-center cursor-pointer justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-medium transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading && (
                 <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />

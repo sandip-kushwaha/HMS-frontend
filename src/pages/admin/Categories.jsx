@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Search, UserPen, View } from 'lucide-react';
+import { Search, UserPen, CheckCircle, XCircle, Eye } from "lucide-react";
 
 import {
   getAllCategories,
@@ -169,18 +169,18 @@ const Category = () => {
       }
 
       setSuccess(
-        `Category ${ category.isActive ? "deactivated" : "activated"} successfully.`,
+        `Category ${category.isActive ? "deactivated" : "activated"} successfully.`,
       );
 
-      setTimeout( ()=> {
-         setSuccess("")
+      setTimeout(() => {
+        setSuccess("");
       }, 2500);
-
     } catch (error) {
       console.error(error);
 
-      setError(error.response?.data?.message || "Failed to update category status.");
-
+      setError(
+        error.response?.data?.message || "Failed to update category status.",
+      );
     } finally {
       setStatusLoading(null);
     }
@@ -209,9 +209,8 @@ const Category = () => {
   //   );
   // }
 
- 
- //-----UI-----
-return (
+  //-----UI-----
+  return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -225,7 +224,7 @@ return (
 
         <button
           onClick={handleCreate}
-          className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
+          className="rounded-lg cursor-pointer bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
         >
           + Add Category
         </button>
@@ -255,7 +254,11 @@ return (
 
       {/* Stats */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <StatCard title="Total Categories" value={categories.length} icon="🍽️" />
+        <StatCard
+          title="Total Categories"
+          value={categories.length}
+          icon="🍽️"
+        />
 
         <StatCard
           title="Active"
@@ -291,16 +294,20 @@ return (
       </div>
 
       {/* ================= Empty Search ================= */}
-      { loading ? ( 
+      {loading ? (
         <LoadingRows />
       ) : filteredCategories.length === 0 ? (
         <div className="rounded-2xl border border-gray-800 bg-gray-900 py-16 text-center">
           <div className="text-5xl mb-4">🍽️</div>
 
-          <h2 className="text-lg font-semibold text-white">No categories found</h2>
+          <h2 className="text-lg font-semibold text-white">
+            No categories found
+          </h2>
 
           <p className="text-gray-500 mt-2">
-            {search ? "Try a different search term." : "Create your first food category."}
+            {search
+              ? "Try a different search term."
+              : "Create your first food category."}
           </p>
 
           {search && (
@@ -347,12 +354,22 @@ return (
 
                 <div className="absolute top-3 right-3">
                   <span
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-md
-                                ${
-                                  category.isActive ? "bg-green-300 text-green-800" : "bg-red-300 text-red-800"
-                                }`}
+                  // className={`px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-md
+                  //             ${
+                  //               category.isActive ? "bg-green-300 text-green-800" : "bg-red-300 text-red-800"
+                  //             }`}
                   >
-                    {category.isActive ? "Active" : "Inactive"}
+                    {category.isActive ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700">
+                        <CheckCircle size={15} />
+                        Active
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-700">
+                        <XCircle size={15} />
+                        Inactive
+                      </span>
+                    )}
                   </span>
                 </div>
               </div>
@@ -379,7 +396,7 @@ return (
                                rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300
                                text-sm transition"
                   >
-                    <View />  View
+                    <Eye /> View
                   </button>
 
                   {/* Edit */}
@@ -390,7 +407,8 @@ return (
                                rounded-lg bg-blue-600/10 hover:bg-blue-600/20 text-blue-400
                                text-sm transition"
                   >
-                    <UserPen />Edit
+                    <UserPen />
+                    Edit
                   </button>
                 </div>
 
@@ -415,13 +433,10 @@ return (
                 </button>
               </div>
             </div>
-          )
-          )}
-         
-         
+          ))}
         </div>
       )}
- 
+
       {/* Result Count */}
       <div className="text-base text-gray-800">
         Showing{" "}
@@ -432,7 +447,6 @@ return (
         <span className="font-medium text-gray-900">{categories.length}</span>{" "}
         categories
       </div>
-
 
       {/* Create / Edit Modal */}
       <CategoryModal
@@ -480,27 +494,27 @@ const StatCard = ({ title, value, icon }) => {
 const LoadingRows = () => {
   return (
     <>
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
-      {[1, 2, 3].map((item) => (
-        <div key={item} >
-              <div className="w-84 h-100 rounded-2xl bg-gray-800 border border-gray-800" >
-                <div className="animate-pulse">
-                 <div className="w-full h-48 rounded-t-2xl bg-gray-600 justify-items-end pt-4">
-                  <div className="w-15 h-7 rounded-4xl bg-gray-500 mr-3"/>
-                 </div>
-                 <div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+        {[1, 2, 3].map((item) => (
+          <div key={item}>
+            <div className="w-84 h-100 rounded-2xl bg-gray-800 border border-gray-800">
+              <div className="animate-pulse">
+                <div className="w-full h-48 rounded-t-2xl bg-gray-600 justify-items-end pt-4">
+                  <div className="w-15 h-7 rounded-4xl bg-gray-500 mr-3" />
+                </div>
+                <div>
                   <div className="w-48 h-8 bg-gray-600 mt-5 ml-5 rounded" />
                   <div className="w-70 h-5 bg-gray-600 mt-2 ml-5 rounded" />
                   <div className="flex mt-8 ml-5 gap-3">
-                  <div className="w-35 h-10 bg-gray-600 rounded"/>
-                  <div className="w-35 h-10 bg-gray-600 rounded"/>
+                    <div className="w-35 h-10 bg-gray-600 rounded" />
+                    <div className="w-35 h-10 bg-gray-600 rounded" />
                   </div>
                   <div className="w-73 h-8 bg-gray-600 mt-2 ml-5 rounded" />
-                 </div> 
-                 </div>
+                </div>
               </div>
-        </div>
-      ))}
+            </div>
+          </div>
+        ))}
       </div>
     </>
   );

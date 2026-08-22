@@ -89,17 +89,13 @@ const Sidebar = () => {
 
   return (
     <aside className="w-64 min-h-screen bg-gray-900 text-white flex flex-col fixed">
-
       {/* Logo */}
       <div className="h-16 flex items-center px-6 border-b border-gray-700">
-        <h1 className="text-xl font-bold">
-          HMS
-        </h1>
+        <h1 className="text-xl font-bold">HMS</h1>
       </div>
 
       {/* Menu */}
       <nav className="flex-1 p-4 space-y-2">
-
         {items.map((item) => (
           <NavLink
             key={item.path}
@@ -115,22 +111,18 @@ const Sidebar = () => {
           >
             {item.name}
           </NavLink>
-
         ))}
       </nav>
 
       {/* Logout */}
-      <div className="p-4 border-t border-gray-700">
-
+      <div className="px-4 py-3.5 border-t border-gray-700">
         <button
           onClick={logout}
           className="w-full px-4 py-3 rounded-lg bg-red-600 hover:bg-red-700"
         >
           Logout
         </button>
-
       </div>
-
     </aside>
   );
 };

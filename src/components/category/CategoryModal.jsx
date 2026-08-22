@@ -111,8 +111,7 @@ const CategoryModal = ({
     }
 
     if (formData.description.length > 200) {
-      newErrors.description =
-        "Description cannot exceed 200 characters.";
+      newErrors.description = "Description cannot exceed 200 characters.";
     }
 
     setErrors(newErrors);
@@ -141,13 +140,10 @@ const CategoryModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 ">
-
       {/* Modal */}
       <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-gray-900 text-white shadow-2xl border border-gray-700 scrollbar-thin overflow-auto">
-
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-700 sticky top-0 bg-gray-900 z-10">
-
           <div>
             <h2 className="text-xl font-semibold">
               {isEdit ? "Edit Category" : "Create Category"}
@@ -169,13 +165,11 @@ const CategoryModal = ({
           >
             ✕
           </button>
-
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-
-           {/* Image */}
+          {/* Image */}
           <div className="mb-6">
             <label className="mb-2 block text-sm font-medium text-gray-300">
               Category Image
@@ -211,10 +205,8 @@ const CategoryModal = ({
                   JPG, PNG, WEBP • Maximum 5MB
                 </p>
 
-                    {errors.image && (
-                  <p className="text-red-400 text-xs mt-2">
-                    {errors.image}
-                  </p>
+                {errors.image && (
+                  <p className="text-red-400 text-xs mt-2">{errors.image}</p>
                 )}
               </div>
             </div>
@@ -235,9 +227,7 @@ const CategoryModal = ({
               maxLength={30}
               className={`w-full px-4 py-3 rounded-xl bg-gray-800
                          border ${
-                           errors.name
-                             ? "border-red-500"
-                             : "border-gray-700"
+                           errors.name ? "border-red-500" : "border-gray-700"
                          }
                          text-white placeholder-gray-500
                          focus:outline-none focus:border-blue-500
@@ -245,11 +235,8 @@ const CategoryModal = ({
             />
 
             <div className="flex justify-between mt-1">
-
               {errors.name ? (
-                <p className="text-xs text-red-400">
-                  {errors.name}
-                </p>
+                <p className="text-xs text-red-400">{errors.name}</p>
               ) : (
                 <span />
               )}
@@ -257,7 +244,6 @@ const CategoryModal = ({
               <span className="text-xs text-gray-500">
                 {formData.name.length}/30
               </span>
-
             </div>
           </div>
 
@@ -286,11 +272,8 @@ const CategoryModal = ({
             />
 
             <div className="flex justify-between mt-1">
-
               {errors.description ? (
-                <p className="text-xs text-red-400">
-                  {errors.description}
-                </p>
+                <p className="text-xs text-red-400">{errors.description}</p>
               ) : (
                 <span />
               )}
@@ -298,17 +281,13 @@ const CategoryModal = ({
               <span className="text-xs text-gray-500">
                 {formData.description.length}/200
               </span>
-
             </div>
           </div>
 
           {/* Status */}
           <div className="flex items-center justify-between p-4 rounded-xl bg-gray-800 border border-gray-700">
-
             <div>
-              <p className="text-sm font-medium">
-                Category Status
-              </p>
+              <p className="text-sm font-medium">Category Status</p>
 
               <p className="text-xs text-gray-400 mt-1">
                 Inactive categories won't be available for normal use.
@@ -316,7 +295,6 @@ const CategoryModal = ({
             </div>
 
             <label className="relative inline-flex items-center cursor-pointer">
-
               <input
                 type="checkbox"
                 name="isActive"
@@ -335,14 +313,11 @@ const CategoryModal = ({
                            after:transition-all
                            peer-checked:after:translate-x-full"
               />
-
             </label>
-
           </div>
 
           {/* Buttons */}
           <div className="flex justify-end gap-3 pt-3 border-t border-gray-700">
-
             <button
               type="button"
               onClick={onClose}
@@ -365,14 +340,11 @@ const CategoryModal = ({
               {loading
                 ? "Saving..."
                 : isEdit
-                ? "Update Category"
-                : "Create Category"}
+                  ? "Update Category"
+                  : "Create Category"}
             </button>
-
           </div>
-
         </form>
-
       </div>
     </div>
   );

@@ -3,8 +3,7 @@ const FoodDetailsModal = ({ food, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 ">
-       <div className="w-full max-w-4xl max-h-[92vh] overflow-y-auto rounded-2xl bg-gray-900 text-white shadow-2xl border border-gray-700 scrollbar-thin overflow-auto">
-        
+      <div className="w-full max-w-4xl max-h-[92vh] overflow-y-auto rounded-2xl bg-gray-900 text-white shadow-2xl border border-gray-700 scrollbar-thin overflow-auto">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-700 px-6 py-5">
           <div>
@@ -145,7 +144,7 @@ const FoodDetailsModal = ({ food, onClose }) => {
         <div className="flex justify-end border-t border-gray-700 px-6 py-4">
           <button
             onClick={onClose}
-            className="rounded-lg bg-gray-700 px-6 py-2.5 text-sm font-medium transition hover:bg-gray-600"
+            className="rounded-lg cursor-pointer bg-gray-700 px-6 py-2.5 text-sm font-medium transition hover:bg-gray-600"
           >
             Close
           </button>
@@ -179,20 +178,23 @@ const StatusCard = ({ label, value, active }) => {
 
       <div className="mt-2 flex items-center gap-2">
         <span className="relative flex h-3 w-3">
-
           <span
             className={`absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping 
-              ${active ? "bg-green-500" : "bg-red-500"}`}/>
+              ${active ? "bg-green-500" : "bg-red-500"}`}
+          />
 
-          <span className={`relative inline-flex h-3 w-3 rounded-full 
-          ${active ? "bg-green-500" : "bg-red-500"}`}/>
+          <span
+            className={`relative inline-flex h-3 w-3 rounded-full 
+          ${active ? "bg-green-500" : "bg-red-500"}`}
+          />
         </span>
 
-        <span className={`text-sm font-medium 
-        ${active ? "text-green-400" : "text-red-400"}`}>
+        <span
+          className={`text-sm font-medium 
+        ${active ? "text-green-400" : "text-red-400"}`}
+        >
           {value}
         </span>
-        
       </div>
     </div>
   );

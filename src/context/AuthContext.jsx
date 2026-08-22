@@ -1,86 +1,67 @@
-import {
-    createContext,
-    useContext,
-    useEffect,
-    useState,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
-import {
-    getCurrentUser,
-    loginUser,
-    logoutUser,
-} from "../api/auth.api";
-
+import { getCurrentUser, loginUser, logoutUser } from "../api/auth.api";
 
 const AuthContext = createContext(null);
 
-
 export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
- 
-    //Get current user
-    const checkCurrentUser = async () => {
-        try {
-            const response = await getCurrentUser();
-            setUser(response.data);
-        } catch (error) {
-            setUser(null);
-        } finally {
-            setLoading(false);
-        }
-    };
-
+  //Get current user
+  const checkCurrentUser = async () => {
+    try {
+      const response = await getCurrentUser();
+      setUser(response.data);
+    } catch (error) {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   //Login
-    const login = async (email, password) => {
-       const response = await loginUser({ email, password, });
+  const login = async (email, password) => {
+    const response = await loginUser({ email, password });
 
-        setUser(response.data.user);
+    setUser(response.data.user);
 
-        return response;
-   };
+    return response;
+  };
 
-   //Logout
-    const logout = async () => {
-        try {
-            await logoutUser();
-        } finally {
-            setUser(null);
-        }
-    };
+  //Logout
+  const logout = async () => {
+    try {
+      await logoutUser();
+    } finally {
+      setUser(null);
+    }
+  };
 
+  //Check authentication when app starts
+  useEffect(() => {
+    checkCurrentUser();
+  }, []);
 
-    //Check authentication when app starts
-    useEffect(() => {
-        checkCurrentUser();
-    }, []);
+  const value = {
+    user,
+    loading,
+    login,
+    logout,
+    getCurrentUser: checkCurrentUser,
+    isAuthenticated: !!user,
+  };
 
-
-    const value = {
-        user,
-        loading,
-        login,
-        logout,
-        getCurrentUser: checkCurrentUser,
-        isAuthenticated: !!user,
-    };
-
-    return (
-        <AuthContext.Provider value={value}>
-            {children}
-        </AuthContext.Provider>
-    );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 //Custem hook
 export const useAuth = () => {
-    const context = useContext(AuthContext);
-    
-    if (!context) {
-        throw new Error("useAuth must be used inside AuthProvider");
-    }
+  const context = useContext(AuthContext);
 
-    return context;
+  if (!context) {
+    throw new Error("useAuth must be used inside AuthProvider");
+  }
+
+  return context;
 };
