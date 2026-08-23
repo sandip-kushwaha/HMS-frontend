@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, Star, Users2, XCircle } from "lucide-react";
 
 import UserDetailsModal from "../../components/user/UserDetailsModal";
 
@@ -248,13 +248,37 @@ const Users = () => {
       {/* ================================= */}
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard title="Total Users" value={totalUsers} icon="👥" />
+        <StatCard 
+        title="Total Users" 
+        value={totalUsers} 
+        icon={<Users2 size={22}/>}
+        iconClass="bg-blue-500/10 text-blue-400" 
+        />
 
-        <StatCard title="Active Users" value={activeUsers} icon="✓" />
+        <StatCard 
+        title="Active Users" 
+        value={activeUsers} 
+        icon={<CheckCircle size={22} />}
+        iconClass="bg-green-500/10 text-green-400"
+        valueClass="text-green-400"
+        />
 
-        <StatCard title="Inactive Users" value={inactiveUsers} icon="●" />
+        <StatCard 
+        title="Inactive Users" 
+        value={inactiveUsers} 
+        icon={<XCircle size={22} />}
+        iconClass="bg-red-500/10 text-red-400"
+         valueClass="text-red-400"
+        />
 
-        <StatCard title="Administrators" value={adminUsers} icon="★" />
+        <StatCard 
+        title="Administrators" 
+        value={adminUsers} 
+        icon={<Star size={22}/>} 
+        iconClass="bg-gray-500/10 text-gray-400"
+        valueClass="text-gray-400"
+        />
+
       </div>
 
       {/* ================================= */}
@@ -516,20 +540,48 @@ const Users = () => {
 
 //------Stat Card-----
 
-const StatCard = ({ title, value, icon }) => {
+// const StatCard = ({ title, value, icon }) => {
+//   return (
+//     <div className="rounded-xl border border-gray-800 bg-gray-900 p-5">
+//       <div className="flex items-center justify-between">
+//         <div>
+//           <p className="text-sm text-gray-400">{title}</p>
+
+//           <p className="mt-2 text-2xl font-bold text-white">{value}</p>
+//         </div>
+
+//         <div
+//           className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/10
+//                      text-lg text-blue-400"
+//         >
+//           {icon}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+const StatCard = ({
+  title,
+  value,
+  icon,
+  iconClass,
+  valueClass = "text-white",
+}) => {
+
   return (
-    <div className="rounded-xl border border-gray-800 bg-gray-900 p-5">
+
+    <div className="rounded-xl border border-gray-800 bg-gray-900 p-5 transition hover:border-gray-700">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm text-gray-400">{title}</p>
-
-          <p className="mt-2 text-2xl font-bold text-white">{value}</p>
+          <p className="text-sm text-gray-400">
+            {title}
+          </p>
+          <p className={`mt-2 text-2xl font-bold ${valueClass}`}>
+            {value}
+          </p>
         </div>
-
-        <div
-          className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/10
-                     text-lg text-blue-400"
-        >
+        <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${iconClass}`}>
           {icon}
         </div>
       </div>

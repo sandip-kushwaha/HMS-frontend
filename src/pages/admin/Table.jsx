@@ -818,15 +818,12 @@ const Tables = () => {
                 <div className="flex items-start justify-between gap-3">
 
                   <div className="min-w-0">
-
                     <h2 className="text-xl font-bold text-white">
                       {table.tableNumber}
                     </h2>
-
                     <p className="mt-1 text-sm capitalize text-gray-500">
                       {table.location}
                     </p>
-
                   </div>
 
 
@@ -835,15 +832,12 @@ const Tables = () => {
                       table.status
                     )}`}
                   >
-
                     {getStatusIcon(
                       table.status
                     )}
 
                     {table.status}
-
                   </span>
-
                 </div>
 
               </div>
@@ -1154,18 +1148,13 @@ const StatCard = ({
             {title}
           </p>
 
-          <p
-            className={`mt-2 text-2xl font-bold ${valueClass}`}
-          >
+          <p className={`mt-2 text-2xl font-bold ${valueClass}`}>
             {value}
           </p>
 
         </div>
 
-
-        <div
-          className={`flex h-11 w-11 items-center justify-center rounded-xl ${iconClass}`}
-        >
+        <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${iconClass}`}>
           {icon}
         </div>
 

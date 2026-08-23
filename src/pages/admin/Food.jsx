@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, Star, Utensils, XCircle } from "lucide-react";
 
 import FoodModal from "../../components/food/FoodModal";
 import FoodDetailsModal from "../../components/food/FoodDetailsModal";
@@ -309,13 +309,37 @@ const Food = () => {
 
       {/* Stats */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard title="Total Foods" value={totalFoods} icon="🍽️" />
+        <StatCard 
+        title="Total Foods" 
+        value={totalFoods} 
+        icon={<Utensils size={22}/>}
+        iconClass="bg-blue-500/10 text-blue-400" 
+        />
 
-        <StatCard title="Active Foods" value={activeFoods} icon="✓" />
+        <StatCard 
+        title="Active Foods" 
+        value={activeFoods} 
+        icon={<CheckCircle size={22}/>}
+        iconClass="bg-green-500/10 text-green-400"
+        valueClass="text-green-400"
+        />
 
-        <StatCard title="Available" value={availableFoods} icon="●" />
+        <StatCard 
+        title="Available" 
+        value={availableFoods} 
+        icon={<CheckCircle size={22}/>}
+        iconClass="bg-green-500/10 text-green-400"
+        valueClass="text-green-400" 
+        />
 
-        <StatCard title="Featured" value={featuredFoods} icon="★" />
+        <StatCard 
+        title="Featured" 
+        value={featuredFoods} 
+        icon={<Star size={22}/>} 
+        iconClass="bg-gray-500/10 text-gray-400"
+        valueClass="text-gray-400" 
+        />
+
       </div>
 
       {/*--------Category---Error--------- */}
@@ -600,22 +624,34 @@ const Food = () => {
 };
 
 //-------Stat Card------
-const StatCard = ({ title, value, icon }) => {
+const StatCard = ({
+  title,
+  value,
+  icon,
+  iconClass,
+  valueClass = "text-white",
+}) => {
+
   return (
-    <div className="rounded-xl border border-gray-800 bg-gray-900 p-5">
+
+    <div className="rounded-xl border border-gray-800 bg-gray-900 p-5 transition hover:border-gray-700">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm text-gray-400">{title}</p>
-          <p className="mt-2 text-2xl font-bold text-white">{value}</p>
+          <p className="text-sm text-gray-400">
+            {title}
+          </p>
+          <p className={`mt-2 text-2xl font-bold ${valueClass}`}>
+            {value}
+          </p>
         </div>
-
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/10 text-lg text-blue-400">
+        <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${iconClass}`}>
           {icon}
         </div>
       </div>
     </div>
   );
 };
+
 
 //------Loading Rows-----
 const LoadingRows = () => {

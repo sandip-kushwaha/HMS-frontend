@@ -1,4 +1,17 @@
-import { Hotel, Mail, Phone } from "lucide-react";
+import {
+  Hotel,
+  Mail,
+  Phone,
+  ArrowUpRight,
+  Utensils,
+  ShoppingCart,
+  Table2,
+  Users,
+  ShieldCheck,
+  ChefHat,
+  UserRound,
+} from "lucide-react";
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -84,82 +97,138 @@ const Footer = () => {
 
   const items = menuItems[user?.role] || [];
 
+  // ROLE ICON
+  const getRoleIcon = () => {
+    switch (user?.role) {
+      case "admin":
+        return <ShieldCheck size={14} />;
+
+      case "waiter":
+        return <UserRound size={14} />;
+
+      case "kitchen":
+        return <ChefHat size={14} />;
+
+      default:
+        return <UserRound size={14} />;
+    }
+  };
+
   return (
-    <footer className="bg-gray-900 text-gray-300">
-      {/* ================= MAIN FOOTER ================= */}
-      <div className="max-w-7xl mx-auto px-6 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* ================= BRAND ================= */}
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-11 h-11 rounded-xl bg-blue-600 flex items-center justify-center">
-                <span className="text-white text-xl font-bold">logo</span>
+    <footer className="border-t border-gray-800 bg-gray-950 text-gray-400">
+      {/* =====================================================
+          MAIN FOOTER
+      ====================================================== */}
+
+      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
+
+            {/*----- BRAND */}
+          <div className="lg:pr-6">
+            <div className="mb-5 flex items-center gap-3">
+
+              {/* Logo */}
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 shadow-lg shadow-blue-600/10">
+                <Utensils size={21} className="text-white" />
               </div>
 
+              {/* Brand */}
               <div>
-                <h2 className="text-xl font-bold text-white">HMS</h2>
+                <h2 className="text-xl font-bold tracking-wide text-white">
+                  HMS
+                </h2>
 
-                <p className="text-xs text-gray-400">Hotel Management System</p>
+                <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-gray-600">
+                  Hotel Management
+                </p>
               </div>
             </div>
 
-            <p className="text-sm leading-6 text-gray-400">
+            <p className="max-w-sm text-sm leading-6 text-gray-500">
               A simple and efficient hotel management system designed to manage
               food, orders, tables and daily hotel operations.
             </p>
+
+            {/* Role */}
+            <div className="mt-5 inline-flex items-center gap-2 rounded-lg border border-gray-800 bg-gray-900 px-3 py-2 text-xs capitalize text-gray-500">
+              <span className="text-blue-400">{getRoleIcon()}</span>
+              Logged in as{" "}
+              <span className="font-medium text-gray-300">{user?.role}</span>
+            </div>
           </div>
 
-          {/* ================= QUICK LINKS ================= */}
+              {/*--- QUICK LINKS--- */}
           <div>
-            <h3 className="text-white font-semibold text-lg mb-4">
+            <h3 className="mb-5 text-sm font-semibold uppercase tracking-wider text-white">
               Quick Links
             </h3>
 
-            <ul className="space-y-3 text-sm">
+            <ul className="space-y-2">
               {items.map((item) => (
                 <li key={item.path}>
                   <Link
                     to={item.path}
-                    className="hover:text-blue-400 transition "
+                    className="group flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-gray-500 transition hover:bg-gray-900 hover:text-blue-400"
                   >
-                    {item.name}
+                    <span>{item.name}</span>
+
+                    <ArrowUpRight
+                      size={14}
+                      className="opacity-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+                    />
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* ================= MANAGEMENT ================= */}
+          
+              {/* -----MANAGEMENT -------*/}
           <div>
-            <h3 className="text-white font-semibold text-lg mb-4">
+            <h3 className="mb-5 text-sm font-semibold uppercase tracking-wider text-white">
               Management
             </h3>
 
-            <ul className="space-y-3 text-sm">
+            <ul className="space-y-2">
               <li>
                 <Link
                   to={`/${user?.role}/food`}
-                  className="hover:text-blue-400 transition"
+                  className="group flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-gray-500 transition hover:bg-gray-900 hover:text-blue-400"
                 >
-                  Food Management
+                  <Utensils
+                    size={16}
+                    className="text-gray-600 transition group-hover:text-blue-400"
+                  />
+
+                  <span>Food Management</span>
                 </Link>
               </li>
 
               <li>
                 <Link
                   to={`/${user?.role}/orders`}
-                  className="hover:text-blue-400 transition"
+                  className="group flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-gray-500 transition hover:bg-gray-900 hover:text-blue-400"
                 >
-                  Order Management
+                  <ShoppingCart
+                    size={16}
+                    className="text-gray-600 transition group-hover:text-blue-400"
+                  />
+
+                  <span>Order Management</span>
                 </Link>
               </li>
 
               <li>
                 <Link
                   to={`/${user?.role}/tables`}
-                  className="hover:text-blue-400 transition"
+                  className="group flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-gray-500 transition hover:bg-gray-900 hover:text-blue-400"
                 >
-                  Table Management
+                  <Table2
+                    size={16}
+                    className="text-gray-600 transition group-hover:text-blue-400"
+                  />
+
+                  <span>Table Management</span>
                 </Link>
               </li>
 
@@ -167,51 +236,93 @@ const Footer = () => {
                 <li>
                   <Link
                     to="/admin/users"
-                    className="hover:text-blue-400 transition"
+                    className="group flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-gray-500 transition hover:bg-gray-900 hover:text-blue-400"
                   >
-                    Staff Management
+                    <Users
+                      size={16}
+                      className="text-gray-600 transition group-hover:text-blue-400"
+                    />
+
+                    <span>Staff Management</span>
                   </Link>
                 </li>
               )}
             </ul>
           </div>
 
-          {/* ================= CONTACT ================= */}
+
+              {/* ---CONTACT -----*/}
           <div>
-            <h3 className="text-white font-semibold text-lg mb-4">Contact</h3>
+            <h3 className="mb-5 text-sm font-semibold uppercase tracking-wider text-white">
+              Contact
+            </h3>
 
-            <div className="space-y-4 text-sm text-gray-400">
-              <p className="flex items-start gap-3">
-                <Hotel size={20} className="text-blue-400 shrink-0" />
+            <div className="space-y-3">
 
-                <span>Hotel Management System</span>
-              </p>
+              {/* Hotel */}
+              <div className="flex items-center gap-3 rounded-xl border border-gray-800 bg-gray-900 p-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400">
+                  <Hotel size={17} />
+                </div>
 
-              <p className="flex items-center gap-3">
-                <Phone size={20} className="text-blue-400 shrink-0" />
+                <div>
+                  <p className="text-xs text-gray-600">Organization</p>
 
-                <span>+977 9800000000</span>
-              </p>
+                  <p className="mt-0.5 text-sm text-gray-300">
+                    Hotel Management System
+                  </p>
+                </div>
+              </div>
 
-              <p className="flex items-center gap-3">
-                <Mail size={20} className="text-blue-400 shrink-0" />
+              {/* Phone */}
+              <div className="flex items-center gap-3 rounded-xl border border-gray-800 bg-gray-900 p-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-green-500/10 text-green-400">
+                  <Phone size={17} />
+                </div>
 
-                <span>support@hms.com</span>
-              </p>
+                <div>
+                  <p className="text-xs text-gray-600">Phone</p>
+
+                  <p className="mt-0.5 text-sm text-gray-300">
+                    +977 9800000000
+                  </p>
+                </div>
+              </div>
+
+              {/* Email */}
+              <div className="flex items-center gap-3 rounded-xl border border-gray-800 bg-gray-900 p-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-purple-500/10 text-purple-400">
+                  <Mail size={17} />
+                </div>
+
+                <div className="min-w-0">
+                  <p className="text-xs text-gray-600">Email</p>
+
+                  <p className="mt-0.5 truncate text-sm text-gray-300">
+                    support@hms.com
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ================= BOTTOM ================= */}
-      <div className="border-t border-gray-700">
-        <div className="max-w-7xl mx-auto px-6 py-7">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-3">
-            <p className="text-sm text-gray-500 text-center md:text-left">
-              © {new Date().getFullYear()} HMS. All rights reserved.
-            </p>
 
-            <p className="text-sm text-gray-500">Hotel Management System</p>
+          {/* -----BOTTOM FOOTER ------*/}
+
+      <div className="border-t pb-9.5 border-gray-800">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-5 sm:flex-row lg:px-8">
+          <p className="text-center text-xs text-gray-600 sm:text-left">
+            © {new Date().getFullYear()} HMS. All rights reserved.
+          </p>
+
+          <div className="flex items-center gap-2 text-xs text-gray-600">
+            <span>Hotel Management System</span>
+
+            <span className="h-1 w-1 rounded-full bg-gray-700" />
+
+            <span className="text-blue-500">HMS</span>
           </div>
         </div>
       </div>
