@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Search, UserPen, CheckCircle, XCircle, Eye } from "lucide-react";
 
 import {
@@ -38,6 +38,7 @@ const Category = () => {
 
   // Search
   const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   //---- Fetch Categories
   const fetchCategories = async () => {
@@ -187,27 +188,37 @@ const Category = () => {
   };
 
   //---- Search
-  const filteredCategories = categories.filter(
-    (category) =>
-      category.name?.toLowerCase().includes(search.toLowerCase()) ||
-      category.description?.toLowerCase().includes(search.toLowerCase()),
-  );
+  // const filteredCategories = categories.filter(
+  //   (category) =>
+  //     category.name?.toLowerCase().includes(search.toLowerCase()) ||
+  //     category.description?.toLowerCase().includes(search.toLowerCase()),
+  // );
 
-  // //----Loading
-  // if (loading) {
-  //   return (
-  //     <div className="min-h-[calc(100vh-64px)] flex items-center justify-center">
-  //       <div className="text-center">
-  //         <div
-  //           className="w-10 h-10 border-4 border-gray-700
-  //                      border-t-blue-500 rounded-full
-  //                      animate-spin mx-auto"
-  //         />
-  //         <p className="text-gray-400 mt-4">Loading categories...</p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  const filteredCategories = useMemo(() => {
+      return categories.filter((category) => {
+        const searchText = search.trim().toLowerCase();
+  
+        const matchesSearch =
+          !searchText ||
+          category.name?.toLowerCase().includes(searchText) ||
+          category.description?.toLowerCase().includes(searchText);
+
+  
+        let matchesStatus = true;
+  
+        if (statusFilter === "active") {
+          matchesStatus = category.isActive;
+        }
+  
+        if (statusFilter === "inactive") {
+          matchesStatus = !category.isActive;
+        }
+  
+        return matchesSearch && matchesStatus;
+      });
+    }, [ categories, search, statusFilter]);
+
+
 
   //-----UI-----
   return (
@@ -290,6 +301,17 @@ const Category = () => {
               className="w-full rounded-lg border border-gray-700 bg-gray-800 py-3 pl-10 pr-4 text-sm text-white outline-none transition placeholder:text-gray-500 focus:border-blue-500"
             />
           </div>
+
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white
+                       outline-none focus:border-blue-500 cursor-pointer"
+          >
+            <option value="all"> All Status </option>
+            <option value="active"> Active </option>
+            <option value="inactive"> Inactive </option>
+          </select>
         </div>
       </div>
 

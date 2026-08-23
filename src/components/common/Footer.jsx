@@ -120,7 +120,7 @@ const Footer = () => {
                 <li key={item.path}>
                   <Link
                     to={item.path}
-                    className="hover:text-blue-400 transition"
+                    className="hover:text-blue-400 transition "
                   >
                     {item.name}
                   </Link>

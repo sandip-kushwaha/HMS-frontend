@@ -99,8 +99,7 @@ const Food = () => {
 
       const foodCategory = food.category?._id || food.category;
 
-      const matchesCategory =
-        categoryFilter === "all" || foodCategory === categoryFilter;
+      const matchesCategory = categoryFilter === "all" || foodCategory === categoryFilter;
 
       let matchesStatus = true;
 

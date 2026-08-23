@@ -215,7 +215,7 @@ const CategoryModal = ({
           {/* Name */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
-              Category Name
+              Category Name <span className="text-red-400">*</span>
             </label>
 
             <input
