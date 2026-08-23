@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Router } from "react-router-dom";
 
 import ProtectedRoute from "./ProtectedRoute";
 import RoleRoute from "./RoleRoutes";
@@ -11,6 +11,7 @@ import Settings from "../pages/settings/Settings";
 import Users from "../pages/admin/Users";
 import Category from "../pages/admin/Categories";
 import Food from "../pages/admin/Food";
+import Tables from "../pages/admin/Table";
 
 const AppRoutes = () => {
   return (
@@ -31,6 +32,7 @@ const AppRoutes = () => {
             <Route path="/admin/users" element={<Users />} />
             <Route path="/admin/food" element={<Food />} />
             <Route path="/admin/categories" element={<Category />} />
+            <Route path="/admin/tables" element={<Tables />} />
             <Route path="/admin/settings" element={<Settings />} />
           </Route>
         </Route>
