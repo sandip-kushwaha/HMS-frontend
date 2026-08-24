@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Button from "../common/Button";
 
 const CategoryModal = ({
   isOpen,
@@ -329,20 +330,19 @@ const CategoryModal = ({
               Cancel
             </button>
 
-            <button
+            <Button
               type="submit"
               disabled={loading}
-              className="px-6 py-2.5 rounded-xl bg-blue-600
-                         hover:bg-blue-700 text-white font-medium
-                         transition disabled:opacity-50
-                         disabled:cursor-not-allowed cursor-pointer"
-            >
-              {loading
-                ? "Saving..."
-                : isEdit
-                  ? "Update Category"
-                  : "Create Category"}
-            </button>
+              value={
+                <>
+                  {loading && (
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                  )}
+
+                  {loading ? "Saving..." : isEdit ? "Update Category" : "Create Category"}
+                </>
+              }
+            />
           </div>
         </form>
       </div>

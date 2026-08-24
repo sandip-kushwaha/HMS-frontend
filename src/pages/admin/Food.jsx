@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { CheckCircle, Star, Utensils, XCircle } from "lucide-react";
+import { CheckCircle, Plus, Star, Utensils, XCircle } from "lucide-react";
+import StatCard from "../../components/common/StatCard";
+import Button from "../../components/common/Button";
+import Header from "../../components/common/Header";
 
 import FoodModal from "../../components/food/FoodModal";
 import FoodDetailsModal from "../../components/food/FoodDetailsModal";
@@ -99,7 +102,8 @@ const Food = () => {
 
       const foodCategory = food.category?._id || food.category;
 
-      const matchesCategory = categoryFilter === "all" || foodCategory === categoryFilter;
+      const matchesCategory =
+        categoryFilter === "all" || foodCategory === categoryFilter;
 
       let matchesStatus = true;
 
@@ -273,20 +277,20 @@ const Food = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-800">Food Management</h1>
-
-          <p className="mt-1 text-gray-500 text-lg">
-            Manage your restaurant menu and food items.
-          </p>
-        </div>
-
-        <button
+        <Header
+          title="Food Management"
+          value=" Manage your restaurant menu and food items."
+        />
+        <Button
           onClick={handleAddFood}
-          className="rounded-lg cursor-pointer bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
-        >
-          + Add Food
-        </button>
+          value={
+            <>
+              <Plus size={18} />
+              Add Food
+            </>
+          }
+        />
+       
       </div>
 
       {/* Success */}
@@ -309,37 +313,36 @@ const Food = () => {
 
       {/* Stats */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard 
-        title="Total Foods" 
-        value={totalFoods} 
-        icon={<Utensils size={22}/>}
-        iconClass="bg-blue-500/10 text-blue-400" 
+        <StatCard
+          title="Total Foods"
+          value={totalFoods}
+          icon={<Utensils size={22} />}
+          iconClass="bg-blue-500/10 text-blue-400"
         />
 
-        <StatCard 
-        title="Active Foods" 
-        value={activeFoods} 
-        icon={<CheckCircle size={22}/>}
-        iconClass="bg-green-500/10 text-green-400"
-        valueClass="text-green-400"
+        <StatCard
+          title="Active Foods"
+          value={activeFoods}
+          icon={<CheckCircle size={22} />}
+          iconClass="bg-green-500/10 text-green-400"
+          valueClass="text-green-400"
         />
 
-        <StatCard 
-        title="Available" 
-        value={availableFoods} 
-        icon={<CheckCircle size={22}/>}
-        iconClass="bg-green-500/10 text-green-400"
-        valueClass="text-green-400" 
+        <StatCard
+          title="Available"
+          value={availableFoods}
+          icon={<CheckCircle size={22} />}
+          iconClass="bg-green-500/10 text-green-400"
+          valueClass="text-green-400"
         />
 
-        <StatCard 
-        title="Featured" 
-        value={featuredFoods} 
-        icon={<Star size={22}/>} 
-        iconClass="bg-gray-500/10 text-gray-400"
-        valueClass="text-gray-400" 
+        <StatCard
+          title="Featured"
+          value={featuredFoods}
+          icon={<Star size={22} />}
+          iconClass="bg-gray-500/10 text-gray-400"
+          valueClass="text-gray-400"
         />
-
       </div>
 
       {/*--------Category---Error--------- */}
@@ -622,36 +625,6 @@ const Food = () => {
     </div>
   );
 };
-
-//-------Stat Card------
-const StatCard = ({
-  title,
-  value,
-  icon,
-  iconClass,
-  valueClass = "text-white",
-}) => {
-
-  return (
-
-    <div className="rounded-xl border border-gray-800 bg-gray-900 p-5 transition hover:border-gray-700">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm text-gray-400">
-            {title}
-          </p>
-          <p className={`mt-2 text-2xl font-bold ${valueClass}`}>
-            {value}
-          </p>
-        </div>
-        <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${iconClass}`}>
-          {icon}
-        </div>
-      </div>
-    </div>
-  );
-};
-
 
 //------Loading Rows-----
 const LoadingRows = () => {

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { CheckCircle, Star, Users2, XCircle } from "lucide-react";
-
+import StatCard from "../../components/common/StatCard";
+import Header from "../../components/common/Header";
 import UserDetailsModal from "../../components/user/UserDetailsModal";
 
 import {
@@ -10,6 +11,7 @@ import {
   updateUserStatus,
 } from "../../api/users.api";
 import { Search } from "lucide-react";
+
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -190,30 +192,21 @@ const Users = () => {
 
   return (
     <div className="space-y-6">
-      {/* ================================= */}
+
       {/* Header */}
-      {/* ================================= */}
-
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-800">User Management</h1>
-
-          <p className="mt-1 text-lg text-gray-500">
-            Manage hotel staff accounts and permissions.
-          </p>
-        </div>
+        <Header
+        title="User Management"
+        value="anage hotel staff accounts and permissions."
+        />
 
         <div className="rounded-lg bg-gray-900 px-5 py-3">
           <p className="text-xs text-gray-400">Total Users</p>
-
           <p className="mt-1 text-xl font-bold text-white">{totalUsers}</p>
         </div>
       </div>
 
-      {/* ================================= */}
       {/* Success Message */}
-      {/* ================================= */}
-
       {success && (
         <div
           className="rounded-lg border border-green-500/20 bg-green-500/10
@@ -248,37 +241,36 @@ const Users = () => {
       {/* ================================= */}
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard 
-        title="Total Users" 
-        value={totalUsers} 
-        icon={<Users2 size={22}/>}
-        iconClass="bg-blue-500/10 text-blue-400" 
+        <StatCard
+          title="Total Users"
+          value={totalUsers}
+          icon={<Users2 size={22} />}
+          iconClass="bg-blue-500/10 text-blue-400"
         />
 
-        <StatCard 
-        title="Active Users" 
-        value={activeUsers} 
-        icon={<CheckCircle size={22} />}
-        iconClass="bg-green-500/10 text-green-400"
-        valueClass="text-green-400"
+        <StatCard
+          title="Active Users"
+          value={activeUsers}
+          icon={<CheckCircle size={22} />}
+          iconClass="bg-green-500/10 text-green-400"
+          valueClass="text-green-400"
         />
 
-        <StatCard 
-        title="Inactive Users" 
-        value={inactiveUsers} 
-        icon={<XCircle size={22} />}
-        iconClass="bg-red-500/10 text-red-400"
-         valueClass="text-red-400"
+        <StatCard
+          title="Inactive Users"
+          value={inactiveUsers}
+          icon={<XCircle size={22} />}
+          iconClass="bg-red-500/10 text-red-400"
+          valueClass="text-red-400"
         />
 
-        <StatCard 
-        title="Administrators" 
-        value={adminUsers} 
-        icon={<Star size={22}/>} 
-        iconClass="bg-gray-500/10 text-gray-400"
-        valueClass="text-gray-400"
+        <StatCard
+          title="Administrators"
+          value={adminUsers}
+          icon={<Star size={22} />}
+          iconClass="bg-gray-500/10 text-gray-400"
+          valueClass="text-gray-400"
         />
-
       </div>
 
       {/* ================================= */}
@@ -534,57 +526,6 @@ const Users = () => {
           </div>
         </div>
       )}
-    </div>
-  );
-};
-
-//------Stat Card-----
-
-// const StatCard = ({ title, value, icon }) => {
-//   return (
-//     <div className="rounded-xl border border-gray-800 bg-gray-900 p-5">
-//       <div className="flex items-center justify-between">
-//         <div>
-//           <p className="text-sm text-gray-400">{title}</p>
-
-//           <p className="mt-2 text-2xl font-bold text-white">{value}</p>
-//         </div>
-
-//         <div
-//           className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/10
-//                      text-lg text-blue-400"
-//         >
-//           {icon}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-const StatCard = ({
-  title,
-  value,
-  icon,
-  iconClass,
-  valueClass = "text-white",
-}) => {
-
-  return (
-
-    <div className="rounded-xl border border-gray-800 bg-gray-900 p-5 transition hover:border-gray-700">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm text-gray-400">
-            {title}
-          </p>
-          <p className={`mt-2 text-2xl font-bold ${valueClass}`}>
-            {value}
-          </p>
-        </div>
-        <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${iconClass}`}>
-          {icon}
-        </div>
-      </div>
     </div>
   );
 };

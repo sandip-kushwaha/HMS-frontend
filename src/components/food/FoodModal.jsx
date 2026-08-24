@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Button from "../common/Button";
 
 const initialForm = {
   category: "",
@@ -411,17 +412,19 @@ const FoodModal = ({
               Cancel
             </button>
 
-            <button
+            <Button
               type="submit"
               disabled={loading}
-              className="flex items-center cursor-pointer justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-medium transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {loading && (
-                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-              )}
+              value={
+                <>
+                  {loading && (
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                  )}
 
-              {loading ? "Saving..." : isEdit ? "Update Food" : "Create Food"}
-            </button>
+                  {loading ? "Saving..." : isEdit ? "Update Food" : "Create Food"}
+                </>
+              }
+            />
           </div>
         </form>
       </div>

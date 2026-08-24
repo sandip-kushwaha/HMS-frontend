@@ -1,5 +1,16 @@
 import { useEffect, useState, useMemo } from "react";
-import { Search, UserPen, CheckCircle, XCircle, Eye } from "lucide-react";
+import {
+  Search,
+  UserPen,
+  CheckCircle,
+  XCircle,
+  Eye,
+  Utensils,
+  Plus,
+} from "lucide-react";
+import StatCard from "../../components/common/StatCard";
+import Button from "../../components/common/Button";
+import Header from "../../components/common/Header";
 
 import {
   getAllCategories,
@@ -10,6 +21,8 @@ import {
 
 import CategoryModal from "../../components/category/CategoryModal";
 import CategoryDetailsModal from "../../components/category/CategoryDetailsModal";
+
+
 
 const Category = () => {
   // State
@@ -187,58 +200,47 @@ const Category = () => {
     }
   };
 
-  //---- Search
-  // const filteredCategories = categories.filter(
-  //   (category) =>
-  //     category.name?.toLowerCase().includes(search.toLowerCase()) ||
-  //     category.description?.toLowerCase().includes(search.toLowerCase()),
-  // );
-
   const filteredCategories = useMemo(() => {
-      return categories.filter((category) => {
-        const searchText = search.trim().toLowerCase();
-  
-        const matchesSearch =
-          !searchText ||
-          category.name?.toLowerCase().includes(searchText) ||
-          category.description?.toLowerCase().includes(searchText);
+    return categories.filter((category) => {
+      const searchText = search.trim().toLowerCase();
 
-  
-        let matchesStatus = true;
-  
-        if (statusFilter === "active") {
-          matchesStatus = category.isActive;
-        }
-  
-        if (statusFilter === "inactive") {
-          matchesStatus = !category.isActive;
-        }
-  
-        return matchesSearch && matchesStatus;
-      });
-    }, [ categories, search, statusFilter]);
+      const matchesSearch =
+        !searchText ||
+        category.name?.toLowerCase().includes(searchText) ||
+        category.description?.toLowerCase().includes(searchText);
 
+      let matchesStatus = true;
 
+      if (statusFilter === "active") {
+        matchesStatus = category.isActive;
+      }
+
+      if (statusFilter === "inactive") {
+        matchesStatus = !category.isActive;
+      }
+
+      return matchesSearch && matchesStatus;
+    });
+  }, [categories, search, statusFilter]);
 
   //-----UI-----
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-800">Categories</h1>
-
-          <p className="mt-1 text-gray-500 text-lg">
-            Manage your food categories.
-          </p>
-        </div>
-
-        <button
+        <Header
+          title="Categories"
+          value=" Manage your food categories."
+        />
+        <Button
           onClick={handleCreate}
-          className="rounded-lg cursor-pointer bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
-        >
-          + Add Category
-        </button>
+          value={
+            <>
+              <Plus size={18} />
+              Add Category
+            </>
+          }
+        />
       </div>
 
       {/* Success */}
@@ -263,24 +265,29 @@ const Category = () => {
         </div>
       )}
 
-      {/* Stats */}
+      {/* Stats card */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <StatCard
           title="Total Categories"
           value={categories.length}
-          icon="🍽️"
+          icon={<Utensils size={22} />}
+          iconClass="bg-blue-500/10 text-blue-400"
         />
 
         <StatCard
           title="Active"
           value={categories.filter((category) => category.isActive).length}
-          icon="✓"
+          icon={<CheckCircle size={22} />}
+          iconClass="bg-green-500/10 text-green-400"
+          valueClass="text-green-400"
         />
 
         <StatCard
           title="Inactive"
           value={categories.filter((category) => !category.isActive).length}
-          icon="✕"
+          icon={<XCircle size={22} />}
+          iconClass="bg-red-500/10 text-red-400"
+          valueClass="text-red-400"
         />
       </div>
 
@@ -486,28 +493,6 @@ const Category = () => {
         category={detailsCategory}
         onEdit={handleEdit}
       />
-    </div>
-  );
-};
-
-// -----------------------------------
-// Stat Card
-// -----------------------------------
-
-const StatCard = ({ title, value, icon }) => {
-  return (
-    <div className="rounded-xl border border-gray-800 bg-gray-900 p-5">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm text-gray-400">{title}</p>
-
-          <p className="mt-2 text-2xl font-bold text-white">{value}</p>
-        </div>
-
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/10 text-lg text-blue-400">
-          {icon}
-        </div>
-      </div>
     </div>
   );
 };

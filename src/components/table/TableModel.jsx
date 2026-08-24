@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
+import Button from "../common/Button";
 
-const TableModal = ({
-  isOpen,
-  onClose,
-  onSubmit,
-  editingTable,
-  saving,
-}) => {
+const TableModal = ({ isOpen, onClose, onSubmit, editingTable, saving }) => {
   const [formData, setFormData] = useState({
     tableNumber: "",
     capacity: "",
@@ -72,7 +67,6 @@ const TableModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm">
       <div className="w-full max-w-lg overflow-hidden rounded-2xl border border-gray-800 bg-gray-900 shadow-2xl">
-
         {/* ================= HEADER ================= */}
 
         <div className="flex items-center justify-between border-b border-gray-800 px-6 py-5">
@@ -100,10 +94,7 @@ const TableModal = ({
 
         {/* ================= FORM ================= */}
 
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-5 p-6"
-        >
+        <form onSubmit={handleSubmit} className="space-y-5 p-6">
           {/* Table Number */}
 
           <div>
@@ -162,21 +153,13 @@ const TableModal = ({
               disabled={saving}
               className="w-full cursor-pointer rounded-lg border border-gray-700 bg-gray-800 px-3 py-2.5 text-sm text-white outline-none transition focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              <option value="indoor">
-                Indoor
-              </option>
+              <option value="indoor">Indoor</option>
 
-              <option value="outdoor">
-                Outdoor
-              </option>
+              <option value="outdoor">Outdoor</option>
 
-              <option value="vip">
-                VIP
-              </option>
+              <option value="vip">VIP</option>
 
-              <option value="rooftop">
-                Rooftop
-              </option>
+              <option value="rooftop">Rooftop</option>
             </select>
           </div>
 
@@ -221,17 +204,19 @@ const TableModal = ({
               Cancel
             </button>
 
-            <button
+            <Button
               type="submit"
               disabled={saving}
-              className="cursor-pointer rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {saving
-                ? "Saving..."
-                : editingTable
-                ? "Update Table"
-                : "Create Table"}
-            </button>
+              value={
+                <>
+                  {saving && (
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                  )}
+
+                  {saving ? "Saving..." : editingTable ? "Update Table" : "Create Table"}
+                </>
+              }
+            />
           </div>
         </form>
       </div>
@@ -239,4 +224,4 @@ const TableModal = ({
   );
 };
 
-export default TableModal;  
+export default TableModal;

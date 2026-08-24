@@ -163,12 +163,12 @@ const Footer = () => {
               Quick Links
             </h3>
 
-            <ul className="space-y-2">
+            <ul>
               {items.map((item) => (
                 <li key={item.path}>
                   <Link
                     to={item.path}
-                    className="group flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-gray-500 transition hover:bg-gray-900 hover:text-blue-400"
+                    className="group w-27 flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-gray-500 transition hover:text-blue-400"
                   >
                     <span>{item.name}</span>
 
@@ -189,25 +189,28 @@ const Footer = () => {
               Management
             </h3>
 
-            <ul className="space-y-2">
+            <ul>
               <li>
                 <Link
                   to={`/${user?.role}/food`}
-                  className="group flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-gray-500 transition hover:bg-gray-900 hover:text-blue-400"
+                  className="group w-47 flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-gray-500 transition hover:text-blue-400"
                 >
                   <Utensils
                     size={16}
                     className="text-gray-600 transition group-hover:text-blue-400"
                   />
-
                   <span>Food Management</span>
+                  <ArrowUpRight
+                      size={14}
+                      className="opacity-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+                    />
                 </Link>
               </li>
 
               <li>
                 <Link
                   to={`/${user?.role}/orders`}
-                  className="group flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-gray-500 transition hover:bg-gray-900 hover:text-blue-400"
+                  className="group w-49 flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-gray-500 transition hover:text-blue-400"
                 >
                   <ShoppingCart
                     size={16}
@@ -215,13 +218,17 @@ const Footer = () => {
                   />
 
                   <span>Order Management</span>
+                  <ArrowUpRight
+                      size={14}
+                      className="opacity-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+                    />
                 </Link>
               </li>
 
               <li>
                 <Link
                   to={`/${user?.role}/tables`}
-                  className="group flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-gray-500 transition hover:bg-gray-900 hover:text-blue-400"
+                  className="group w-47 flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-gray-500 transition hover:text-blue-400"
                 >
                   <Table2
                     size={16}
@@ -229,6 +236,10 @@ const Footer = () => {
                   />
 
                   <span>Table Management</span>
+                  <ArrowUpRight
+                      size={14}
+                      className="opacity-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+                    />
                 </Link>
               </li>
 
@@ -236,7 +247,7 @@ const Footer = () => {
                 <li>
                   <Link
                     to="/admin/users"
-                    className="group flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-gray-500 transition hover:bg-gray-900 hover:text-blue-400"
+                    className="group w-47 flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-gray-500 transition hover:text-blue-400"
                   >
                     <Users
                       size={16}
@@ -244,6 +255,10 @@ const Footer = () => {
                     />
 
                     <span>Staff Management</span>
+                    <ArrowUpRight
+                      size={14}
+                      className="opacity-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+                    />
                   </Link>
                 </li>
               )}
@@ -260,14 +275,13 @@ const Footer = () => {
             <div className="space-y-3">
 
               {/* Hotel */}
-              <div className="flex items-center gap-3 rounded-xl border border-gray-800 bg-gray-900 p-3">
+              <div className="flex items-center gap-3 ">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400">
                   <Hotel size={17} />
                 </div>
 
                 <div>
                   <p className="text-xs text-gray-600">Organization</p>
-
                   <p className="mt-0.5 text-sm text-gray-300">
                     Hotel Management System
                   </p>
@@ -275,14 +289,13 @@ const Footer = () => {
               </div>
 
               {/* Phone */}
-              <div className="flex items-center gap-3 rounded-xl border border-gray-800 bg-gray-900 p-3">
+              <div className="flex items-center gap-3 py-2">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-green-500/10 text-green-400">
                   <Phone size={17} />
                 </div>
 
                 <div>
                   <p className="text-xs text-gray-600">Phone</p>
-
                   <p className="mt-0.5 text-sm text-gray-300">
                     +977 9800000000
                   </p>
@@ -290,14 +303,13 @@ const Footer = () => {
               </div>
 
               {/* Email */}
-              <div className="flex items-center gap-3 rounded-xl border border-gray-800 bg-gray-900 p-3">
+              <div className="flex items-center gap-3 py-2">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-purple-500/10 text-purple-400">
                   <Mail size={17} />
                 </div>
 
                 <div className="min-w-0">
                   <p className="text-xs text-gray-600">Email</p>
-
                   <p className="mt-0.5 truncate text-sm text-gray-300">
                     support@hms.com
                   </p>
