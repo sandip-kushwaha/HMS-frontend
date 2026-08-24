@@ -227,6 +227,9 @@ const Category = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
+      {loading ? (
+        <LoadingHeader/>
+      ):(
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <Header
           title="Categories"
@@ -242,6 +245,7 @@ const Category = () => {
           }
         />
       </div>
+      )}
 
       {/* Success */}
       {success && (
@@ -266,6 +270,9 @@ const Category = () => {
       )}
 
       {/* Stats card */}
+      {loading ? (
+        <LoadingStats/>
+      ):(
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <StatCard
           title="Total Categories"
@@ -290,8 +297,12 @@ const Category = () => {
           valueClass="text-red-400"
         />
       </div>
+      )}
 
       {/* Filters */}
+      {loading ? (
+        <LoadingFilter/>
+      ):(
       <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
           {/* Search */}
@@ -321,10 +332,11 @@ const Category = () => {
           </select>
         </div>
       </div>
+      )}
 
       {/* ================= Empty Search ================= */}
       {loading ? (
-        <LoadingRows />
+        <LoadingCard />
       ) : filteredCategories.length === 0 ? (
         <div className="rounded-2xl border border-gray-800 bg-gray-900 py-16 text-center">
           <div className="text-5xl mb-4">🍽️</div>
@@ -497,8 +509,74 @@ const Category = () => {
   );
 };
 
+
+// Loading header
+const LoadingHeader = () => {
+  return (
+    <>
+    <div className="space-y-6">
+        {/* Loading Header */}
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div>
+            <div className="h-8 w-56 animate-pulse rounded-lg bg-gray-800" />
+
+            <div className="mt-3 h-5 w-80 animate-pulse rounded bg-gray-800" />
+          </div>
+
+          <div className="h-11 w-32 animate-pulse rounded-lg bg-gray-800" />
+        </div>
+      </div>
+    </>
+  )
+}
+
+//Loading Stats  
+const LoadingStats = () => {
+  return(
+    <>
+     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {[1, 2, 3].map((item) => (
+            <div
+              key={item}
+              className="rounded-xl border border-gray-800 bg-gray-900 p-5"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="h-4 w-24 animate-pulse rounded bg-gray-800" />
+
+                  <div className="mt-3 h-8 w-12 animate-pulse rounded bg-gray-800" />
+                </div>
+
+                <div className="h-11 w-11 animate-pulse rounded-xl bg-gray-800" />
+              </div>
+            </div>
+          ))}
+        </div>
+
+    </>
+  )
+}
+       
+// Loading Filter
+const LoadingFilter = () => {
+  return (
+    <>
+      <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-3 ">
+            {[1, 2].map((item) => (
+              <div
+                key={item}
+                className="h-11 animate-pulse rounded-lg bg-gray-800"
+              />
+            ))}
+          </div>
+        </div> 
+    </>
+  );
+};
+
 //------Loading Rows-----
-const LoadingRows = () => {
+const LoadingCard = () => {
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">

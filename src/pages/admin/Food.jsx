@@ -272,11 +272,15 @@ const Food = () => {
 
   const featuredFoods = foods.filter((food) => food.isFeatured).length;
 
+
   ///----UI-------
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      {loading ? (
+        <LoadingHeader/>
+      ):(
+       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <Header
           title="Food Management"
           value=" Manage your restaurant menu and food items."
@@ -290,9 +294,9 @@ const Food = () => {
             </>
           }
         />
-       
       </div>
-
+      )}
+      
       {/* Success */}
       {success && (
         <div className="rounded-lg border border-green-500/20 bg-green-500/10 px-4 py-3 text-sm text-green-400">
@@ -312,6 +316,9 @@ const Food = () => {
       )}
 
       {/* Stats */}
+      {loading ? (
+        <LoadingStats/>
+      ):(
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
           title="Total Foods"
@@ -344,6 +351,7 @@ const Food = () => {
           valueClass="text-gray-400"
         />
       </div>
+      )}
 
       {/*--------Category---Error--------- */}
       {categoryError && (
@@ -351,52 +359,56 @@ const Food = () => {
       )}
 
       {/* Filters */}
-      <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-          {/* Search */}
-          <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-              <Search />
-            </span>
+      {loading ? (
+        <LoadingFilter/>
+      ) : (
+        <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+            {/* Search */}
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                <Search />
+              </span>
 
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search food..."
-              className="w-full rounded-lg border border-gray-700 bg-gray-800 py-3 pl-10 pr-4 text-sm text-white outline-none transition placeholder:text-gray-500 focus:border-blue-500"
-            />
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search food..."
+                className="w-full rounded-lg border border-gray-700 bg-gray-800 py-3 pl-10 pr-4 text-sm text-white outline-none transition placeholder:text-gray-500 focus:border-blue-500"
+              />
+            </div>
+
+            {/* Category */}
+            <select
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+              className="cursor-pointer rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white outline-none focus:border-blue-500"
+            >
+              <option value="all">All Categories</option>
+
+              {categories.map((category) => (
+                <option key={category._id} value={category._id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+
+            {/* Status */}
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="cursor-pointer rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white outline-none focus:border-blue-500"
+            >
+              <option value="all">All Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="available">Available</option>
+              <option value="unavailable">Unavailable</option>
+            </select>
           </div>
-
-          {/* Category */}
-          <select
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-            className="rounded-lg cursor-pointer border  border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white outline-none focus:border-blue-500"
-          >
-            <option value="all">All Categories</option>
-
-            {categories.map((category) => (
-              <option key={category._id} value={category._id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-
-          {/* Status */}
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="rounded-lg cursor-pointer border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white outline-none focus:border-blue-500"
-          >
-            <option value="all">All Status</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-            <option value="available">Available</option>
-            <option value="unavailable">Unavailable</option>
-          </select>
         </div>
-      </div>
+      )}
 
       {/* -----Food--Error-------- */}
       {foodError && <div className="text-sm text-red-600">{foodError}</div>}
@@ -439,7 +451,7 @@ const Food = () => {
 
             <tbody className="divide-y divide-gray-800">
               {loading ? (
-                <LoadingRows />
+                <LoadingTable />
               ) : filteredFoods.length === 0 ? (
                 <tr>
                   <td colSpan="7" className="px-5 py-16 text-center">
@@ -626,8 +638,73 @@ const Food = () => {
   );
 };
 
-//------Loading Rows-----
-const LoadingRows = () => {
+// Loading header
+const LoadingHeader = () => {
+  return (
+    <>
+    <div className="space-y-6">
+        {/* Loading Header */}
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div>
+            <div className="h-8 w-56 animate-pulse rounded-lg bg-gray-800" />
+
+            <div className="mt-3 h-5 w-80 animate-pulse rounded bg-gray-800" />
+          </div>
+
+          <div className="h-11 w-32 animate-pulse rounded-lg bg-gray-800" />
+        </div>
+      </div>
+    </>
+  )
+}
+
+// Loading Stats  
+const LoadingStats = () => {
+  return(
+    <>
+     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {[1, 2, 3, 4].map((item) => (
+            <div
+              key={item}
+              className="rounded-xl border border-gray-800 bg-gray-900 p-5"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="h-4 w-24 animate-pulse rounded bg-gray-800" />
+
+                  <div className="mt-3 h-8 w-12 animate-pulse rounded bg-gray-800" />
+                </div>
+
+                <div className="h-11 w-11 animate-pulse rounded-xl bg-gray-800" />
+              </div>
+            </div>
+          ))}
+        </div>
+
+    </>
+  )
+}
+       
+// Loading Filter
+const LoadingFilter = () => {
+  return (
+    <>
+      <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+            {[1, 2, 3].map((item) => (
+              <div
+                key={item}
+                className="h-11 animate-pulse rounded-lg bg-gray-800"
+              />
+            ))}
+          </div>
+        </div> 
+    </>
+  );
+};
+
+//Loading table
+const LoadingTable = () => {
   return (
     <>
       {[1, 2, 3, 4, 5].map((item) => (

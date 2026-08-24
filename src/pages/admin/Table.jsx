@@ -27,15 +27,8 @@ import {
 
 
 const Tables = () => {
-  // ==========================================
-  // TABLE DATA
-  // ==========================================
-
+  
   const [tables, setTables] = useState([]);
-
-  // ==========================================
-  // LOADING / ERROR
-  // ==========================================
 
   const [loading, setLoading] = useState(true);
 
@@ -49,10 +42,6 @@ const Tables = () => {
 
   const [actionId, setActionId] = useState(null);
 
-  // ==========================================
-  // SEARCH / FILTER
-  // ==========================================
-
   const [search, setSearch] = useState("");
 
   const [locationFilter, setLocationFilter] = useState("all");
@@ -61,18 +50,14 @@ const Tables = () => {
 
   const [activeFilter, setActiveFilter] = useState("all");
 
-  // ==========================================
-  // MODAL
-  // ==========================================
 
+  // MODAL
   const [modalOpen, setModalOpen] = useState(false);
 
   const [editingTable, setEditingTable] = useState(null);
 
-  // ==========================================
-  // FETCH TABLES
-  // ==========================================
 
+  // FETCH TABLES
   const fetchTables = async () => {
     try {
       setLoading(true);
@@ -93,18 +78,14 @@ const Tables = () => {
     }
   };
 
-  // ==========================================
-  // INITIAL LOAD
-  // ==========================================
 
+  // INITIAL LOAD
   useEffect(() => {
     fetchTables();
   }, []);
 
-  // ==========================================
-  // FILTER TABLES
-  // ==========================================
 
+  // FILTER TABLES
   const filteredTables = useMemo(() => {
     return tables.filter((table) => {
       const searchText = search.trim().toLowerCase();
@@ -132,10 +113,8 @@ const Tables = () => {
     });
   }, [tables, search, locationFilter, statusFilter, activeFilter]);
 
-  // ==========================================
-  // STATISTICS
-  // ==========================================
 
+  // STATISTICS
   const totalTables = tables.length;
 
   const availableTables = tables.filter(
@@ -148,10 +127,8 @@ const Tables = () => {
 
   const inactiveTables = tables.filter((table) => !table.isActive).length;
 
-  // ==========================================
-  // OPEN ADD MODAL
-  // ==========================================
 
+  // OPEN ADD MODAL
   const handleAddTable = () => {
     setEditingTable(null);
 
@@ -162,10 +139,8 @@ const Tables = () => {
     setTableError("");
   };
 
-  // ==========================================
-  // OPEN EDIT MODAL
-  // ==========================================
 
+  // OPEN EDIT MODAL
   const handleEdit = (table) => {
     setEditingTable(table);
 
@@ -176,10 +151,7 @@ const Tables = () => {
     setTableError("");
   };
 
-  // ==========================================
   // CREATE / UPDATE
-  // ==========================================
-
   const handleSubmit = async (tableData) => {
     try {
       setSaving(true);
@@ -247,10 +219,8 @@ const Tables = () => {
     }
   };
 
-  // ==========================================
-  // STATUS CHANGE
-  // ==========================================
 
+  // STATUS CHANGE
   const handleStatusChange = async (table, newStatus) => {
     try {
       setActionId(table._id);
@@ -286,10 +256,8 @@ const Tables = () => {
     }
   };
 
-  // ==========================================
-  // STATUS COLOR
-  // ==========================================
 
+  // STATUS COLOR
   const getStatusClass = (status) => {
     switch (status) {
       case "available":
@@ -312,10 +280,8 @@ const Tables = () => {
     }
   };
 
-  // ==========================================
-  // STATUS ICON
-  // ==========================================
 
+  // STATUS ICON
   const getStatusIcon = (status) => {
     switch (status) {
       case "available":
@@ -335,15 +301,13 @@ const Tables = () => {
     }
   };
 
-  // ==========================================
+
   // LOADING UI
-  // ==========================================
 
   if (loading) {
     return (
       <div className="space-y-6">
         {/* Loading Header */}
-
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
             <div className="h-8 w-56 animate-pulse rounded-lg bg-gray-800" />
@@ -354,8 +318,7 @@ const Tables = () => {
           <div className="h-11 w-32 animate-pulse rounded-lg bg-gray-800" />
         </div>
 
-        {/* Loading Stats */}
-
+        {/* Loading Stats  */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {[1, 2, 3, 4].map((item) => (
             <div
@@ -375,7 +338,7 @@ const Tables = () => {
           ))}
         </div>
 
-        {/* Loading Filters */}
+        {/* Loading Filters  */}
 
         <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
           <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
@@ -386,12 +349,12 @@ const Tables = () => {
               />
             ))}
           </div>
-        </div>
+        </div> 
 
         {/* Loading Cards */}
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 ">
+          {[1, 2, 3].map((item) => (
             <div
               key={item}
               className="rounded-xl border border-gray-800 bg-gray-900 p-5"
@@ -405,7 +368,9 @@ const Tables = () => {
 
                 <div className="h-6 w-20 animate-pulse rounded-full bg-gray-800" />
               </div>
-
+              <div className="mt-6 space-y-4 justify-items-center">
+                 <div className="h-50 w-50 animate-pulse rounded bg-gray-800"/>
+              </div>
               <div className="mt-6 space-y-4">
                 <div className="flex justify-between">
                   <div className="h-4 w-20 animate-pulse rounded bg-gray-800" />
@@ -430,10 +395,7 @@ const Tables = () => {
     );
   }
 
-  // ==========================================
   // MAIN UI
-  // ==========================================
-
   return (
     <div className="space-y-6">
       {/* HEADER */}
@@ -454,10 +416,8 @@ const Tables = () => {
         />
       </div>
 
-      {/* ========================================
-          ERROR
-      ======================================== */}
 
+          {/* ERROR */}
       {(error || tableError) && (
         <div className="flex items-center justify-between rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
           <span>{error || tableError}</span>
@@ -473,20 +433,15 @@ const Tables = () => {
         </div>
       )}
 
-      {/* ========================================
-          SUCCESS
-      ======================================== */}
-
+          {/* SUCCESS */}
       {success && (
         <div className="rounded-lg border border-green-500/20 bg-green-500/10 px-4 py-3 text-sm text-green-400">
           {success}
         </div>
       )}
 
-      {/* ========================================
-          STAT CARDS
-      ======================================== */}
 
+          {/* STAT CARDS */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
           title="Total Tables"
@@ -520,10 +475,8 @@ const Tables = () => {
         />
       </div>
 
-      {/* ========================================
-          SEARCH + FILTERS
-      ======================================== */}
 
+          {/* SEARCH + FILTERS */}
       <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
           {/* SEARCH */}
@@ -597,10 +550,7 @@ const Tables = () => {
         </div>
       </div>
 
-      {/* ========================================
-          TABLE CARDS
-      ======================================== */}
-
+          {/* TABLE CARDS */}
       {filteredTables.length === 0 ? (
         <div className="rounded-xl border border-gray-800 bg-gray-900 py-16 text-center">
           <Users size={48} className="mx-auto text-gray-700" />
@@ -785,10 +735,7 @@ const Tables = () => {
         </div>
       )}
 
-      {/* ========================================
-          RESULT COUNT
-      ======================================== */}
-
+          {/* RESULT COUNT */}
       {!loading && (
         <div className="text-base text-gray-800">
           Showing{" "}
@@ -800,10 +747,7 @@ const Tables = () => {
         </div>
       )}
 
-      {/* ========================================
-          MODAL
-      ======================================== */}
-
+          {/* MODAL */}
       <TableModal
         isOpen={modalOpen}
         onClose={() => {

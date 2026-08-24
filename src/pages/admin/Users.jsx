@@ -194,6 +194,9 @@ const Users = () => {
     <div className="space-y-6">
 
       {/* Header */}
+      {loading ? (
+        <LoadingHeader/>
+      ):(
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <Header
         title="User Management"
@@ -205,6 +208,7 @@ const Users = () => {
           <p className="mt-1 text-xl font-bold text-white">{totalUsers}</p>
         </div>
       </div>
+      )}
 
       {/* Success Message */}
       {success && (
@@ -216,10 +220,8 @@ const Users = () => {
         </div>
       )}
 
-      {/* ================================= */}
-      {/* Error Message */}
-      {/* ================================= */}
 
+      {/* Error Message */}
       {error && (
         <div
           className="flex items-center justify-between rounded-lg border border-red-500/20
@@ -236,10 +238,11 @@ const Users = () => {
         </div>
       )}
 
-      {/* ================================= */}
-      {/* Statistics */}
-      {/* ================================= */}
 
+      {/* Statistics */}
+      {loading ? (
+        <LoadingStats/>
+      ):(
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
           title="Total Users"
@@ -272,11 +275,12 @@ const Users = () => {
           valueClass="text-gray-400"
         />
       </div>
+      )}
 
-      {/* ================================= */}
       {/* Filters */}
-      {/* ================================= */}
-
+      {loading ? (
+        <LoadingFilter/>
+      ):(
       <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
           {/* Search */}
@@ -325,10 +329,10 @@ const Users = () => {
           </select>
         </div>
       </div>
+      )}
 
-      {/* ================================= */}
+
       {/* Users Table */}
-      {/* ================================= */}
       {userError && <div className="text-sm text-red-600">{userError}</div>}
 
       <div className="overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
@@ -487,10 +491,7 @@ const Users = () => {
         </div>
       </div>
 
-      {/* ================================= */}
       {/* Result Count */}
-      {/* ================================= */}
-
       {!loading && (
         <div className="text-base text-gray-800">
           Showing{" "}
@@ -502,19 +503,15 @@ const Users = () => {
         </div>
       )}
 
-      {/* ================================= */}
-      {/* User Details Modal */}
-      {/* ================================= */}
 
+      {/* User Details Modal */}
       <UserDetailsModal
         user={selectedUser}
         onClose={() => setSelectedUser(null)}
       />
 
-      {/* ================================= */}
-      {/* View Loading */}
-      {/* ================================= */}
 
+      {/* View Loading */}
       {viewLoading && (
         <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="rounded-xl border border-gray-800 bg-gray-900 px-6 py-5 shadow-xl">
@@ -527,6 +524,72 @@ const Users = () => {
         </div>
       )}
     </div>
+  );
+};
+
+
+// Loading header
+const LoadingHeader = () => {
+  return (
+    <>
+    <div className="space-y-6">
+        {/* Loading Header */}
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div>
+            <div className="h-8 w-56 animate-pulse rounded-lg bg-gray-800" />
+
+            <div className="mt-3 h-5 w-80 animate-pulse rounded bg-gray-800" />
+          </div>
+
+          <div className="h-22 w-22 animate-pulse rounded-lg bg-gray-800" />
+        </div>
+      </div>
+    </>
+  )
+}
+
+// Loading Stats  
+const LoadingStats = () => {
+  return(
+    <>
+     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {[1, 2, 3, 4].map((item) => (
+            <div
+              key={item}
+              className="rounded-xl border border-gray-800 bg-gray-900 p-5"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="h-4 w-24 animate-pulse rounded bg-gray-800" />
+
+                  <div className="mt-3 h-8 w-12 animate-pulse rounded bg-gray-800" />
+                </div>
+
+                <div className="h-11 w-11 animate-pulse rounded-xl bg-gray-800" />
+              </div>
+            </div>
+          ))}
+        </div>
+
+    </>
+  )
+}
+       
+// Loading Filter
+const LoadingFilter = () => {
+  return (
+    <>
+      <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+            {[1, 2, 3].map((item) => (
+              <div
+                key={item}
+                className="h-11 animate-pulse rounded-lg bg-gray-800"
+              />
+            ))}
+          </div>
+        </div> 
+    </>
   );
 };
 
