@@ -12,6 +12,7 @@ import Users from "../pages/admin/Users";
 import Category from "../pages/admin/Categories";
 import Food from "../pages/admin/Food";
 import Tables from "../pages/admin/Table";
+import Sessions from "../pages/session/Session";
 
 const AppRoutes = () => {
   return (
@@ -33,6 +34,7 @@ const AppRoutes = () => {
             <Route path="/admin/food" element={<Food />} />
             <Route path="/admin/categories" element={<Category />} />
             <Route path="/admin/tables" element={<Tables />} />
+            <Route path="/admin/sessions" element={<Sessions/>} />
             <Route path="/admin/settings" element={<Settings />} />
           </Route>
         </Route>
@@ -57,6 +59,8 @@ const AppRoutes = () => {
               path="/waiter"
               element={<h1 className="text-2xl font-bold">Waiter Dashboard</h1>}
             />
+            <Route path="/waiter/tables" element={<Tables />} />
+            <Route path="/waiter/sessions" element={<Sessions/>} />
             <Route path="/waiter/settings" element={<Settings />} />
           </Route>
         </Route>

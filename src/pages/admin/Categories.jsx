@@ -304,9 +304,10 @@ const Category = () => {
         <LoadingFilter/>
       ):(
       <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+        {/* <div className="grid grid-cols-1 gap-3 md:grid-cols-2"> */}
+        <div className="flex gap-3">
           {/* Search */}
-          <div className="relative">
+          <div className="relative basis-2/3">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
               <Search />
             </span>
@@ -323,7 +324,7 @@ const Category = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white
+            className="rounded-lg basis-2/6 border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white
                        outline-none focus:border-blue-500 cursor-pointer"
           >
             <option value="all"> All Status </option>
@@ -562,13 +563,14 @@ const LoadingFilter = () => {
   return (
     <>
       <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-3 ">
-            {[1, 2].map((item) => (
+          <div className="flex gap-3">
+            {[1].map((item) => (
               <div
                 key={item}
-                className="h-11 animate-pulse rounded-lg bg-gray-800"
+                className="h-11 basis-2/3 animate-pulse rounded-lg bg-gray-800"
               />
             ))}
+            <div className="h-11 basis-2/6 animate-pulse rounded-lg bg-gray-800"/>
           </div>
         </div> 
     </>

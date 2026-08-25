@@ -78,7 +78,6 @@ const Users = () => {
   };
 
   //--------Change Role---------
-
   const handleChangeRole = async (userId, role) => {
     try {
       setActionId(userId);
@@ -114,7 +113,6 @@ const Users = () => {
   };
 
   //--------Change Status----------
-
   const handleStatusChange = async (userId, currentStatus) => {
     try {
       setActionId(userId);
@@ -154,7 +152,6 @@ const Users = () => {
   };
 
   //-------Filter Users----
-
   const filteredUsers = useMemo(() => {
     return users.filter((user) => {
       const searchText = search.trim().toLowerCase();
@@ -181,13 +178,11 @@ const Users = () => {
     });
   }, [users, search, roleFilter, statusFilter]);
 
+
   //------Statistics------
   const totalUsers = users.length;
-
   const activeUsers = users.filter((user) => user.isActive).length;
-
   const inactiveUsers = users.filter((user) => !user.isActive).length;
-
   const adminUsers = users.filter((user) => user.role === "admin").length;
 
   return (
@@ -546,7 +541,7 @@ const LoadingHeader = () => {
       </div>
     </>
   )
-}
+};
 
 // Loading Stats  
 const LoadingStats = () => {
@@ -573,7 +568,7 @@ const LoadingStats = () => {
 
     </>
   )
-}
+};
        
 // Loading Filter
 const LoadingFilter = () => {
