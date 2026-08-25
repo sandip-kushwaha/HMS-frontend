@@ -24,44 +24,35 @@ import {
   updateTable,
   updateTableStatus,
 } from "../../api/tables.api";
-
+import { openTable } from "../../api/session.api";
 
 const Tables = () => {
-  
+  // TABLE DATA
   const [tables, setTables] = useState([]);
 
+  // LOADING / ERROR
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState("");
-
   const [tableError, setTableError] = useState("");
-
   const [success, setSuccess] = useState("");
-
   const [saving, setSaving] = useState(false);
-
   const [actionId, setActionId] = useState(null);
 
+  // SEARCH / FILTER
   const [search, setSearch] = useState("");
-
   const [locationFilter, setLocationFilter] = useState("all");
-
   const [statusFilter, setStatusFilter] = useState("all");
-
   const [activeFilter, setActiveFilter] = useState("all");
-
 
   // MODAL
   const [modalOpen, setModalOpen] = useState(false);
 
   const [editingTable, setEditingTable] = useState(null);
 
-
   // FETCH TABLES
   const fetchTables = async () => {
     try {
       setLoading(true);
-
       setTableError("");
 
       const response = await getAllTables();
@@ -78,12 +69,10 @@ const Tables = () => {
     }
   };
 
-
   // INITIAL LOAD
   useEffect(() => {
     fetchTables();
   }, []);
-
 
   // FILTER TABLES
   const filteredTables = useMemo(() => {
@@ -113,7 +102,6 @@ const Tables = () => {
     });
   }, [tables, search, locationFilter, statusFilter, activeFilter]);
 
-
   // STATISTICS
   const totalTables = tables.length;
 
@@ -127,27 +115,19 @@ const Tables = () => {
 
   const inactiveTables = tables.filter((table) => !table.isActive).length;
 
-
   // OPEN ADD MODAL
   const handleAddTable = () => {
     setEditingTable(null);
-
     setModalOpen(true);
-
     setError("");
-
     setTableError("");
   };
-
 
   // OPEN EDIT MODAL
   const handleEdit = (table) => {
     setEditingTable(table);
-
     setModalOpen(true);
-
     setError("");
-
     setTableError("");
   };
 
@@ -155,9 +135,7 @@ const Tables = () => {
   const handleSubmit = async (tableData) => {
     try {
       setSaving(true);
-
       setError("");
-
       setTableError("");
 
       let response;
@@ -166,7 +144,6 @@ const Tables = () => {
       if (editingTable) {
         response = await updateTable(editingTable._id, tableData);
       }
-
       // CREATE
       else {
         response = await createTable(tableData);
@@ -178,10 +155,7 @@ const Tables = () => {
         throw new Error("Table data was not returned from server.");
       }
 
-      // ==========================================
       // UPDATE EXISTING TABLE
-      // ==========================================
-
       if (editingTable) {
         setTables((prev) =>
           prev.map((item) => (item._id === savedTable._id ? savedTable : item)),
@@ -219,26 +193,18 @@ const Tables = () => {
     }
   };
 
-
   // STATUS CHANGE
   const handleStatusChange = async (table, newStatus) => {
     try {
       setActionId(table._id);
-
       setError("");
-
       setSuccess("");
 
       await updateTableStatus(table._id, newStatus);
 
       setTables((prev) =>
         prev.map((item) =>
-          item._id === table._id
-            ? {
-                ...item,
-                status: newStatus,
-              }
-            : item,
+          item._id === table._id ? { ...item, status: newStatus } : item,
         ),
       );
 
@@ -256,6 +222,36 @@ const Tables = () => {
     }
   };
 
+  //OPEN TABLE
+  const handleOpenTable = async (table) => {
+    try {
+      setActionId(table._id);
+      setSuccess("");
+      setError("");
+
+      const response = await openTable(table._id);
+
+      console.log("OPEN TABLE RESPONSE:", response);
+
+      setTables((prev) =>
+        prev.map((item) =>
+          item._id === table._id ? { ...item, status: "occupied" } : item,
+        ),
+      );
+
+      setSuccess(`${table.tableNumber} opened successfully.`);
+
+      setTimeout(() => {
+        setSuccess("");
+      }, 2500);
+    } catch (err) {
+      console.error("OPEN TABLE ERROR:", err);
+
+      setError(err.response?.data?.message || "Failed to open table.");
+    } finally {
+      setActionId(null);
+    }
+  };
 
   // STATUS COLOR
   const getStatusClass = (status) => {
@@ -280,7 +276,6 @@ const Tables = () => {
     }
   };
 
-
   // STATUS ICON
   const getStatusIcon = (status) => {
     switch (status) {
@@ -301,9 +296,7 @@ const Tables = () => {
     }
   };
 
-
   // LOADING UI
-
   if (loading) {
     return (
       <div className="space-y-6">
@@ -349,11 +342,11 @@ const Tables = () => {
               />
             ))}
           </div>
-        </div> 
+        </div>
 
         {/* Loading Cards */}
 
-         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 ">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 ">
           {[1, 2, 3].map((item) => (
             <div
               key={item}
@@ -369,7 +362,7 @@ const Tables = () => {
                 <div className="h-6 w-20 animate-pulse rounded-full bg-gray-800" />
               </div>
               <div className="mt-6 space-y-4 justify-items-center">
-                 <div className="h-50 w-50 animate-pulse rounded bg-gray-800"/>
+                <div className="h-50 w-50 animate-pulse rounded bg-gray-800" />
               </div>
               <div className="mt-6 space-y-4">
                 <div className="flex justify-between">
@@ -416,8 +409,7 @@ const Tables = () => {
         />
       </div>
 
-
-          {/* ERROR */}
+      {/* ERROR */}
       {(error || tableError) && (
         <div className="flex items-center justify-between rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
           <span>{error || tableError}</span>
@@ -433,15 +425,14 @@ const Tables = () => {
         </div>
       )}
 
-          {/* SUCCESS */}
+      {/* SUCCESS */}
       {success && (
         <div className="rounded-lg border border-green-500/20 bg-green-500/10 px-4 py-3 text-sm text-green-400">
           {success}
         </div>
       )}
 
-
-          {/* STAT CARDS */}
+      {/* STAT CARDS */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
           title="Total Tables"
@@ -475,8 +466,7 @@ const Tables = () => {
         />
       </div>
 
-
-          {/* SEARCH + FILTERS */}
+      {/* SEARCH + FILTERS */}
       <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
           {/* SEARCH */}
@@ -550,7 +540,7 @@ const Tables = () => {
         </div>
       </div>
 
-          {/* TABLE CARDS */}
+      {/* TABLE CARDS */}
       {filteredTables.length === 0 ? (
         <div className="rounded-xl border border-gray-800 bg-gray-900 py-16 text-center">
           <Users size={48} className="mx-auto text-gray-700" />
@@ -570,10 +560,7 @@ const Tables = () => {
               key={table._id}
               className="overflow-hidden rounded-xl border border-gray-800 bg-gray-900 shadow-sm transition hover:-translate-y-1 hover:border-gray-700 hover:shadow-lg"
             >
-              {/* ========================================
-                  CARD HEADER
-              ======================================== */}
-
+              {/* CARD HEADER */}
               <div className="border-b border-gray-800 p-5">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
@@ -585,27 +572,25 @@ const Tables = () => {
                     </p>
                   </div>
 
-                  <span
-                    className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium capitalize ${getStatusClass(
-                      table.status,
-                    )}`}
-                  >
-                    {getStatusIcon(table.status)}
+                  {/* RIGHT */}
+                  <div className="flex items-center gap-2">
+                    {/* TABLE STATUS  */}
+                    <span
+                      className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium capitalize ${getStatusClass(
+                        table.status,
+                      )}`}
+                    >
+                      {getStatusIcon(table.status)}
 
-                    {table.status}
-                  </span>
+                      {table.status}
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              {/* ========================================
-                  CARD BODY
-              ======================================== */}
-
+              {/* CARD BODY */}
               <div className="space-y-4 p-5">
-                {/* ========================================
-                    QR CODE
-                ======================================== */}
-
+                {/* QR CODE */}
                 <div className="rounded-lg border border-gray-800 bg-gray-800/50 p-4">
                   <div className="mb-3 flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -650,10 +635,7 @@ const Tables = () => {
                   )}
                 </div>
 
-                {/* ========================================
-                    CAPACITY
-                ======================================== */}
-
+                {/* CAPACITY */}
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-500">Capacity</span>
 
@@ -663,10 +645,7 @@ const Tables = () => {
                   </span>
                 </div>
 
-                {/* ========================================
-                    LOCATION
-                ======================================== */}
-
+                {/* LOCATION */}
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-500">Location</span>
 
@@ -675,12 +654,9 @@ const Tables = () => {
                   </span>
                 </div>
 
-                {/* ========================================
-                    ACTIVE STATUS
-                ======================================== */}
-
+                {/* ACTIVE STATUS */}
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500">Status</span>
+                  <span className="text-sm text-gray-500"> Active Status </span>
 
                   <span
                     className={`text-sm font-medium ${
@@ -691,10 +667,7 @@ const Tables = () => {
                   </span>
                 </div>
 
-                {/* ========================================
-                    STATUS SELECT
-                ======================================== */}
-
+                {/* STATUS SELECT */}
                 <div>
                   <label className="mb-1.5 block text-xs font-medium text-gray-500">
                     Change Status
@@ -718,10 +691,20 @@ const Tables = () => {
                   </select>
                 </div>
 
-                {/* ========================================
-                    EDIT BUTTON
-                ======================================== */}
+                {/* OPEN TABLE */}
+                {table.status === "available" && (
+                    <button
+                      onClick={() => handleOpenTable(table)}
+                      disabled={actionId === table._id}
+                      className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-gray-700 bg-gray-800 px-4 py-2.5 text-sm font-medium text-gray-300 transition hover:border-blue-500/40 hover:bg-blue-600 hover:text-white"
+                    >
+                      <ExternalLink size={16} />
+                      {actionId === table._id ? "Opening..." : "Open Table"}
+                    </button>
+                  )}
+              
 
+                {/* EDIT BUTTON */}
                 <button
                   onClick={() => handleEdit(table)}
                   className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-gray-700 bg-gray-800 px-4 py-2.5 text-sm font-medium text-gray-300 transition hover:border-blue-500/40 hover:bg-blue-600 hover:text-white"
@@ -735,7 +718,7 @@ const Tables = () => {
         </div>
       )}
 
-          {/* RESULT COUNT */}
+      {/* RESULT COUNT */}
       {!loading && (
         <div className="text-base text-gray-800">
           Showing{" "}
@@ -747,7 +730,7 @@ const Tables = () => {
         </div>
       )}
 
-          {/* MODAL */}
+      {/* MODAL */}
       <TableModal
         isOpen={modalOpen}
         onClose={() => {

@@ -8,10 +8,10 @@ import Register from "../pages/auth/Register";
 import DashboardLayout from "../components/common/DashboardLayout";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import Settings from "../pages/settings/Settings";
-import Users from "../pages/admin/Users";
-import Category from "../pages/admin/Categories";
-import Food from "../pages/admin/Food";
-import Tables from "../pages/admin/Table";
+import Users from "../pages/users/Users";
+import Category from "../pages/category/Categories";
+import Food from "../pages/food/Food";
+import Tables from "../pages/table/Table";
 import Sessions from "../pages/session/Session";
 
 const AppRoutes = () => {
