@@ -8,7 +8,7 @@ export const createSession = async (sessionData) => {
    return response.data;
 }
 
-//OPEN TABLE (Admin + waiter)
+//OPEN TABLE (Admin + waiter)(use Table)
 export const openTable = async (tableId) => {
     const response = await api.post("/session/open-tables",{
         tableId,
