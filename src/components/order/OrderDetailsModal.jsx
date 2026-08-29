@@ -138,7 +138,7 @@ const OrderDetailsModal = ({
             <span className="text-sm text-gray-500">Kitchen Status</span>
 
             <span className="font-medium capitalize text-gray-200">
-              {order.kitchenStatus}
+              {order.kitchenStatus};
             </span>
             <Tally1 className="text-gray-400"/>
             <span className="text-sm text-gray-500">Waiter Status</span>

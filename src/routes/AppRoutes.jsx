@@ -13,6 +13,8 @@ import Category from "../pages/category/Categories";
 import Food from "../pages/food/Food";
 import Tables from "../pages/table/Table";
 import Sessions from "../pages/session/Session";
+import Orders from "../pages/order/Orders";
+
 
 const AppRoutes = () => {
   return (
@@ -34,6 +36,7 @@ const AppRoutes = () => {
             <Route path="/admin/food" element={<Food />} />
             <Route path="/admin/categories" element={<Category />} />
             <Route path="/admin/tables" element={<Tables />} />
+            <Route path="/admin/orders" element={<Orders />} />
             <Route path="/admin/sessions" element={<Sessions/>} />
             <Route path="/admin/settings" element={<Settings />} />
           </Route>
@@ -48,6 +51,7 @@ const AppRoutes = () => {
                 <h1 className="text-2xl font-bold">Kitchen Dashboard</h1>
               }
             />
+            <Route path="/kitchen/orders" element={<Orders />} />
             <Route path="/kitchen/settings" element={<Settings />} />
           </Route>
         </Route>
@@ -60,6 +64,7 @@ const AppRoutes = () => {
               element={<h1 className="text-2xl font-bold">Waiter Dashboard</h1>}
             />
             <Route path="/waiter/tables" element={<Tables />} />
+            <Route path="/waiter/orders" element={<Orders/>} />
             <Route path="/waiter/sessions" element={<Sessions/>} />
             <Route path="/waiter/settings" element={<Settings />} />
           </Route>
