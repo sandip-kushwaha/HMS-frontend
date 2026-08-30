@@ -52,6 +52,7 @@ const Orders = () => {
       const response = await getAllOrders();
 
       const orderData = response?.data || [];
+      console.log(orderData)
 
       setOrders(Array.isArray(orderData) ? orderData : []);
     } catch (err) {
@@ -465,14 +466,14 @@ const Orders = () => {
         </div>
 
         {selectedOrder && (
-  <OrderDetailsModal
-    order={selectedOrder}
-    formatDate={formatDate}
-    getStatusClass={getStatusClass}
-    getStatusIcon={getStatusIcon}
-    onClose={() => setSelectedOrder(null)}
-  />
-)}
+          <OrderDetailsModal
+            order={selectedOrder}
+            formatDate={formatDate}
+            getStatusClass={getStatusClass}
+            getStatusIcon={getStatusIcon}
+            onClose={() => setSelectedOrder(null)}
+          />
+        )}
       </div>
 
       {/* ORDER CARDS */}
@@ -545,6 +546,5 @@ const StatCard = ({
     </div>
   );
 };
-
 
 export default Orders;

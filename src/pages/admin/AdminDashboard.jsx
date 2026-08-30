@@ -1,175 +1,352 @@
+import { useEffect, useState } from "react";
+
+import {
+  Users,
+  Utensils,
+  Tags,
+  Table2,
+  ClipboardList,
+  ShoppingCart,
+  Clock,
+  CheckCircle,
+  ChefHat,
+  RefreshCw,
+  DollarSign,
+} from "lucide-react";
+
+import { getAdminDashboard } from "../../api/dashboard.api";
+
+import Header from "../../components/common/Header";
+import Button from "../../components/common/Button";
+
 const AdminDashboard = () => {
-  const stats = {
-    totalUsers: 25,
-    totalFoodItems: 48,
-    totalTables: 12,
-    activeSessions: 5,
-    todayOrders: 35,
-    todayRevenue: 18500,
+  const [dashboard, setDashboard] = useState(null);
+
+  const [loading, setLoading] = useState(true);
+
+  const [error, setError] = useState("");
+
+  // FETCH DASHBOARD
+
+  const fetchDashboard = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await getAdminDashboard();
+
+      setDashboard(response?.data || null);
+    } catch (err) {
+      console.error(err);
+
+      setError(err.response?.data?.message || "Failed to load dashboard.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const recentOrders = [
-    {
-      id: "ORD-1001",
-      table: "T-05",
-      status: "Preparing",
-      amount: 850,
-    },
-    {
-      id: "ORD-1002",
-      table: "T-02",
-      status: "Ready",
-      amount: 450,
-    },
-    {
-      id: "ORD-1003",
-      table: "T-08",
-      status: "Pending",
-      amount: 1200,
-    },
-    {
-      id: "ORD-1004",
-      table: "T-03",
-      status: "Completed",
-      amount: 750,
-    },
-  ];
+  useEffect(() => {
+    fetchDashboard();
+  }, []);
 
+
+  const formatDate = (date) => {
+     if(!date) return "N/A"
+
+     return new Date(date).toLocaleString();
+  }
+
+  // LOADING
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <div className="h-8 w-64 animate-pulse rounded-lg bg-gray-800" />
+
+          <div className="mt-3 h-5 w-80 animate-pulse rounded bg-gray-800" />
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {[1, 2, 3, 4, 5, 6].map((item) => (
+            <div
+              key={item}
+              className="rounded-xl border border-gray-800 bg-gray-900 p-5"
+            >
+              <div className="flex justify-between">
+                <div>
+                  <div className="h-4 w-24 animate-pulse rounded bg-gray-800" />
+
+                  <div className="mt-3 h-8 w-12 animate-pulse rounded bg-gray-800" />
+                </div>
+
+                <div className="h-11 w-11 animate-pulse rounded-xl bg-gray-800" />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+          <div className="h-72 animate-pulse rounded-xl bg-gray-900" />
+
+          <div className="h-72 animate-pulse rounded-xl bg-gray-900" />
+        </div>
+      </div>
+    );
+  }
+
+  // ERROR
+  if (error) {
+    return (
+      <div className="space-y-6">
+        <Header title="Admin Dashboard" value="Hotel management overview." />
+
+        <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-5 text-red-400">
+          <p>{error}</p>
+
+          <button
+            onClick={fetchDashboard}
+            className="mt-4 flex items-center gap-2 rounded-lg bg-red-500/10 px-4 py-2 text-sm font-medium hover:bg-red-500/20"
+          >
+            <RefreshCw size={16} />
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const statistics = dashboard?.statistics || {};
+
+  const orders = dashboard?.orders || {};
+
+  const recentOrders = dashboard?.recentOrders || [];
+
+  // UI
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
+      {/* HEADER */}
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <Header title="Admin Dashboard" value="Hotel management overview." />
 
-        <p className="mt-1 text-gray-500 text-lg">
-          Welcome back! Here's what's happening today.
-        </p>
+        <Button
+          onClick={fetchDashboard}
+          disabled={loading}
+          value={
+            <>
+              <RefreshCw size={18} />
+              Refresh
+            </>
+          }
+        />
       </div>
 
-      {/* Statistics */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-        <StatCard title="Total Users" value={stats.totalUsers} />
+      {/* ERROR */}
+      {error && (
+        <div className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+          {error}
+        </div>
+      )}
 
-        <StatCard title="Food Items" value={stats.totalFoodItems} />
+      {/* STATISTICS */}
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <StatCard
+          title="Users"
+          value={statistics.totalUsers || 0}
+          icon={<Users size={22} />}
+          iconClass="bg-blue-500/10 text-blue-400"
+        />
 
-        <StatCard title="Tables" value={stats.totalTables} />
+        <StatCard
+          title="Food Items"
+          value={statistics.totalFoods || 0}
+          icon={<Utensils size={22} />}
+          iconClass="bg-orange-500/10 text-orange-400"
+        />
 
-        <StatCard title="Active Sessions" value={stats.activeSessions} />
+        <StatCard
+          title="Categories"
+          value={statistics.totalCategories || 0}
+          icon={<Tags size={22} />}
+          iconClass="bg-purple-500/10 text-purple-400"
+        />
 
-        <StatCard title="Today's Orders" value={stats.todayOrders} />
+        <StatCard
+          title="Tables"
+          value={statistics.totalTables || 0}
+          icon={<Table2 size={22} />}
+          iconClass="bg-green-500/10 text-green-400"
+        />
 
-        <StatCard title="Today's Revenue" value={`Rs. ${stats.todayRevenue}`} />
+        <StatCard
+          title="Active Sessions"
+          value={statistics.activeSessions || 0}
+          icon={<ClipboardList size={22} />}
+          iconClass="bg-red-500/10 text-red-400"
+          valueClass="text-red-400"
+        />
+        <StatCard
+          title="Today's Revenue"
+          value={`Rs. ${(statistics.todayRevenue || 0).toFixed(2)}`}
+          icon={<DollarSign size={22} />}
+          iconClass="bg-green-500/10 text-green-400"
+          valueClass="text-green-400"
+        />
       </div>
 
-      {/* Recent Orders */}
-      <div className="overflow-hidden bg-white border rounded-xl shadow-sm">
-        <div className="p-5 border-b">
-          <h2 className="text-lg font-semibold text-gray-800">Recent Orders</h2>
+      {/* ORDER OVERVIEW + RECENT ORDERS */}
+      <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+        {/* ORDER OVERVIEW */}
+
+        <div className="rounded-xl border border-gray-800 bg-gray-900">
+          <div className="border-b border-gray-800 p-5">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400">
+                <ShoppingCart size={20} />
+              </div>
+
+              <div>
+                <h2 className="font-semibold text-white">Orders Overview</h2>
+
+                <p className="text-sm text-gray-500">Current order activity</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-3 p-5">
+            <OrderStatus
+              title="Pending"
+              value={orders.pending || 0}
+              icon={<Clock size={18} />}
+            />
+
+            <OrderStatus
+              title="Preparing"
+              value={orders.preparing || 0}
+              icon={<ChefHat size={18} />}
+            />
+
+            <OrderStatus
+              title="Ready"
+              value={orders.ready || 0}
+              icon={<CheckCircle size={18} />}
+            />
+
+            <OrderStatus
+              title="Completed"
+              value={orders.completed || 0}
+              icon={<CheckCircle size={18} />}
+            />
+          </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="p-4 text-sm font-medium text-left text-gray-600">
-                  Order
-                </th>
+        {/* RECENT ORDERS */}
 
-                <th className="p-4 text-sm font-medium text-left text-gray-600">
-                  Table
-                </th>
+        <div className="rounded-xl border border-gray-800 bg-gray-900">
+          <div className="border-b border-gray-800 p-5">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-500/10 text-green-400">
+                <ShoppingCart size={20} />
+              </div>
 
-                <th className="p-4 text-sm font-medium text-left text-gray-600">
-                  Status
-                </th>
+              <div>
+                <h2 className="font-semibold text-white">Recent Orders</h2>
 
-                <th className="p-4 text-sm font-medium text-left text-gray-600">
-                  Amount
-                </th>
-              </tr>
-            </thead>
+                <p className="text-sm text-gray-500">Latest customer orders</p>
+              </div>
+            </div>
+          </div>
 
-            <tbody>
-              {recentOrders.map((order) => (
-                <tr key={order.id} className="border-t hover:bg-gray-200">
-                  <td className="p-4 font-medium">{order.id}</td>
+          <div className="divide-y divide-gray-800">
+            {recentOrders.length === 0 ? (
+              <div className="p-8 text-center text-sm text-gray-500">
+                No orders found.
+              </div>
+            ) : (
+              recentOrders.map((order) => (
+                <div
+                  key={order._id}
+                  className="flex items-center justify-between gap-4 p-4"
+                >
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-white">
+                      {order.orderNumber}
+                    </p>
 
-                  <td className="p-4">{order.table}</td>
+                    <p className="mt-1 text-xs text-gray-500">
+                      Table {order.session?.table?.tableNumber || "N/A"}({" "}
+                      {order.session?.customerName || "N/A"} )
+                    </p>
+                  </div>
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-white">
+                      Date
+                    </p>
 
-                  <td className="p-4">
-                    <OrderStatus status={order.status} />
-                  </td>
+                    <p className="mt-1 text-xs text-gray-500">
+                      {order.createdAt ? formatDate(order.createdAt) : "N/A"}
+                    </p>
+                  </div>
 
-                  <td className="p-4">Rs. {order.amount}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                  <div className="text-right">
+                    <p className="text-sm font-semibold text-green-400">
+                      Rs. {order.totalAmount?.toFixed(2) || "0.00"}
+                    </p>
 
-      {/* Quick Actions */}
-      <div>
-        <h2 className="mb-4 text-lg font-semibold text-gray-800">
-          Quick Actions
-        </h2>
-
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <button className="p-5 text-left bg-white border rounded-xl hover:shadow-md transition">
-            <h3 className="font-semibold text-gray-800">Add Food</h3>
-
-            <p className="mt-1 text-sm text-gray-500">Add a new food item</p>
-          </button>
-
-          <button className="p-5 text-left bg-white border rounded-xl hover:shadow-md transition">
-            <h3 className="font-semibold text-gray-800">Add Category</h3>
-
-            <p className="mt-1 text-sm text-gray-500">
-              Create a new food category
-            </p>
-          </button>
-
-          <button className="p-5 text-left bg-white border rounded-xl hover:shadow-md transition">
-            <h3 className="font-semibold text-gray-800">Manage Tables</h3>
-
-            <p className="mt-1 text-sm text-gray-500">
-              Manage restaurant tables
-            </p>
-          </button>
+                    <p className="mt-1 text-xs capitalize text-gray-500">
+                      {order.status}
+                    </p>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-// Statistics Card
-const StatCard = ({ title, value }) => {
+// STAT CARD
+const StatCard = ({
+  title,
+  value,
+  icon,
+  iconClass,
+  valueClass = "text-white",
+}) => {
   return (
-    <div className="p-5 bg-white border rounded-xl shadow-sm">
-      <p className="text-sm text-gray-500">{title}</p>
+    <div className="rounded-xl border border-gray-800 bg-gray-900 p-5 transition hover:border-gray-700">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm text-gray-400">{title}</p>
 
-      <h2 className="mt-2 text-2xl font-bold text-gray-800">{value}</h2>
+          <p className={`mt-2 text-2xl font-bold ${valueClass}`}>{value}</p>
+        </div>
+
+        <div
+          className={`flex h-11 w-11 items-center justify-center rounded-xl ${iconClass}`}
+        >
+          {icon}
+        </div>
+      </div>
     </div>
   );
 };
 
-// Order Status
-const OrderStatus = ({ status }) => {
-  const statusStyles = {
-    Pending: "bg-yellow-100 text-yellow-700",
-    Preparing: "bg-blue-100 text-blue-700",
-    Ready: "bg-green-100 text-green-700",
-    Completed: "bg-gray-100 text-gray-700",
-  };
-
+// ORDER STATUS
+const OrderStatus = ({ title, value, icon }) => {
   return (
-    <span
-      className={`px-3 py-1 rounded-full text-xs font-medium ${
-        statusStyles[status] || "bg-gray-100 text-gray-700"
-      }`}
-    >
-      {status}
-    </span>
+    <div className="flex items-center justify-between rounded-lg border border-gray-800 bg-gray-800/40 p-4">
+      <div className="flex items-center gap-3">
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-800 text-gray-400">
+          {icon}
+        </div>
+
+        <span className="text-sm font-medium text-gray-300">{title}</span>
+      </div>
+
+      <span className="text-lg font-bold text-white">{value}</span>
+    </div>
   );
 };
 

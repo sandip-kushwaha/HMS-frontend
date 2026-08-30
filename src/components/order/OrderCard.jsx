@@ -169,7 +169,6 @@ const OrderCard = ({
                   className="flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <CheckCircle size={16} />
-
                   {actionId === order._id ? "Processing..." : "Accept"}
                 </button>
               )}
@@ -270,6 +269,13 @@ const OrderCard = ({
             </div>
           </div>
         )}
+
+        {/* ORDER CANCELLED MESSAGE */}
+          {order.status === "cancelled" && (
+                <div className="col-span-2 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-center text-sm font-medium text-red-400">
+                  Order is cancelled
+                </div>
+              )}
       </div>
     </div>
   );
