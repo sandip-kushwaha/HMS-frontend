@@ -1,3 +1,5 @@
+import Button from "../common/Button";
+
 const UserDetailsModal = ({ user, onClose }) => {
   if (!user) return null;
 
@@ -127,12 +129,10 @@ const UserDetailsModal = ({ user, onClose }) => {
 
         {/* Footer */}
         <div className="flex justify-end border-t border-gray-800 px-6 py-4">
-          <button
-            onClick={onClose}
-            className="rounded-lg bg-blue-600 cursor-pointer px-5 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
-          >
-            Close
-          </button>
+          <Button
+          onClick={onClose}
+          value="Close"
+          />
         </div>
       </div>
     </div>

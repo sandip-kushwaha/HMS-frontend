@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { changePassword } from "../../api/auth.api";
 import { updateProfile } from "../../api/users.api";
+import { toast } from "react-toastify";
+import Header from "../../components/common/Header";
 
 const Settings = () => {
   const { user, getCurrentUser } = useAuth();
@@ -14,12 +16,6 @@ const Settings = () => {
   // Loading states
   const [profileLoading, setProfileLoading] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
-
-  // Messages
-  const [profileError, setProfileError] = useState("");
-  const [profileSuccess, setProfileSuccess] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [passwordSuccess, setPasswordSuccess] = useState("");
 
   // Profile form
   const [profileData, setProfileData] = useState({
@@ -54,9 +50,6 @@ const Settings = () => {
       email: user?.email || "",
       phone: user?.phone || "",
     });
-
-    setProfileError("");
-    setProfileSuccess("");
     setShowProfileModal(true);
   };
 
@@ -64,8 +57,6 @@ const Settings = () => {
     if (profileLoading) return;
 
     setShowProfileModal(false);
-    setProfileError("");
-    setProfileSuccess("");
   };
 
   // Profile validation
@@ -105,13 +96,10 @@ const Settings = () => {
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
 
-    setProfileError("");
-    setProfileSuccess("");
-
     const validationError = validateProfile();
 
     if (validationError) {
-      setProfileError(validationError);
+      toast.error(validationError);
       return;
     }
 
@@ -124,18 +112,17 @@ const Settings = () => {
         phone: profileData.phone.trim(),
       });
 
-      setProfileSuccess(response?.message || "Profile updated successfully.");
+      toast.success(response?.message || "Profile updated successfully.");
 
       await getCurrentUser();
 
       setTimeout(() => {
         setShowProfileModal(false);
-        setProfileSuccess("");
       }, 1200);
     } catch (error) {
       console.error("Update profile error:", error);
 
-      setProfileError(
+      toast.error(
         error.response?.data?.message ||
           "Failed to update profile. Please try again.",
       );
@@ -153,8 +140,6 @@ const Settings = () => {
       confirmPassword: "",
     });
 
-    setPasswordError("");
-    setPasswordSuccess("");
     setShowPasswordModal(true);
   };
 
@@ -162,8 +147,6 @@ const Settings = () => {
     if (passwordLoading) return;
 
     setShowPasswordModal(false);
-    setPasswordError("");
-    setPasswordSuccess("");
 
     setPasswordData({
       oldPassword: "",
@@ -205,13 +188,10 @@ const Settings = () => {
   const handleChangePassword = async (e) => {
     e.preventDefault();
 
-    setPasswordError("");
-    setPasswordSuccess("");
-
     const validationError = validatePassword();
 
     if (validationError) {
-      setPasswordError(validationError);
+      toast.error(validationError);
       return;
     }
 
@@ -223,7 +203,7 @@ const Settings = () => {
         newPassword: passwordData.newPassword,
       });
 
-      setPasswordSuccess(response?.message || "Password changed successfully.");
+      toast.success(response?.message || "Password changed successfully.");
 
       setPasswordData({
         oldPassword: "",
@@ -233,12 +213,11 @@ const Settings = () => {
 
       setTimeout(() => {
         setShowPasswordModal(false);
-        setPasswordSuccess("");
       }, 1200);
     } catch (error) {
       console.error("Change password error:", error);
 
-      setPasswordError(
+      toast.error(
         error.response?.data?.message ||
           "Failed to change password. Please try again.",
       );
@@ -247,20 +226,18 @@ const Settings = () => {
     }
   };
 
+  
+
+
   return (
     <div className="space-y-6">
       {/* ================= HEADER ================= */}
-
-      <div>
-        <h1 className="text-3xl font-bold text-gray-800">Settings</h1>
-
-        <p className="mt-1 text-gray-500 text-lg">
-          Manage your account information and security.
-        </p>
-      </div>
+       <Header
+       title="Settings"
+       value="Manage your account information and security."
+       />
 
       {/* ================= PROFILE CARD ================= */}
-
       <div className="overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
         {/* Card Header */}
 
@@ -347,7 +324,6 @@ const Settings = () => {
                   {user.isActive ? "Active" : "Inactive"}
                 </span>
               </div>
-              
             </div>
 
             {/* Last Login */}
@@ -449,24 +425,7 @@ const Settings = () => {
             {/* Form */}
 
             <form onSubmit={handleUpdateProfile} className="p-6">
-              {/* Error */}
-
-              {profileError && (
-                <div className="mb-5 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-                  {profileError}
-                </div>
-              )}
-
-              {/* Success */}
-
-              {profileSuccess && (
-                <div className="mb-5 rounded-lg border border-green-500/20 bg-green-500/10 px-4 py-3 text-sm text-green-400">
-                  {profileSuccess}
-                </div>
-              )}
-
               {/* Full Name */}
-
               <DarkInput
                 label="Full Name"
                 type="text"
@@ -481,7 +440,6 @@ const Settings = () => {
               />
 
               {/* Email */}
-
               <DarkInput
                 label="Email"
                 type="email"
@@ -496,7 +454,6 @@ const Settings = () => {
               />
 
               {/* Phone */}
-
               <DarkInput
                 label="Phone"
                 type="text"
@@ -511,7 +468,6 @@ const Settings = () => {
               />
 
               {/* Buttons */}
-
               <div className="mt-6 flex justify-end gap-3 border-t border-gray-800 pt-5">
                 <button
                   type="button"
@@ -567,24 +523,7 @@ const Settings = () => {
             {/* Form */}
 
             <form onSubmit={handleChangePassword} className="p-6">
-              {/* Error */}
-
-              {passwordError && (
-                <div className="mb-5 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-                  {passwordError}
-                </div>
-              )}
-
-              {/* Success */}
-
-              {passwordSuccess && (
-                <div className="mb-5 rounded-lg border border-green-500/20 bg-green-500/10 px-4 py-3 text-sm text-green-400">
-                  {passwordSuccess}
-                </div>
-              )}
-
               {/* Current Password */}
-
               <DarkInput
                 label="Current Password"
                 type="password"
@@ -600,7 +539,6 @@ const Settings = () => {
               />
 
               {/* New Password */}
-
               <DarkInput
                 label="New Password"
                 type="password"
@@ -620,7 +558,6 @@ const Settings = () => {
               </p>
 
               {/* Confirm Password */}
-
               <DarkInput
                 label="Confirm New Password"
                 type="password"
@@ -636,7 +573,6 @@ const Settings = () => {
               />
 
               {/* Buttons */}
-
               <div className="mt-6 flex justify-end gap-3 border-t border-gray-800 pt-5">
                 <button
                   type="button"
@@ -663,10 +599,7 @@ const Settings = () => {
   );
 };
 
-// ========================================
 // Setting Info Component
-// ========================================
-
 const SettingInfo = ({ title, value, breakAll = false }) => {
   return (
     <div className="rounded-xl border border-gray-800 bg-gray-800/50 p-4">
@@ -683,10 +616,7 @@ const SettingInfo = ({ title, value, breakAll = false }) => {
   );
 };
 
-// ========================================
 // Dark Input Component
-// ========================================
-
 const DarkInput = ({ label, type, value, onChange, disabled, placeholder }) => {
   return (
     <div className="mb-4">

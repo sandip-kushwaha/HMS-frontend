@@ -24,17 +24,17 @@ import {
   updateTable,
   updateTableStatus,
 } from "../../api/tables.api";
+
 import { openTable } from "../../api/session.api";
+import { toast } from "react-toastify";
 
 const Tables = () => {
   // TABLE DATA
   const [tables, setTables] = useState([]);
 
-  // LOADING / ERROR
+  
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [tableError, setTableError] = useState("");
-  const [success, setSuccess] = useState("");
+
   const [saving, setSaving] = useState(false);
   const [actionId, setActionId] = useState(null);
 
@@ -53,7 +53,6 @@ const Tables = () => {
   const fetchTables = async () => {
     try {
       setLoading(true);
-      setTableError("");
 
       const response = await getAllTables();
 
@@ -63,7 +62,7 @@ const Tables = () => {
     } catch (err) {
       console.error(err);
 
-      setTableError(err.response?.data?.message || "Failed to fetch tables.");
+      toast.error(err.response?.data?.message || "Failed to fetch tables.");
     } finally {
       setLoading(false);
     }
@@ -119,24 +118,19 @@ const Tables = () => {
   const handleAddTable = () => {
     setEditingTable(null);
     setModalOpen(true);
-    setError("");
-    setTableError("");
   };
 
   // OPEN EDIT MODAL
   const handleEdit = (table) => {
     setEditingTable(table);
     setModalOpen(true);
-    setError("");
-    setTableError("");
   };
 
   // CREATE / UPDATE
   const handleSubmit = async (tableData) => {
     try {
       setSaving(true);
-      setError("");
-      setTableError("");
+  
 
       let response;
 
@@ -152,7 +146,8 @@ const Tables = () => {
       const savedTable = response?.data;
 
       if (!savedTable) {
-        throw new Error("Table data was not returned from server.");
+        // throw new Error("Table data was not returned from server.");
+        toast.error("Table data was not returned from server.")
       }
 
       // UPDATE EXISTING TABLE
@@ -161,31 +156,26 @@ const Tables = () => {
           prev.map((item) => (item._id === savedTable._id ? savedTable : item)),
         );
 
-        setSuccess("Table updated successfully.");
+        toast.success("Table updated successfully.");
       }
 
-      // ==========================================
       // CREATE NEW TABLE
-      // ==========================================
       else {
         setTables((prev) => [savedTable, ...prev]);
 
-        setSuccess("Table created successfully.");
+        toast.success("Table created successfully.");
       }
 
       setModalOpen(false);
 
       setEditingTable(null);
 
-      setTimeout(() => {
-        setSuccess("");
-      }, 2500);
     } catch (err) {
       console.error("TABLE ERROR:", err);
 
       console.error("BACKEND ERROR:", err.response?.data);
 
-      setError(
+      toast.error(
         err.response?.data?.message || err.message || "Failed to save table.",
       );
     } finally {
@@ -197,8 +187,7 @@ const Tables = () => {
   const handleStatusChange = async (table, newStatus) => {
     try {
       setActionId(table._id);
-      setError("");
-      setSuccess("");
+     
 
       await updateTableStatus(table._id, newStatus);
 
@@ -208,15 +197,12 @@ const Tables = () => {
         ),
       );
 
-      setSuccess(`Table ${table.tableNumber} status updated to ${newStatus}.`);
+      toast.success(`Table ${table.tableNumber} status updated to ${newStatus}.`);
 
-      setTimeout(() => {
-        setSuccess("");
-      }, 2500);
     } catch (err) {
       console.error(err);
 
-      setError(err.response?.data?.message || "Failed to update table status.");
+      toast.error(err.response?.data?.message || "Failed to update table status.");
     } finally {
       setActionId(null);
     }
@@ -226,8 +212,6 @@ const Tables = () => {
   const handleOpenTable = async (table) => {
     try {
       setActionId(table._id);
-      setSuccess("");
-      setError("");
 
       const response = await openTable(table._id);
 
@@ -239,15 +223,12 @@ const Tables = () => {
         ),
       );
 
-      setSuccess(`${table.tableNumber} opened successfully.`);
+      toast.success(`${table.tableNumber} opened successfully.`);
 
-      setTimeout(() => {
-        setSuccess("");
-      }, 2500);
     } catch (err) {
       console.error("OPEN TABLE ERROR:", err);
 
-      setError(err.response?.data?.message || "Failed to open table.");
+      toast.error(err.response?.data?.message || "Failed to open table.");
     } finally {
       setActionId(null);
     }
@@ -408,29 +389,6 @@ const Tables = () => {
           }
         />
       </div>
-
-      {/* ERROR */}
-      {(error || tableError) && (
-        <div className="flex items-center justify-between rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-          <span>{error || tableError}</span>
-
-          {error && (
-            <button
-              onClick={() => setError("")}
-              className="ml-4 cursor-pointer text-lg hover:text-red-300"
-            >
-              ×
-            </button>
-          )}
-        </div>
-      )}
-
-      {/* SUCCESS */}
-      {success && (
-        <div className="rounded-lg border border-green-500/20 bg-green-500/10 px-4 py-3 text-sm text-green-400">
-          {success}
-        </div>
-      )}
 
       {/* STAT CARDS */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">

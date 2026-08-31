@@ -17,38 +17,40 @@ import {
   closeSession,
   cancelSession,
 } from "../../api/session.api";
+
 import Header from "../../components/common/Header";
 import Button from "../../components/common/Button";
+import { toast } from "react-toastify";
 
 const Sessions = () => {
   // SESSION DATA
   const [sessions, setSessions] = useState([]);
 
-  // LOADING / ERROR
+  // LOADING 
   const [loading, setLoading] = useState(true);
-
-  const [error, setError] = useState("");
-
-  const [success, setSuccess] = useState("");
 
   const [actionId, setActionId] = useState(null);
   // SEARCH
   const [search, setSearch] = useState("");
 
   // FETCH ACTIVE SESSIONS
-  const fetchSessions = async () => {
+  const fetchSessions = async (showToast = false) => {
     try {
       setLoading(true);
-      setError("");
 
       const response = await getActiveSessions();
       const sessionData = response?.data || [];
 
       setSessions(Array.isArray(sessionData) ? sessionData : []);
+
+      if (showToast) {
+      toast.success("Sessions refreshed successfully");
+    }
+
     } catch (err) {
       console.error(err);
 
-      setError(
+      toast.error(
         err.response?.data?.message || "Failed to fetch active sessions.",
       );
     } finally {
@@ -91,11 +93,8 @@ const Sessions = () => {
 
   // SUCCESS MESSAGE
   const showSuccess = (message) => {
-    setSuccess(message);
+    toast.success(message);
 
-    setTimeout(() => {
-      setSuccess("");
-    }, 2500);
   };
 
   // CLOSE SESSION
@@ -110,21 +109,20 @@ const Sessions = () => {
 
     try {
       setActionId(session._id);
-      setError("");
-      setSuccess("");
+    
 
       await closeSession(session._id);
 
       // Remove closed session from active list
       setSessions((prev) => prev.filter((item) => item._id !== session._id));
 
-      showSuccess(
+      toast.success(
         `Session for ${session.table?.tableNumber} closed successfully.`,
       );
     } catch (err) {
       console.error(err);
 
-      setError(err.response?.data?.message || "Failed to close session.");
+      toast.error(err.response?.data?.message || "Failed to close session.");
     } finally {
       setActionId(null);
     }
@@ -142,21 +140,19 @@ const Sessions = () => {
 
     try {
       setActionId(session._id);
-      setError("");
-      setSuccess("");
 
       await cancelSession(session._id);
 
       // Remove cancelled session
       setSessions((prev) => prev.filter((item) => item._id !== session._id));
 
-      showSuccess(
+      toast.success(
         `Session for ${session.table?.tableNumber} cancelled successfully.`,
       );
     } catch (err) {
       console.error(err);
 
-      setError(err.response?.data?.message || "Failed to cancel session.");
+      toast.error(err.response?.data?.message || "Failed to cancel session.");
     } finally {
       setActionId(null);
     }
@@ -288,27 +284,6 @@ const Sessions = () => {
         
       </div>
 
-      {/* ERROR */}
-      {error && (
-        <div className="flex items-center justify-between rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-          <span>{error}</span>
-
-          <button
-            onClick={() => setError("")}
-            className="ml-4 cursor-pointer text-lg hover:text-red-300"
-          >
-            ×
-          </button>
-        </div>
-      )}
-
-      {/* SUCCESS */}
-      {success && (
-        <div className="rounded-lg border border-green-500/20 bg-green-500/10 px-4 py-3 text-sm text-green-400">
-          {success}
-        </div>
-      )}
-
       {/* STATISTICS */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <StatCard
@@ -334,6 +309,7 @@ const Sessions = () => {
           valueClass="text-green-400"
         />
       </div>
+
 
       {/* SEARCH */}
       <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">

@@ -1,4 +1,4 @@
-import { Slash, Tally1, Users } from "lucide-react";
+import { Tally1, Users } from "lucide-react";
 import Button from "../common/Button";
 
 const OrderDetailsModal = ({
@@ -173,12 +173,10 @@ const OrderDetailsModal = ({
         {/* FOOTER */}
 
         <div className="flex justify-end border-t border-gray-700 px-6 py-4">
-          <button
-            onClick={onClose}
-            className="rounded-lg cursor-pointer bg-gray-700 px-6 py-2.5 text-sm font-medium transition hover:bg-gray-600"
-          >
-            Close
-          </button>
+          <Button
+          onClick={onClose}
+          value="Close"
+          />
         </div>
       </div>
     </div>

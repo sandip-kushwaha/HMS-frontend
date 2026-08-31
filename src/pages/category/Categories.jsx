@@ -21,6 +21,7 @@ import {
 
 import CategoryModal from "../../components/category/CategoryModal";
 import CategoryDetailsModal from "../../components/category/CategoryDetailsModal";
+import { toast } from "react-toastify";
 
 
 
@@ -28,8 +29,6 @@ const Category = () => {
   // State
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   // Create / Edit modal
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,7 +56,6 @@ const Category = () => {
   const fetchCategories = async () => {
     try {
       setLoading(true);
-      setError("");
 
       const response = await getAllCategories();
 
@@ -65,7 +63,7 @@ const Category = () => {
     } catch (error) {
       console.error(error);
 
-      setError(error.response?.data?.message || "Failed to fetch categories.");
+      toast.error(error.response?.data?.message || "Failed to fetch categories.");
     } finally {
       setLoading(false);
     }
@@ -80,17 +78,13 @@ const Category = () => {
   const handleCreate = () => {
     setSelectedCategory(null);
     setIsModalOpen(true);
-    setError("");
-    setSuccess("");
+
   };
 
   //---- Open Edit Modal
   const handleEdit = (category) => {
     setSelectedCategory(category);
     setIsModalOpen(true);
-
-    setError("");
-    setSuccess("");
   };
 
   //---- Close Create/Edit Modal
@@ -106,21 +100,18 @@ const Category = () => {
     try {
       setActionLoading(true);
 
-      setError("");
-      setSuccess("");
-
       let response;
 
       if (selectedCategory) {
         // Update
         response = await updateCategory(selectedCategory._id, formData);
 
-        setSuccess("Category updated successfully.");
+       toast.success("Category updated successfully.");
       } else {
         // Create
         response = await createCategory(formData);
 
-        setSuccess("Category created successfully.");
+        toast.success("Category created successfully.");
       }
 
       // Close modal
@@ -132,7 +123,7 @@ const Category = () => {
     } catch (error) {
       console.error(error);
 
-      setError(
+      toast.error(
         error.response?.data?.message ||
           "Something went wrong. Please try again.",
       );
@@ -158,9 +149,6 @@ const Category = () => {
     try {
       setStatusLoading(category._id);
 
-      setError("");
-      setSuccess("");
-
       await updateCategoryStatus(category._id, !category.isActive);
 
       setCategories((prevCategories) =>
@@ -182,17 +170,14 @@ const Category = () => {
         }));
       }
 
-      setSuccess(
+      toast.success(
         `Category ${category.isActive ? "deactivated" : "activated"} successfully.`,
       );
 
-      setTimeout(() => {
-        setSuccess("");
-      }, 2500);
     } catch (error) {
       console.error(error);
 
-      setError(
+      toast.error(
         error.response?.data?.message || "Failed to update category status.",
       );
     } finally {
@@ -245,28 +230,6 @@ const Category = () => {
           }
         />
       </div>
-      )}
-
-      {/* Success */}
-      {success && (
-        <div className="flex items-center justify-between rounded-lg border border-green-500/20 bg-green-500/10 px-4 py-3 text-sm text-green-400">
-          <span>{success}</span>
-
-          <button onClick={() => setSuccess("")} className="ml-4 text-lg">
-            ×
-          </button>
-        </div>
-      )}
-
-      {/* Error */}
-      {error && (
-        <div className="flex items-center justify-between rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-          <span>{error}</span>
-
-          <button onClick={() => setError("")} className="ml-4 text-lg">
-            ×
-          </button>
-        </div>
       )}
 
       {/* Stats card */}

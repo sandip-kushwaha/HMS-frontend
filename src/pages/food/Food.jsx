@@ -17,6 +17,7 @@ import {
 
 import { getAllCategories } from "../../api/category.api";
 import { Search } from "lucide-react";
+import { toast } from "react-toastify";
 
 const Food = () => {
   const [foods, setFoods] = useState([]);
@@ -24,12 +25,6 @@ const Food = () => {
 
   const [loading, setLoading] = useState(true);
   const [categoryLoading, setCategoryLoading] = useState(true);
-
-  const [error, setError] = useState("");
-  const [foodError, setFoodError] = useState("");
-  const [categoryError, setCategoryError] = useState("");
-
-  const [success, setSuccess] = useState("");
 
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
@@ -47,7 +42,6 @@ const Food = () => {
   const fetchFoods = async () => {
     try {
       setLoading(true);
-      setFoodError("");
 
       const response = await getAllFood();
 
@@ -57,9 +51,7 @@ const Food = () => {
     } catch (err) {
       console.error(err);
 
-      setFoodError(
-        err.response?.data?.message || "Failed to fetch food items.",
-      );
+      toast.error(err.response?.data?.message || "Failed to fetch food items.");
     } finally {
       setLoading(false);
     }
@@ -69,7 +61,6 @@ const Food = () => {
   const fetchCategories = async () => {
     try {
       setCategoryLoading(true);
-      setCategoryError("");
 
       const response = await getAllCategories();
 
@@ -77,9 +68,8 @@ const Food = () => {
 
       setCategories(Array.isArray(categoryData) ? categoryData : []);
     } catch (err) {
-      setCategoryError(
-        err.response?.data?.message || "Failed to fetch categories.",
-      );
+
+      toast.error(err.response?.data?.message || "Failed to fetch categories.");
     } finally {
       setCategoryLoading(false);
     }
@@ -131,23 +121,18 @@ const Food = () => {
   const handleAddFood = () => {
     setEditingFood(null);
     setModalOpen(true);
-    setError("");
-    setSuccess("");
   };
 
   //-----Open Edit Modal------
   const handleEdit = (food) => {
     setEditingFood(food);
     setModalOpen(true);
-    setError("");
-    setSuccess("");
   };
 
   //--------Create / Update Food-----------
   const handleSubmit = async (foodData) => {
     try {
       setSaving(true);
-      setError("");
 
       let response;
 
@@ -160,7 +145,8 @@ const Food = () => {
       const savedFood = response?.data;
 
       if (!savedFood) {
-        throw new Error("Food data was not returned from server.");
+        // throw new Error("Food data was not returned from server.");
+        toast.error("Food data was not returned from server.");
       }
 
       if (editingFood) {
@@ -181,9 +167,8 @@ const Food = () => {
       console.error("FOOD ERROR: ", error);
       console.error("BACKEND ERROR: ", error.response?.data);
 
-      setError(
-        error.response?.data?.message ||
-          error.message ||
+      toast.error(
+        error.response?.data?.message || error.message ||
           "Failed to save food.",
       );
     } finally {
@@ -195,8 +180,6 @@ const Food = () => {
   const handleStatusToggle = async (food) => {
     try {
       setActionId(food._id);
-      setError("");
-      setSuccess("");
 
       await updateFoodStatus(food._id, !food.isActive);
 
@@ -211,17 +194,16 @@ const Food = () => {
         ),
       );
 
-      setSuccess(
+      toast.success(
         `Food ${!food.isActive ? "activated" : "deactivated"} successfully.`,
       );
 
-      setTimeout(() => {
-        setSuccess("");
-      }, 2500);
     } catch (err) {
       console.error(err);
 
-      setError(err.response?.data?.message || "Failed to update food status.");
+      toast.error(
+        err.response?.data?.message || "Failed to update food status.",
+      );
     } finally {
       setActionId(null);
     }
@@ -231,8 +213,6 @@ const Food = () => {
   const handleAvailabilityToggle = async (food) => {
     try {
       setActionId(food._id);
-      setError("");
-      setSuccess("");
 
       await updateFoodAvailability(food._id, !food.isAvailable);
 
@@ -247,13 +227,10 @@ const Food = () => {
         ),
       );
 
-      setSuccess(
+      toast.success(
         `Food is now ${!food.isAvailable ? "available" : "unavailable"}.`,
       );
 
-      setTimeout(() => {
-        setSuccess("");
-      }, 2500);
     } catch (err) {
       console.error(err);
 
@@ -272,95 +249,71 @@ const Food = () => {
 
   const featuredFoods = foods.filter((food) => food.isFeatured).length;
 
-
   ///----UI-------
   return (
     <div className="space-y-6">
       {/* Header */}
       {loading ? (
-        <LoadingHeader/>
-      ):(
-       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <Header
-          title="Food Management"
-          value=" Manage your restaurant menu and food items."
-        />
-        <Button
-          onClick={handleAddFood}
-          value={
-            <>
-              <Plus size={18} />
-              Add Food
-            </>
-          }
-        />
-      </div>
-      )}
-      
-      {/* Success */}
-      {success && (
-        <div className="rounded-lg border border-green-500/20 bg-green-500/10 px-4 py-3 text-sm text-green-400">
-          {success}
-        </div>
-      )}
-
-      {/* Error */}
-      {error && (
-        <div className="flex items-center justify-between rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-          <span>{error}</span>
-
-          <button onClick={() => setError("")} className="ml-4 text-lg">
-            ×
-          </button>
+        <LoadingHeader />
+      ) : (
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <Header
+            title="Food Management"
+            value=" Manage your restaurant menu and food items."
+          />
+          <Button
+            onClick={handleAddFood}
+            value={
+              <>
+                <Plus size={18} />
+                Add Food
+              </>
+            }
+          />
         </div>
       )}
 
       {/* Stats */}
       {loading ? (
-        <LoadingStats/>
-      ):(
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard
-          title="Total Foods"
-          value={totalFoods}
-          icon={<Utensils size={22} />}
-          iconClass="bg-blue-500/10 text-blue-400"
-        />
+        <LoadingStats />
+      ) : (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <StatCard
+            title="Total Foods"
+            value={totalFoods}
+            icon={<Utensils size={22} />}
+            iconClass="bg-blue-500/10 text-blue-400"
+          />
 
-        <StatCard
-          title="Active Foods"
-          value={activeFoods}
-          icon={<CheckCircle size={22} />}
-          iconClass="bg-green-500/10 text-green-400"
-          valueClass="text-green-400"
-        />
+          <StatCard
+            title="Active Foods"
+            value={activeFoods}
+            icon={<CheckCircle size={22} />}
+            iconClass="bg-green-500/10 text-green-400"
+            valueClass="text-green-400"
+          />
 
-        <StatCard
-          title="Available"
-          value={availableFoods}
-          icon={<CheckCircle size={22} />}
-          iconClass="bg-green-500/10 text-green-400"
-          valueClass="text-green-400"
-        />
+          <StatCard
+            title="Available"
+            value={availableFoods}
+            icon={<CheckCircle size={22} />}
+            iconClass="bg-green-500/10 text-green-400"
+            valueClass="text-green-400"
+          />
 
-        <StatCard
-          title="Featured"
-          value={featuredFoods}
-          icon={<Star size={22} />}
-          iconClass="bg-gray-500/10 text-gray-400"
-          valueClass="text-gray-400"
-        />
-      </div>
-      )}
-
-      {/*--------Category---Error--------- */}
-      {categoryError && (
-        <div className="text-sm text-red-600">{categoryError}</div>
+          <StatCard
+            title="Featured"
+            value={featuredFoods}
+            icon={<Star size={22} />}
+            iconClass="bg-gray-500/10 text-gray-400"
+            valueClass="text-gray-400"
+          />
+        </div>
       )}
 
       {/* Filters */}
       {loading ? (
-        <LoadingFilter/>
+        <LoadingFilter />
       ) : (
         <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
           <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -409,9 +362,6 @@ const Food = () => {
           </div>
         </div>
       )}
-
-      {/* -----Food--Error-------- */}
-      {foodError && <div className="text-sm text-red-600">{foodError}</div>}
 
       {/* Food Table */}
       <div className="overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
@@ -626,7 +576,6 @@ const Food = () => {
         categories={categories}
         food={editingFood}
         loading={saving}
-        error={error}
       />
 
       {/* Details Modal */}
@@ -642,7 +591,7 @@ const Food = () => {
 const LoadingHeader = () => {
   return (
     <>
-    <div className="space-y-6">
+      <div className="space-y-6">
         {/* Loading Header */}
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
@@ -655,50 +604,49 @@ const LoadingHeader = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-// Loading Stats  
+// Loading Stats
 const LoadingStats = () => {
-  return(
+  return (
     <>
-     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {[1, 2, 3, 4].map((item) => (
-            <div
-              key={item}
-              className="rounded-xl border border-gray-800 bg-gray-900 p-5"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="h-4 w-24 animate-pulse rounded bg-gray-800" />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {[1, 2, 3, 4].map((item) => (
+          <div
+            key={item}
+            className="rounded-xl border border-gray-800 bg-gray-900 p-5"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="h-4 w-24 animate-pulse rounded bg-gray-800" />
 
-                  <div className="mt-3 h-8 w-12 animate-pulse rounded bg-gray-800" />
-                </div>
-
-                <div className="h-11 w-11 animate-pulse rounded-xl bg-gray-800" />
+                <div className="mt-3 h-8 w-12 animate-pulse rounded bg-gray-800" />
               </div>
-            </div>
-          ))}
-        </div>
 
+              <div className="h-11 w-11 animate-pulse rounded-xl bg-gray-800" />
+            </div>
+          </div>
+        ))}
+      </div>
     </>
-  )
-}
-       
+  );
+};
+
 // Loading Filter
 const LoadingFilter = () => {
   return (
     <>
       <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-            {[1, 2, 3].map((item) => (
-              <div
-                key={item}
-                className="h-11 animate-pulse rounded-lg bg-gray-800"
-              />
-            ))}
-          </div>
-        </div> 
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+          {[1, 2, 3].map((item) => (
+            <div
+              key={item}
+              className="h-11 animate-pulse rounded-lg bg-gray-800"
+            />
+          ))}
+        </div>
+      </div>
     </>
   );
 };

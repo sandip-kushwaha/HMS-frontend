@@ -22,6 +22,7 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import Header from "../../components/common/Header";
 import Button from "../../components/common/Button";
+import { toast } from "react-toastify";
 
 const Orders = () => {
   const { user } = useAuth();
@@ -31,8 +32,6 @@ const Orders = () => {
 
   // LOADING / ERROR
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   // SEARCH / FILTER
   const [search, setSearch] = useState("");
@@ -44,10 +43,9 @@ const Orders = () => {
   const [actionId, setActionId] = useState(null);
 
   // FETCH ORDERS
-  const fetchOrders = async () => {
+  const fetchOrders = async ( showToast = false ) => {
     try {
       setLoading(true);
-      setError("");
 
       const response = await getAllOrders();
 
@@ -55,10 +53,15 @@ const Orders = () => {
       console.log(orderData)
 
       setOrders(Array.isArray(orderData) ? orderData : []);
+
+       if (showToast) {
+      toast.success("Orders refreshed successfully");
+    }
+
     } catch (err) {
       console.error(err);
 
-      setError(err.response?.data?.message || "Failed to fetch orders.");
+      toast.error(err.response?.data?.message || "Failed to fetch orders.");
     } finally {
       setLoading(false);
     }
@@ -101,8 +104,6 @@ const Orders = () => {
   const handleKitchenStatus = async (order, kitchenStatus) => {
     try {
       setActionId(order._id);
-      setError("");
-      setSuccess("");
 
       const response = await updateKitchenStatus(order._id, kitchenStatus);
 
@@ -120,11 +121,11 @@ const Orders = () => {
         ),
       );
 
-      setSuccess(`Order ${order.orderNumber} updated to ${kitchenStatus}.`);
+      toast.success(`Order ${order.orderNumber} updated to ${kitchenStatus}.`);
     } catch (err) {
       console.error(err);
 
-      setError(
+      toast.error(
         err.response?.data?.message || "Failed to update kitchen status.",
       );
     } finally {
@@ -136,8 +137,6 @@ const Orders = () => {
   const handleWaiterStatus = async (order, waiterStatus) => {
     try {
       setActionId(order._id);
-      setError("");
-      setSuccess("");
 
       const response = await updateWaiterStatus(order._id, waiterStatus);
 
@@ -155,11 +154,11 @@ const Orders = () => {
         ),
       );
 
-      setSuccess(`Order ${order.orderNumber} updated to ${waiterStatus}.`);
+      toast.success(`Order ${order.orderNumber} updated to ${waiterStatus}.`);
     } catch (err) {
       console.error(err);
 
-      setError(
+      toast.error(
         err.response?.data?.message || "Failed to update waiter status.",
       );
     } finally {
@@ -332,7 +331,6 @@ const Orders = () => {
   }
 
   // UI
-
   return (
     <div className="space-y-6">
       {/* HEADER */}
@@ -350,27 +348,6 @@ const Orders = () => {
           }
         />
       </div>
-
-      {/* ERROR */}
-      {error && (
-        <div className="flex items-center justify-between rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-          <span>{error}</span>
-
-          <button
-            onClick={() => setError("")}
-            className="ml-4 cursor-pointer text-lg hover:text-red-300"
-          >
-            ×
-          </button>
-        </div>
-      )}
-
-      {/* SUCCESS */}
-      {success && (
-        <div className="rounded-lg border border-green-500/20 bg-green-500/10 px-4 py-3 text-sm text-green-400">
-          {success}
-        </div>
-      )}
 
       {/* STATISTICS */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">

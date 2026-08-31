@@ -65,10 +65,10 @@ const CategoryModal = ({
         return;
       }
 
-      if (file.size > 5 * 1024 * 1024) {
+      if (file.size > 1 * 1024 * 1024) {
         setErrors((prev) => ({
           ...prev,
-          image: "Image must be less than 5MB.",
+          image: "Image must be less than 1MB.",
         }));
         return;
       }
@@ -203,7 +203,7 @@ const CategoryModal = ({
                 </label>
 
                 <p className="mt-2 text-xs text-gray-500">
-                  JPG, PNG, WEBP • Maximum 5MB
+                  JPG, PNG, WEBP • Maximum 1MB
                 </p>
 
                 {errors.image && (

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Button from "../common/Button";
+import { toast } from "react-toastify";
 
 const initialForm = {
   category: "",
@@ -20,12 +21,11 @@ const FoodModal = ({
   categories = [],
   food = null,
   loading = false,
-  error = "",
+ 
 }) => {
   const [formData, setFormData] = useState(initialForm);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState("");
-  const [validationError, setValidationError] = useState("");
 
   const isEdit = Boolean(food);
 
@@ -53,7 +53,7 @@ const FoodModal = ({
     }
 
     setImage(null);
-    setValidationError("");
+    
   }, [isOpen, food]);
 
   if (!isOpen) return null;
@@ -66,7 +66,6 @@ const FoodModal = ({
       [name]: type === "checkbox" ? checked : value,
     }));
 
-    setValidationError("");
   };
 
   //-----
@@ -76,18 +75,18 @@ const FoodModal = ({
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
-      setValidationError("Please select a valid image file.");
+      toast.error("Please select a valid image file.");
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      setValidationError("Image size must be less than 5MB.");
+    if (file.size > 1 * 1024 * 1024) {
+      toast.error("Image size must be less than 1MB.");
       return;
     }
 
     setImage(file);
     setPreview(URL.createObjectURL(file));
-    setValidationError("");
+  
   };
 
   //----validate
@@ -136,11 +135,11 @@ const FoodModal = ({
     const errorMessage = validate();
 
     if (errorMessage) {
-      setValidationError(errorMessage);
+      toast.error(errorMessage);
       return;
     }
 
-    // Pass a plain object (with the raw File attached) — the api layer
+    // Pass a plain object (with the raw File attached) — the api layer.
     // (food.api.js) builds the FormData itself for both create and update.
     const payload = {
       category: formData.category,
@@ -192,12 +191,6 @@ const FoodModal = ({
 
         {/* Body */}
         <form onSubmit={handleSubmit} className="overflow-y-auto p-6">
-          {/* Error */}
-          {(validationError || error) && (
-            <div className="mb-5 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-              {validationError || error}
-            </div>
-          )}
 
           {/* Image */}
           <div className="mb-6">
@@ -232,7 +225,7 @@ const FoodModal = ({
                 </label>
 
                 <p className="mt-2 text-xs text-gray-500">
-                  JPG, PNG, WEBP • Maximum 5MB
+                  JPG, PNG, WEBP • Maximum 1MB
                 </p>
               </div>
             </div>

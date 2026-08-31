@@ -10,18 +10,15 @@ import {
   updateUserRole,
   updateUserStatus,
 } from "../../api/users.api";
+
 import { Search } from "lucide-react";
+import { toast } from "react-toastify";
 
 
 const Users = () => {
   const [users, setUsers] = useState([]);
 
   const [loading, setLoading] = useState(true);
-
-  const [error, setError] = useState("");
-  const [userError, setUserError] = useState("");
-
-  const [success, setSuccess] = useState("");
 
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("all");
@@ -36,7 +33,6 @@ const Users = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      setUserError("");
 
       const response = await getAllUsers();
 
@@ -46,7 +42,7 @@ const Users = () => {
     } catch (error) {
       console.error(error);
 
-      setUserError(error.response?.data?.message || "Failed to fetch users.");
+      toast.error(error.response?.data?.message || "Failed to fetch users.");
     } finally {
       setLoading(false);
     }
@@ -61,7 +57,6 @@ const Users = () => {
   const handleViewUser = async (userId) => {
     try {
       setViewLoading(true);
-      setError("");
 
       const response = await getUserById(userId);
 
@@ -69,7 +64,7 @@ const Users = () => {
     } catch (error) {
       console.error(error);
 
-      setError(
+      toast.error(
         error.response?.data?.message || "Failed to fetch user details.",
       );
     } finally {
@@ -81,8 +76,6 @@ const Users = () => {
   const handleChangeRole = async (userId, role) => {
     try {
       setActionId(userId);
-      setError("");
-      setSuccess("");
 
       await updateUserRole(userId, role);
 
@@ -98,15 +91,12 @@ const Users = () => {
         setSelectedUser(userResponse.data);
       }
 
-      setSuccess("User role updated successfully.");
+      toast.success("User role updated successfully.");
 
-      setTimeout(() => {
-        setSuccess("");
-      }, 2500);
     } catch (error) {
       console.error(error);
 
-      setError(error.response?.data?.message || "Failed to update user role.");
+      toast.error(error.response?.data?.message || "Failed to update user role.");
     } finally {
       setActionId(null);
     }
@@ -116,8 +106,6 @@ const Users = () => {
   const handleStatusChange = async (userId, currentStatus) => {
     try {
       setActionId(userId);
-      setError("");
-      setSuccess("");
 
       await updateUserStatus(userId, !currentStatus);
 
@@ -133,17 +121,14 @@ const Users = () => {
         setSelectedUser(userResponse.data);
       }
 
-      setSuccess(
+      toast.success(
         `User ${!currentStatus ? "activated" : "deactivated"} successfully.`,
       );
 
-      setTimeout(() => {
-        setSuccess("");
-      }, 2500);
     } catch (error) {
       console.error(error);
 
-      setError(
+      toast.error(
         error.response?.data?.message || "Failed to update user status.",
       );
     } finally {
@@ -185,6 +170,7 @@ const Users = () => {
   const inactiveUsers = users.filter((user) => !user.isActive).length;
   const adminUsers = users.filter((user) => user.role === "admin").length;
 
+
   return (
     <div className="space-y-6">
 
@@ -204,35 +190,6 @@ const Users = () => {
         </div>
       </div>
       )}
-
-      {/* Success Message */}
-      {success && (
-        <div
-          className="rounded-lg border border-green-500/20 bg-green-500/10
-                     px-4 py-3 text-sm text-green-400"
-        >
-          {success}
-        </div>
-      )}
-
-
-      {/* Error Message */}
-      {error && (
-        <div
-          className="flex items-center justify-between rounded-lg border border-red-500/20
-                     bg-red-500/10 px-4 py-3 text-sm text-red-400"
-        >
-          <span>{error}</span>
-
-          <button
-            onClick={() => setError("")}
-            className="ml-4 text-lg hover:text-red-300"
-          >
-            ×
-          </button>
-        </div>
-      )}
-
 
       {/* Statistics */}
       {loading ? (
@@ -328,7 +285,6 @@ const Users = () => {
 
 
       {/* Users Table */}
-      {userError && <div className="text-sm text-red-600">{userError}</div>}
 
       <div className="overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
         <div className="overflow-x-auto">

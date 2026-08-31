@@ -10,10 +10,8 @@ const TableModal = ({ isOpen, onClose, onSubmit, editingTable, saving }) => {
     isActive: true,
   });
 
-  // ==========================================
-  // SET FORM DATA
-  // ==========================================
 
+  // SET FORM DATA
   useEffect(() => {
     if (editingTable) {
       setFormData({
@@ -32,10 +30,8 @@ const TableModal = ({ isOpen, onClose, onSubmit, editingTable, saving }) => {
     }
   }, [editingTable, isOpen]);
 
-  // ==========================================
+  
   // INPUT CHANGE
-  // ==========================================
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -45,10 +41,8 @@ const TableModal = ({ isOpen, onClose, onSubmit, editingTable, saving }) => {
     }));
   };
 
-  // ==========================================
-  // SUBMIT
-  // ==========================================
 
+  // SUBMIT
   const handleSubmit = (e) => {
     e.preventDefault();
 

@@ -13,10 +13,8 @@ const OrderCard = ({
 }) => {
   return (
     <div className="overflow-hidden rounded-xl border border-gray-800 bg-gray-900 shadow-sm transition hover:-translate-y-1 hover:border-gray-700 hover:shadow-lg">
-      {/* ========================================
-          CARD HEADER
-      ======================================== */}
-
+      
+          {/* CARD HEADER */}
       <div className="border-b border-gray-800 p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
@@ -30,7 +28,6 @@ const OrderCard = ({
           </div>
 
           {/* ORDER STATUS */}
-
           <span
             className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium capitalize ${getStatusClass(
               order.status,
@@ -43,13 +40,11 @@ const OrderCard = ({
         </div>
       </div>
 
-      {/* ========================================
-          CARD BODY
-      ======================================== */}
 
+          {/* CARD BODY */}
       <div className="space-y-4 p-5">
+        
         {/* CUSTOMER */}
-
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-500">Customer</span>
 
@@ -59,7 +54,6 @@ const OrderCard = ({
         </div>
 
         {/* TABLE */}
-
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-500">Table</span>
 
@@ -69,7 +63,6 @@ const OrderCard = ({
         </div>
 
         {/* TOTAL */}
-
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-500">Total Amount</span>
 
@@ -79,7 +72,6 @@ const OrderCard = ({
         </div>
 
         {/* ORDER DATE */}
-
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-500">Ordered</span>
 
