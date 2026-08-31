@@ -26,14 +26,10 @@ const AdminDashboard = () => {
 
   const [loading, setLoading] = useState(true);
 
-  // const [error, setError] = useState("");
-
   // FETCH DASHBOARD
-
   const fetchDashboard = async ( showToast=false ) => {
     try {
       setLoading(true);
-      // setError("");
 
       const response = await getAdminDashboard();
 
@@ -99,27 +95,6 @@ const AdminDashboard = () => {
     );
   }
 
-  // ERROR
-  // if (error) {
-  //   return (
-  //     <div className="space-y-6">
-  //       <Header title="Admin Dashboard" value="Hotel management overview." />
-
-  //       <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-5 text-red-400">
-  //         <p>{error}</p>
-
-  //         <button
-  //           onClick={fetchDashboard}
-  //           className="mt-4 flex items-center gap-2 rounded-lg bg-red-500/10 px-4 py-2 text-sm font-medium hover:bg-red-500/20"
-  //         >
-  //           <RefreshCw size={16} />
-  //           Try Again
-  //         </button>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   const statistics = dashboard?.statistics || {};
 
   const orders = dashboard?.orders || {};
@@ -144,13 +119,6 @@ const AdminDashboard = () => {
           }
         />
       </div>
-
-      {/* ERROR */}
-      {/* {error && (
-        <div className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-          <p>{error}</p>
-        </div>
-      )} */}
 
       {/* STATISTICS */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 xl:grid-cols-3">

@@ -31,6 +31,7 @@ const Settings = () => {
     confirmPassword: "",
   });
 
+  
   // Load user data
   useEffect(() => {
     if (user) {
