@@ -158,7 +158,7 @@ const OrderCard = ({
                 <button
                   onClick={() => handleKitchenStatus(order, "accepted")}
                   disabled={actionId === order._id}
-                  className="flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex items-center cursor-pointer justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <CheckCircle size={16} />
                   {actionId === order._id ? "Processing..." : "Accept"}
@@ -170,7 +170,7 @@ const OrderCard = ({
                 <button
                   onClick={() => handleKitchenStatus(order, "preparing")}
                   disabled={actionId === order._id}
-                  className="flex items-center justify-center gap-2 rounded-lg bg-orange-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex items-center cursor-pointer justify-center gap-2 rounded-lg bg-orange-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <ChefHat size={16} />
 
@@ -183,7 +183,7 @@ const OrderCard = ({
                 <button
                   onClick={() => handleKitchenStatus(order, "ready")}
                   disabled={actionId === order._id}
-                  className="flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex items-center cursor-pointer justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <CheckCircle size={16} />
 
@@ -231,7 +231,7 @@ const OrderCard = ({
                   <button
                     onClick={() => handleWaiterStatus(order, "accepted")}
                     disabled={actionId === order._id}
-                    className="flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex items-center cursor-pointer justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <CheckCircle size={16} />
 
@@ -244,7 +244,7 @@ const OrderCard = ({
                 <button
                   onClick={() => handleWaiterStatus(order, "served")}
                   disabled={actionId === order._id}
-                  className="flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex items-center cursor-pointer justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <CheckCircle size={16} />
 

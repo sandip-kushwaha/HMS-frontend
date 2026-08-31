@@ -432,7 +432,7 @@ const Orders = () => {
           <select
             value={kitchenFilter}
             onChange={(e) => setKitchenFilter(e.target.value)}
-            className="rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-sm capitalize text-white outline-none focus:border-blue-500"
+            className="rounded-lg border cursor-pointer border-gray-700 bg-gray-800 px-4 py-3 text-sm capitalize text-white outline-none focus:border-blue-500"
           >
             <option value="all">All Kitchen Status</option>
             <option value="pending">Pending</option>

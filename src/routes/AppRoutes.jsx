@@ -14,6 +14,7 @@ import Food from "../pages/food/Food";
 import Tables from "../pages/table/Table";
 import Sessions from "../pages/session/Session";
 import Orders from "../pages/order/Orders";
+import KitchenDashboard from "../pages/kitchen/KitchenDashboard";
 
 
 const AppRoutes = () => {
@@ -47,9 +48,7 @@ const AppRoutes = () => {
           <Route element={<DashboardLayout />}>
             <Route
               path="/kitchen"
-              element={
-                <h1 className="text-2xl font-bold">Kitchen Dashboard</h1>
-              }
+              element={<KitchenDashboard/>}
             />
             <Route path="/kitchen/orders" element={<Orders />} />
             <Route path="/kitchen/settings" element={<Settings />} />

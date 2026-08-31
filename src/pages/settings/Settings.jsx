@@ -31,7 +31,7 @@ const Settings = () => {
     confirmPassword: "",
   });
 
-  
+
   // Load user data
   useEffect(() => {
     if (user) {
@@ -344,7 +344,7 @@ const Settings = () => {
           <div className="mt-6 border-t border-gray-800 pt-6">
             <button
               onClick={openProfileModal}
-              className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
+              className="rounded-lg cursor-pointer bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
             >
               Edit Profile
             </button>
@@ -353,7 +353,6 @@ const Settings = () => {
       </div>
 
       {/* ================= SECURITY CARD ================= */}
-
       <div className="overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
         {/* Header */}
 
@@ -385,7 +384,7 @@ const Settings = () => {
 
           <button
             onClick={openPasswordModal}
-            className="shrink-0 rounded-lg bg-gray-800 px-5 py-3 text-sm font-semibold text-gray-300 transition hover:bg-gray-700 hover:text-white"
+            className="shrink-0 rounded-lg cursor-pointer bg-gray-800 px-5 py-3 text-sm font-semibold text-gray-300 transition hover:bg-gray-700 hover:text-white"
           >
             Change Password
           </button>
@@ -415,7 +414,7 @@ const Settings = () => {
               <button
                 onClick={closeProfileModal}
                 disabled={profileLoading}
-                className="w-9 h-9 rounded-lg flex items-center justify-center cursor-pointer
+                className="w-9 h-9 rounded-lg  flex items-center justify-center cursor-pointer
                        text-gray-400 hover:text-white hover:bg-gray-800
                        transition"
               >
@@ -474,7 +473,7 @@ const Settings = () => {
                   type="button"
                   onClick={closeProfileModal}
                   disabled={profileLoading}
-                  className="rounded-lg border border-gray-700 bg-gray-800 px-5 py-2.5 text-sm font-medium text-gray-300 transition hover:bg-gray-700 hover:text-white disabled:opacity-50"
+                  className="rounded-lg border cursor-pointer border-gray-700 bg-gray-800 px-5 py-2.5 text-sm font-medium text-gray-300 transition hover:bg-gray-700 hover:text-white disabled:opacity-50"
                 >
                   Cancel
                 </button>
@@ -482,7 +481,7 @@ const Settings = () => {
                 <button
                   type="submit"
                   disabled={profileLoading}
-                  className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"
+                  className="rounded-lg cursor-pointer bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"
                 >
                   {profileLoading ? "Updating..." : "Update Profile"}
                 </button>
@@ -579,7 +578,7 @@ const Settings = () => {
                   type="button"
                   onClick={closePasswordModal}
                   disabled={passwordLoading}
-                  className="rounded-lg border border-gray-700 bg-gray-800 px-5 py-2.5 text-sm font-medium text-gray-300 transition hover:bg-gray-700 hover:text-white disabled:opacity-50"
+                  className="rounded-lg border cursor-pointer border-gray-700 bg-gray-800 px-5 py-2.5 text-sm font-medium text-gray-300 transition hover:bg-gray-700 hover:text-white disabled:opacity-50"
                 >
                   Cancel
                 </button>
@@ -587,7 +586,7 @@ const Settings = () => {
                 <button
                   type="submit"
                   disabled={passwordLoading}
-                  className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"
+                  className="rounded-lg cursor-pointer bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"
                 >
                   {passwordLoading ? "Changing..." : "Change Password"}
                 </button>
