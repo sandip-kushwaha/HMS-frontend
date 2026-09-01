@@ -15,8 +15,8 @@ const OrderCard = ({
     <div className="overflow-hidden rounded-xl border border-gray-800 bg-gray-900 shadow-sm transition hover:-translate-y-1 hover:border-gray-700 hover:shadow-lg">
       
           {/* CARD HEADER */}
-      <div className="border-b border-gray-800 p-5">
-        <div className="flex items-start justify-between gap-3">
+      <div className="border-b border-gray-800 p-4">
+        <div className="flex items-start justify-between gap-7">
           <div className="min-w-0">
             <h2 className="text-lg font-bold text-white">
               {order.orderNumber}
@@ -42,7 +42,7 @@ const OrderCard = ({
 
 
           {/* CARD BODY */}
-      <div className="space-y-4 p-5">
+      <div className="space-y-2 p-4">
         
         {/* CUSTOMER */}
         <div className="flex items-center justify-between">
@@ -199,6 +199,15 @@ const OrderCard = ({
               )}
             </div>
           </div>
+        )}
+
+        {user?.role === "kitchen" && (
+        <button
+          onClick={() => onViewDetails(order)}
+          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-gray-700 bg-gray-800 px-4 py-2.5 text-sm font-medium text-gray-300 transition hover:border-blue-500/30 hover:bg-blue-500/10 hover:text-blue-400"
+        >
+          View Details
+        </button>
         )}
 
 

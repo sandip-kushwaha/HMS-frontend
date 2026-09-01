@@ -88,7 +88,7 @@ const TableModal = ({ isOpen, onClose, onSubmit, editingTable, saving }) => {
 
         {/* ================= FORM ================= */}
 
-        <form onSubmit={handleSubmit} className="space-y-5 p-6">
+        <form onSubmit={handleSubmit} className="space-y-4 p-6">
           {/* Table Number */}
 
           <div>

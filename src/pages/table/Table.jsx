@@ -547,7 +547,7 @@ const Tables = () => {
               </div>
 
               {/* CARD BODY */}
-              <div className="space-y-4 p-5">
+              <div className="space-y-3 p-5">
                 {/* QR CODE */}
                 <div className="rounded-lg border border-gray-800 bg-gray-800/50 p-4">
                   <div className="mb-3 flex items-center justify-between">
