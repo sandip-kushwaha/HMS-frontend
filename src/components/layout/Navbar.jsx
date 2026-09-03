@@ -1,7 +1,7 @@
 import { useAuth } from "../../context/AuthContext";
 import { useEffect, useState } from "react";
 
-import { Clock3, CalendarDays, UserRound } from "lucide-react";
+import { Clock3, CalendarDays, UserRound, Bell } from "lucide-react";
 
 const Navbar = () => {
   const { user } = useAuth();
@@ -81,6 +81,17 @@ const Navbar = () => {
 
       {/* USER */}
       <div className="flex items-center gap-3 sm:gap-4">
+
+         {/* Notification */}
+        <button
+          className="relative rounded-lg p-2.5 text-gray-400 transition
+            hover:bg-gray-800 hover:text-white"
+        >
+          <Bell size={20} />
+          <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500"/>
+        </button>
+
+
         {/* User Information */}
         <div className="hidden text-right sm:block">
           <p className="max-w-32 truncate text-sm font-semibold text-white lg:max-w-none">

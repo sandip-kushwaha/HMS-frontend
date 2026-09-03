@@ -19,8 +19,12 @@ import { getAdminDashboard } from "../../api/dashboard.api";
 import Header from "../../components/common/Header";
 import Button from "../../components/common/Button";
 import { toast } from "react-toastify";
+import { useAuth } from "../../context/AuthContext";
 
 const AdminDashboard = () => {
+
+  const { user } = useAuth();
+
   const [dashboard, setDashboard] = useState(null);
 
   const [loading, setLoading] = useState(true);
@@ -105,7 +109,7 @@ const AdminDashboard = () => {
     <div className="space-y-6">
       {/* HEADER */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <Header title="Admin Dashboard" value="Hotel management overview." />
+        <Header title="Admin Dashboard" value={`Welcome back, ${user?.fullName || "Admin"}.`}/>
 
         <Button
           onClick={fetchDashboard}

@@ -1,11 +1,11 @@
-import { Routes, Route, Router } from "react-router-dom";
+import { Routes, Route, } from "react-router-dom";
 
 import ProtectedRoute from "./ProtectedRoute";
 import RoleRoute from "./RoleRoutes";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 
-import DashboardLayout from "../components/common/DashboardLayout";
+import DashboardLayout from "../components/layout/DashboardLayout";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import Settings from "../pages/settings/Settings";
 import Users from "../pages/users/Users";
@@ -15,6 +15,7 @@ import Tables from "../pages/table/Table";
 import Sessions from "../pages/session/Session";
 import Orders from "../pages/order/Orders";
 import KitchenDashboard from "../pages/kitchen/KitchenDashboard";
+import WaiterDashboard from "../pages/waiter/WaiterDashboard";
 
 
 const AppRoutes = () => {
@@ -58,10 +59,7 @@ const AppRoutes = () => {
         {/* ================= WAITER ================= */}
         <Route element={<RoleRoute allowedRoles={["admin", "waiter"]} />}>
           <Route element={<DashboardLayout />}>
-            <Route
-              path="/waiter"
-              element={<h1 className="text-2xl font-bold">Waiter Dashboard</h1>}
-            />
+            <Route path="/waiter" element={<WaiterDashboard />}/>
             <Route path="/waiter/tables" element={<Tables />} />
             <Route path="/waiter/orders" element={<Orders/>} />
             <Route path="/waiter/sessions" element={<Sessions/>} />

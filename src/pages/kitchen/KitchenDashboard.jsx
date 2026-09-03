@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import StatCard from "../../components/common/StatCard";
 
 import {
   ShoppingCart,
@@ -16,9 +17,13 @@ import Button from "../../components/common/Button";
 
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { NavLink } from "react-router-dom";
 
 const KitchenDashboard = () => {
   const navigate = useNavigate();
+
+  const { user } = useAuth();
 
   // STATE
   const [orders, setOrders] = useState([]);
@@ -191,7 +196,7 @@ const KitchenDashboard = () => {
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <Header
           title="Kitchen Dashboard"
-          value="Monitor and manage kitchen orders."
+         value={`Welcome back, ${user?.fullName || "Kitchen"}.`}
         />
 
         <Button
@@ -390,44 +395,17 @@ const KitchenDashboard = () => {
         )}
       </div>
 
+         {/* QUICK ACTIONS */}
+      <div>
+        <h2 className="mb-4 text-lg font-semibold text-white">Quick Actions</h2>
 
-          {/* FOOTER */}
-      <div className="flex items-center justify-between text-sm text-gray-500">
-        <span>Showing {recentOrders.length} recent orders</span>
-
-        <button
-          onClick={() => navigate("/kitchen/orders")}
-          className="flex cursor-pointer items-center gap-2 font-medium text-blue-400 hover:text-blue-300"
-        >
-          Manage Orders
-          <ArrowRight size={15} />
-        </button>
-      </div>
-    </div>
-  );
-};
-
-// STAT CARD
-const StatCard = ({
-  title,
-  value,
-  icon,
-  iconClass,
-  valueClass = "text-white",
-}) => {
-  return (
-    <div className="rounded-xl border border-gray-800 bg-gray-900 p-5 transition hover:border-gray-700">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm text-gray-400">{title}</p>
-
-          <p className={`mt-2 text-2xl font-bold ${valueClass}`}>{value}</p>
-        </div>
-
-        <div
-          className={`flex h-11 w-11 items-center justify-center rounded-xl ${iconClass}`}
-        >
-          {icon}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <QuickAction
+            to="/kitchen/orders"
+            icon={<ShoppingCart size={21} />}
+            title="Manage Orders"
+            description="View and serve customer orders."
+          />
         </div>
       </div>
     </div>
@@ -448,6 +426,31 @@ const WorkflowCard = ({ title, value, icon, className }) => {
         {icon}
       </div>
     </div>
+  );
+};
+
+// QUICK ACTION
+const QuickAction = ({ to, icon, title, description }) => {
+  return (
+    <NavLink
+      to={to}
+      className="group rounded-xl border border-gray-800 bg-gray-900 p-5 transition hover:-translate-y-1 hover:border-gray-700 hover:shadow-lg"
+    >
+      <div className="flex items-start justify-between">
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400">
+          {icon}
+        </div>
+
+        <ArrowRight
+          size={18}
+          className="text-gray-700 transition group-hover:translate-x-1 group-hover:text-blue-400"
+        />
+      </div>
+
+      <h3 className="mt-4 font-semibold text-white">{title}</h3>
+
+      <p className="mt-1 text-sm text-gray-500">{description}</p>
+    </NavLink>
   );
 };
 

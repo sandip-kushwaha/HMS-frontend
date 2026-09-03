@@ -1,22 +1,20 @@
 import axios from "axios";
 
-const  api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
-    //Send cookies along with requests to my backend.(cross-origin requests)
-    withCredentials: true,
-    //send JSON data by default
-    headers:{
-        "Content-Type": "application/json",
-    },
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  // Send cookies with requests
+  withCredentials: true,
+  // JSON by default
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-//---Request Interceptor
-// When sending FormData (e.g. file uploads), the hardcoded JSON
-// Content-Type above would otherwise stop axios/browser from setting
-// the correct "multipart/form-data; boundary=..." header, which breaks
-// multer parsing on the backend (req.file stays undefined). So we strip
-// it here and let the browser set it automatically for FormData requests.
+
+// REQUEST INTERCEPTOR
 api.interceptors.request.use((config) => {
+  // If sending FormData/image
+  // let browser set multipart/form-data automatically
   if (config.data instanceof FormData) {
     delete config.headers["Content-Type"];
   }
@@ -24,86 +22,86 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-//---Axios Interceptor
-let isRefreshing = false;
 
+// RESPONSE INTERCEPTOR
+
+let isRefreshing = false;
 let failedQueue = [];
 
-//Process the waiting requests
-const processQueue = (error) => {
+// Release waiting requests
+const processQueue = (error = null) => {
   failedQueue.forEach((promise) => {
     if (error) {
       promise.reject(error);
     } else {
       promise.resolve();
     }
-  });
+  }); 
 
   failedQueue = [];
 };
 
 api.interceptors.response.use(
-    //success response
+  
+  // SUCCESS
   (response) => {
     return response;
   },
-//Error response
+
+  // ERROR
   async (error) => {
     const originalRequest = error.config;
 
-    // Access token expired
-    // Only handle 401
+    // Only handle expired authentication
     if (
       error.response?.status === 401 &&
-      !originalRequest._retry &&
-      !originalRequest.url.includes("/auth/refresh-token")
+      !originalRequest?._retry &&
+      !originalRequest?.url?.includes("/auth/refresh-token")
     ) {
-
       originalRequest._retry = true;
 
-      // If another refresh request is already running
+      
+      // REFRESH ALREADY RUNNING
       if (isRefreshing) {
-        //wait the request
         return new Promise((resolve, reject) => {
           failedQueue.push({
             resolve,
             reject,
           });
-
         }).then(() => {
+          // Refresh completed
+          // Retry original request
           return api(originalRequest);
         });
       }
 
 
+      // START REFRESH
       isRefreshing = true;
 
       try {
-        // Refresh token cookie automatically sent
+        // Refresh token cookie is
+        // automatically sent
         await api.post("/auth/refresh-token");
 
-        //Refresh successful
-        //Release waiting requests 
-        processQueue(null);
+        // Refresh successful
+        processQueue();
 
         // Retry original request
         return api(originalRequest);
-
       } catch (refreshError) {
-       // Refresh failed
+        // Refresh failed
         processQueue(refreshError);
 
-      return Promise.reject(refreshError);
+        return Promise.reject(refreshError);
 
       } finally {
         isRefreshing = false;
       }
     }
-
+    // Other errors
     return Promise.reject(error);
-
-  }
+  },
 );
-
 
 export default api;
