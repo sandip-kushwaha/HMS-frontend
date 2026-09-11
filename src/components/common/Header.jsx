@@ -1,5 +1,5 @@
 
-export const Header = ({title, value}) => {
+ const Header = ({title, value}) => {
   return (
 
         <div>

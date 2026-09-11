@@ -208,6 +208,7 @@ const Category = () => {
     });
   }, [categories, search, statusFilter]);
 
+  
   //-----UI-----
   return (
     <div className="space-y-6">
