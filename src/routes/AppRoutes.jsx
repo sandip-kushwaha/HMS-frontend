@@ -16,6 +16,7 @@ import Sessions from "../pages/session/Session";
 import Orders from "../pages/order/Orders";
 import KitchenDashboard from "../pages/kitchen/KitchenDashboard";
 import WaiterDashboard from "../pages/waiter/WaiterDashboard";
+import NotFound from "../pages/notfound/NotFound";
 
 
 const AppRoutes = () => {
@@ -27,6 +28,8 @@ const AppRoutes = () => {
       <Route path="/register" element={<Register />} />
 
       <Route path="/unauthorized" element={<h1>Unauthorized</h1>} />
+
+      <Route path="*" element={<NotFound />} />
 
       {/* ================= PROTECTED ================= */}
       <Route element={<ProtectedRoute />}>
