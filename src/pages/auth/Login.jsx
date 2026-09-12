@@ -2,12 +2,14 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useState } from "react";
-import { AtSign, UserKey } from "lucide-react";
+import { AtSign, Eye, EyeOff, UserKey } from "lucide-react";
 
 const Login = () => {
   const navigate = useNavigate();
 
   const { login } = useAuth();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -41,10 +43,7 @@ const Login = () => {
     try {
       setLoading(true);
 
-      const response = await login(
-        formData.email,
-        formData.password
-      );
+      const response = await login(formData.email, formData.password);
 
       const user = response.data.user;
 
@@ -60,9 +59,7 @@ const Login = () => {
       }
     } catch (error) {
       setError(
-        error.response?.data?.message ||
-          error.message ||
-          "Login failed"
+        error.response?.data?.message || error.message || "Login failed",
       );
     } finally {
       setLoading(false);
@@ -71,7 +68,6 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-gray-950 flex items-center justify-center px-4">
-
       {/* Background Decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-blue-600/10 blur-3xl" />
@@ -80,25 +76,19 @@ const Login = () => {
 
       {/* Login Card */}
       <div className="relative w-full max-w-md">
-
         <div className="overflow-hidden rounded-2xl border border-gray-800 bg-gray-900 shadow-2xl">
-
           {/* Header */}
           <div className="border-b border-gray-800 px-6 py-7 text-center">
-
             {/* Logo */}
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-500/10 text-3xl">
               🏨
             </div>
 
-            <h1 className="mt-5 text-3xl font-bold text-white">
-              Welcome Back
-            </h1>
+            <h1 className="mt-5 text-3xl font-bold text-white">Welcome Back</h1>
 
             <p className="mt-2 text-sm text-gray-400">
               Sign in to your account to continue
             </p>
-
           </div>
 
           {/* Form */}
@@ -106,21 +96,14 @@ const Login = () => {
             {/* Error */}
             {error && (
               <div className="mb-5 flex items-start gap-3 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+                <span className="text-base">⚠</span>
 
-                <span className="text-base">
-                  ⚠
-                </span>
-
-                <p>
-                  {error}
-                </p>
-
+                <p>{error}</p>
               </div>
             )}
 
             {/* Email */}
             <div className="mb-5">
-
               <label
                 htmlFor="email"
                 className="mb-2 block text-sm font-medium text-gray-300"
@@ -129,9 +112,8 @@ const Login = () => {
               </label>
 
               <div className="relative">
-
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
-                  <AtSign size={18}/>
+                  <AtSign size={18} />
                 </span>
 
                 <input
@@ -144,14 +126,11 @@ const Login = () => {
                   placeholder="Enter your email"
                   disabled={loading}
                 />
-
               </div>
-
             </div>
 
             {/* Password */}
             <div className="mb-6">
-
               <label
                 htmlFor="password"
                 className="mb-2 block text-sm font-medium text-gray-300"
@@ -160,24 +139,30 @@ const Login = () => {
               </label>
 
               <div className="relative">
-
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
-                  <UserKey size={20}/>
+                  <UserKey size={20} />
                 </span>
 
                 <input
                   id="password"
                   className="w-full rounded-lg border border-gray-700 bg-gray-800 py-3 pl-11 pr-4 text-m text-white outline-none transition placeholder:text-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Enter your password"
                   disabled={loading}
                 />
-
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  disabled={loading}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 transition hover:text-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
+                </button>
               </div>
-
             </div>
 
             {/* Login Button */}
@@ -188,32 +173,21 @@ const Login = () => {
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
-
                   <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-
                   Logging in...
-
                 </span>
               ) : (
                 "Login"
               )}
             </button>
-
           </form>
 
           {/* Footer */}
           <div className="border-t border-gray-800 px-6 py-4 text-center">
-
-            <p className="text-xs text-gray-500">
-              Secure staff login
-            </p>
-
+            <p className="text-xs text-gray-500">Secure staff login</p>
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
 };
