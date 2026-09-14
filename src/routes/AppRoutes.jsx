@@ -16,13 +16,18 @@ import Sessions from "../pages/session/Session";
 import Orders from "../pages/order/Orders";
 import KitchenDashboard from "../pages/kitchen/KitchenDashboard";
 import WaiterDashboard from "../pages/waiter/WaiterDashboard";
+
 import NotFound from "../pages/notfound/NotFound";
 
+import Home from "../pages/customer/Home";
 
 const AppRoutes = () => {
   return (
     <Routes>
       {/* Public */}
+  
+      <Route path="/" element={<Home />} />
+
       <Route path="/login" element={<Login />} />
 
       <Route path="/register" element={<Register />} />
