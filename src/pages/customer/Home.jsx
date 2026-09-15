@@ -28,9 +28,7 @@ const Home = () => {
 
   const [error, setError] = useState("");
 
-  // ==========================================
   // Fetch Foods
-  // ==========================================
   const fetchFoods = async () => {
     try {
       const response = await getAllFood();
@@ -46,9 +44,7 @@ const Home = () => {
     }
   };
 
-  // ==========================================
   // Fetch Categories
-  // ==========================================
   const fetchCategories = async () => {
     try {
       const response = await getAllCategories();
@@ -67,26 +63,17 @@ const Home = () => {
     }
   };
 
-  // ==========================================
-  // Initial API Calls
-  // ==========================================
   useEffect(() => {
     fetchFoods();
     fetchCategories();
   }, []);
 
-  // ==========================================
   // Available Foods
-  // ==========================================
   const availableFoods = useMemo(() => {
-    return foods.filter(
-      (food) => food?.isActive && food?.isAvailable
-    );
+    return foods.filter((food) => food?.isActive && food?.isAvailable);
   }, [foods]);
 
-  // ==========================================
   // Filter Foods By Category
-  // ==========================================
   const filteredFoods = useMemo(() => {
     if (selectedCategory === "all") {
       return availableFoods;
@@ -102,17 +89,13 @@ const Home = () => {
     });
   }, [availableFoods, selectedCategory]);
 
-  // ==========================================
   // Featured Foods
-  // ==========================================
   const displayFoods = useMemo(() => {
     if (selectedCategory !== "all") {
       return filteredFoods.slice(0, 8);
     }
 
-    const featuredFoods = filteredFoods.filter(
-      (food) => food?.isFeatured
-    );
+    const featuredFoods = filteredFoods.filter((food) => food?.isFeatured);
 
     if (featuredFoods.length > 0) {
       return featuredFoods.slice(0, 8);
@@ -121,31 +104,23 @@ const Home = () => {
     return filteredFoods.slice(0, 8);
   }, [filteredFoods, selectedCategory]);
 
-  // ==========================================
   // Hero Food
-  // ==========================================
   const heroFood =
-    availableFoods.find((food) => food?.isFeatured) ||
-    availableFoods[0];
+    availableFoods.find((food) => food?.isFeatured) || availableFoods[0];
 
-  // ==========================================
   // Format Price
-  // ==========================================
   const formatPrice = (price) => {
     return `Rs. ${Number(price || 0).toLocaleString()}`;
   };
 
-  // ==========================================
   // Get Category Name
-  // ==========================================
   const getCategoryName = (food) => {
     if (typeof food?.category === "object") {
       return food?.category?.name || "Food";
     }
 
     const category = categories.find(
-      (item) =>
-        item?._id?.toString() === food?.category?.toString()
+      (item) => item?._id?.toString() === food?.category?.toString(),
     );
 
     return category?.name || "Food";
@@ -174,8 +149,7 @@ const Home = () => {
               </h2>
 
               <p className="mt-3 max-w-2xl text-gray-500 dark:text-gray-400">
-                Browse our menu and find something delicious for
-                your next meal.
+                Browse our menu and find something delicious for your next meal.
               </p>
             </div>
 
@@ -196,10 +170,7 @@ const Home = () => {
               </h3>
 
               {categoryLoading && (
-                <Loader2
-                  size={17}
-                  className="animate-spin text-blue-500"
-                />
+                <Loader2 size={17} className="animate-spin text-blue-500" />
               )}
             </div>
 
@@ -222,12 +193,9 @@ const Home = () => {
                 <button
                   key={category._id}
                   type="button"
-                  onClick={() =>
-                    setSelectedCategory(category._id)
-                  }
+                  onClick={() => setSelectedCategory(category._id)}
                   className={`flex shrink-0 items-center gap-2 rounded-xl border px-5 py-3 text-sm font-semibold transition ${
-                    selectedCategory?.toString() ===
-                    category?._id?.toString()
+                    selectedCategory?.toString() === category?._id?.toString()
                       ? "border-blue-500 bg-blue-500 text-white shadow-md shadow-blue-500/20"
                       : "border-gray-200 bg-gray-50 text-gray-700 hover:border-blue-300 hover:text-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-blue-500"
                   }`}
@@ -251,10 +219,7 @@ const Home = () => {
             {loading ? (
               <div className="flex min-h-75 items-center justify-center">
                 <div className="flex flex-col items-center gap-3">
-                  <Loader2
-                    size={40}
-                    className="animate-spin text-blue-500"
-                  />
+                  <Loader2 size={40} className="animate-spin text-blue-500" />
 
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     Loading delicious food...
@@ -289,7 +254,7 @@ const Home = () => {
                         : categories.find(
                             (category) =>
                               category?._id?.toString() ===
-                              selectedCategory?.toString()
+                              selectedCategory?.toString(),
                           )?.name || "Food"}
                     </h3>
 
@@ -323,10 +288,7 @@ const Home = () => {
                         {/* Featured Badge */}
                         {food.isFeatured && (
                           <div className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-blue-500 px-2.5 py-1 text-xs font-bold text-white shadow-md">
-                            <Star
-                              size={12}
-                              fill="currentColor"
-                            />
+                            <Star size={12} fill="currentColor" />
                             Featured
                           </div>
                         )}
@@ -334,10 +296,7 @@ const Home = () => {
                         {/* Veg Badge */}
                         {food.isVeg && (
                           <div className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full bg-white shadow-md dark:bg-gray-900">
-                            <Leaf
-                              size={15}
-                              className="text-green-500"
-                            />
+                            <Leaf size={15} className="text-green-500" />
                           </div>
                         )}
                       </div>
@@ -412,15 +371,10 @@ const Home = () => {
               /* Empty State */
               <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50 px-6 py-16 text-center dark:border-gray-700 dark:bg-gray-950">
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-500/10">
-                  <ShoppingCart
-                    size={28}
-                    className="text-blue-500"
-                  />
+                  <ShoppingCart size={28} className="text-blue-500" />
                 </div>
 
-                <h3 className="mt-5 text-xl font-bold">
-                  No Food Found
-                </h3>
+                <h3 className="mt-5 text-xl font-bold">No Food Found</h3>
 
                 <p className="mx-auto mt-2 max-w-md text-sm text-gray-500 dark:text-gray-400">
                   {selectedCategory === "all"

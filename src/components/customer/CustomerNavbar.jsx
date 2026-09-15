@@ -33,7 +33,6 @@ const CustomerNavbar = ({ cartCount = 0 }) => {
   return (
     <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur dark:border-gray-800 dark:bg-gray-950/95">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-
         {/* Logo */}
         <NavLink to="/" className="flex items-center gap-2">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white">
@@ -76,7 +75,6 @@ const CustomerNavbar = ({ cartCount = 0 }) => {
 
         {/* Right Side */}
         <div className="flex items-center gap-2">
-
           {/* Cart */}
           <NavLink
             to="/cart"

@@ -1,26 +1,13 @@
-import {
-  MapPin,
-  Phone,
-  Mail,
-  Utensils,
-} from "lucide-react";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaTiktok,
-  FaWhatsapp,
-} from "react-icons/fa";
+import { MapPin, Phone, Mail, Utensils } from "lucide-react";
+import { FaFacebookF, FaInstagram, FaTiktok, FaWhatsapp } from "react-icons/fa";
 
 import { NavLink } from "react-router-dom";
 
 const CustomerFooter = () => {
   return (
     <footer className="border-t border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-950">
-
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
-
           {/* Brand */}
           <div>
             <div className="mb-4 flex items-center gap-2">
@@ -34,20 +21,22 @@ const CustomerFooter = () => {
             </div>
 
             <p className="max-w-xs text-sm leading-6 text-gray-600 dark:text-gray-400">
-              Enjoy delicious food, fast service, and a simple dining
-              experience directly from your table.
+              Enjoy delicious food, fast service, and a simple dining experience
+              directly from your table.
             </p>
 
             {/* Social */}
             <div className="mt-5 flex gap-2">
-              {[FaFacebookF, FaInstagram, FaTiktok, FaWhatsapp].map((Icon, index) => (
-                <button
-                  key={index}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition hover:bg-blue-600 hover:text-white dark:border-gray-800 dark:text-gray-400"
-                >
-                  <Icon size={17} />
-                </button>
-              ))}
+              {[FaFacebookF, FaInstagram, FaTiktok, FaWhatsapp].map(
+                (Icon, index) => (
+                  <button
+                    key={index}
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition hover:bg-blue-600 hover:text-white dark:border-gray-800 dark:text-gray-400"
+                  >
+                    <Icon size={17} />
+                  </button>
+                ),
+              )}
             </div>
           </div>
 
@@ -109,12 +98,9 @@ const CustomerFooter = () => {
             </h3>
 
             <div className="space-y-4 text-sm text-gray-600 dark:text-gray-400">
-
               <div className="flex items-start gap-3">
                 <MapPin size={18} className="mt-0.5 shrink-0 text-blue-500" />
-                <span>
-                  Kathmandu, Nepal
-                </span>
+                <span>Kathmandu, Nepal</span>
               </div>
 
               <div className="flex items-center gap-3">
@@ -126,7 +112,6 @@ const CustomerFooter = () => {
                 <Mail size={18} className="shrink-0 text-blue-500" />
                 <span>support@hotelease.com</span>
               </div>
-
             </div>
           </div>
         </div>
@@ -137,7 +122,6 @@ const CustomerFooter = () => {
             © {new Date().getFullYear()} HotelEase. All rights reserved.
           </p>
         </div>
-
       </div>
     </footer>
   );
