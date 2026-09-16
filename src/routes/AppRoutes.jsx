@@ -20,6 +20,7 @@ import WaiterDashboard from "../pages/waiter/WaiterDashboard";
 import NotFound from "../pages/notfound/NotFound";
 
 import Home from "../pages/customer/Home";
+import Cart from "../pages/customer/Cart";
 
 const AppRoutes = () => {
   return (
@@ -28,6 +29,10 @@ const AppRoutes = () => {
   
       <Route path="/" element={<Home />} />
 
+      <Route path="/cart" element={<Cart />} />
+
+
+       {/* login */}
       <Route path="/login" element={<Login />} />
 
       <Route path="/register" element={<Register />} />

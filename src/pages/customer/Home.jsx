@@ -16,8 +16,13 @@ import { getAllCategories } from "../../api/category.api";
 
 import CustomerNavbar from "../../components/customer/CustomerNavbar";
 import CustomerFooter from "../../components/customer/CustomerFooter";
+import { useCart } from "../../context/CartContext";
 
 const Home = () => {
+
+  const { addToCart } = useCart();
+
+
   const [foods, setFoods] = useState([]);
   const [categories, setCategories] = useState([]);
 
@@ -105,8 +110,7 @@ const Home = () => {
   }, [filteredFoods, selectedCategory]);
 
   // Hero Food
-  const heroFood =
-    availableFoods.find((food) => food?.isFeatured) || availableFoods[0];
+  const heroFood = availableFoods.find((food) => food?.isFeatured) || availableFoods[0];
 
   // Format Price
   const formatPrice = (price) => {
@@ -343,6 +347,7 @@ const Home = () => {
 
                           <button
                             type="button"
+                            onClick={() => addToCart(food)}
                             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-500 text-white transition hover:bg-blue-600"
                             title="Add to cart"
                           >

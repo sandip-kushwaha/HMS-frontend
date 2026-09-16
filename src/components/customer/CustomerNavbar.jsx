@@ -8,8 +8,11 @@ import {
   ClipboardList,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 
 const CustomerNavbar = ({ cartCount = 0 }) => {
+  const { totalItems } = useCart();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
@@ -82,9 +85,9 @@ const CustomerNavbar = ({ cartCount = 0 }) => {
           >
             <ShoppingCart size={21} />
 
-            {cartCount > 0 && (
+            {totalItems > 0 && (
               <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-blue-600 px-1 text-[10px] font-bold text-white">
-                {cartCount > 99 ? "99+" : cartCount}
+                {totalItems > 99 ? "99+" : totalItems}
               </span>
             )}
           </NavLink>
