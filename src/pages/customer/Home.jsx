@@ -19,9 +19,7 @@ import CustomerFooter from "../../components/customer/CustomerFooter";
 import { useCart } from "../../context/CartContext";
 
 const Home = () => {
-
   const { addToCart } = useCart();
-
 
   const [foods, setFoods] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -110,7 +108,8 @@ const Home = () => {
   }, [filteredFoods, selectedCategory]);
 
   // Hero Food
-  const heroFood = availableFoods.find((food) => food?.isFeatured) || availableFoods[0];
+  const heroFood =
+    availableFoods.find((food) => food?.isFeatured) || availableFoods[0];
 
   // Format Price
   const formatPrice = (price) => {

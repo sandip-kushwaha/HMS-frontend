@@ -1,8 +1,12 @@
 import api from "./axios";
 
 //Create Order(Customer)
-export const createOrder = async (orderData) => {
-  const response = await api.post("/order/creates", orderData);
+export const createOrder = async (orderData, sessionToken) => {
+  const response = await api.post("/order/creates", orderData, {
+    headers: {
+      "x-session-token": sessionToken,
+    },
+  });
 
   return response.data;
 };
@@ -58,4 +62,4 @@ export const getAllOrders = async () => {
   const response = await api.get("/order");
 
   return response.data;
-}
+};
