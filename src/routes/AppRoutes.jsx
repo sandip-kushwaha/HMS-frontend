@@ -21,6 +21,7 @@ import NotFound from "../pages/notfound/NotFound";
 
 import Home from "../pages/customer/Home";
 import Cart from "../pages/customer/Cart";
+import Checkout from "../pages/customer/Checkout";
 
 const AppRoutes = () => {
   return (
@@ -28,8 +29,8 @@ const AppRoutes = () => {
       {/* Public */}
   
       <Route path="/" element={<Home />} />
-
       <Route path="/cart" element={<Cart />} />
+      <Route path="/checkout" element={<Checkout />} />
 
 
        {/* login */}
