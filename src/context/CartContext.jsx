@@ -5,7 +5,6 @@ const CartContext = createContext(null);
 const CART_STORAGE_KEY = "hotel_cart";
 
 const CartProvider = ({ children }) => {
-
   const [cartItems, setCartItems] = useState(() => {
     try {
       const savedCart = localStorage.getItem(CART_STORAGE_KEY);
@@ -22,10 +21,8 @@ const CartProvider = ({ children }) => {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
   }, [cartItems]);
 
-  // ==========================================
   // ADD TO CART
   const addToCart = (food, quantity = 1) => {
-
     setCartItems((currentItems) => {
       const existingItem = currentItems.find(
         (item) => item.foodId === food._id,
@@ -55,18 +52,14 @@ const CartProvider = ({ children }) => {
     });
   };
 
-  // ==========================================
   // REMOVE FROM CART
-  // ==========================================
   const removeFromCart = (foodId) => {
     setCartItems((currentItems) =>
       currentItems.filter((item) => item.foodId !== foodId),
     );
   };
 
-  // ==========================================
   // UPDATE QUANTITY
-  // ==========================================
   const updateQuantity = (foodId, quantity) => {
     if (quantity <= 0) {
       removeFromCart(foodId);
@@ -85,11 +78,8 @@ const CartProvider = ({ children }) => {
     );
   };
 
-  // ==========================================
   // INCREASE QUANTITY
-  // ==========================================
   const increaseQuantity = (foodId) => {
-    
     setCartItems((currentItems) =>
       currentItems.map((item) =>
         item.foodId === foodId
@@ -102,9 +92,7 @@ const CartProvider = ({ children }) => {
     );
   };
 
-  // ==========================================
   // DECREASE QUANTITY
-  // ==========================================
   const decreaseQuantity = (foodId) => {
     setCartItems((currentItems) =>
       currentItems
@@ -120,24 +108,18 @@ const CartProvider = ({ children }) => {
     );
   };
 
-  // ==========================================
   // CLEAR CART
-  // ==========================================
   const clearCart = () => {
     setCartItems([]);
   };
 
-  // ==========================================
   // TOTAL ITEMS
-  // ==========================================
   const totalItems = cartItems.reduce(
     (total, item) => total + item.quantity,
     0,
   );
 
-  // ==========================================
   // TOTAL PRICE
-  // ==========================================
   const totalAmount = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0,
