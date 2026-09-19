@@ -95,8 +95,7 @@ const CartProvider = ({ children }) => {
   // DECREASE QUANTITY
   const decreaseQuantity = (foodId) => {
     setCartItems((currentItems) =>
-      currentItems
-        .map((item) =>
+      currentItems.map((item) =>
           item.foodId === foodId
             ? {
                 ...item,

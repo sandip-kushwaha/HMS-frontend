@@ -9,7 +9,7 @@ import {
   ShoppingCart,
   Star,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import { getAllFood } from "../../api/food.api";
 import { getAllCategories } from "../../api/category.api";
@@ -275,7 +275,7 @@ const Home = () => {
                       className="group overflow-hidden rounded-2xl border border-gray-200 bg-gray-50 transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-gray-200/50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-blue-500/30 dark:hover:shadow-black/20"
                     >
                       {/* Food Image */}
-                      <div className="relative aspect-4/3 overflow-hidden">
+                      <div className="relative aspect-5/3 overflow-hidden">
                         {food.image ? (
                           <img
                             src={food.image}
@@ -322,24 +322,24 @@ const Home = () => {
                           </span>
                         </div>
 
-                        <p className="mt-3 line-clamp-2 min-h-12 text-sm leading-6 text-gray-500 dark:text-gray-400">
+                        <p className="line-clamp-2 min-h-12 text-sm leading-6 text-gray-500 dark:text-gray-400">
                           {food.description ||
                             "Freshly prepared with quality ingredients."}
                         </p>
 
                         {/* Preparation Time */}
                         {food.preparationTime && (
-                          <div className="mt-3 flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
+                          <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
                             <Clock size={14} />
                             {food.preparationTime} min
                           </div>
                         )}
 
                         {/* Buttons */}
-                        <div className="mt-5 flex gap-2">
+                        <div className="mt-2 flex gap-2">
                           <Link
                             to={`/menu/${food._id}`}
-                            className="flex flex-1 items-center justify-center rounded-xl border border-gray-200 px-3 py-2.5 text-sm font-semibold text-gray-700 transition hover:border-blue-400 hover:text-blue-500 dark:border-gray-700 dark:text-gray-300 dark:hover:border-blue-500"
+                            className="flex flex-1 items-center justify-center rounded-3xl border border-gray-200 px-3 py-2 text-sm font-semibold text-gray-700 transition hover:border-blue-400 hover:text-blue-500 dark:border-gray-700 dark:text-gray-300 dark:hover:border-blue-500"
                           >
                             View Details
                           </Link>
@@ -347,12 +347,25 @@ const Home = () => {
                           <button
                             type="button"
                             onClick={() => addToCart(food)}
-                            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-500 text-white transition hover:bg-blue-600"
+                            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white cursor-cell transition hover:bg-blue-800"
                             title="Add to cart"
                           >
                             <Plus size={20} />
                           </button>
                         </div>
+
+                        <NavLink to="/cart">
+                          <div className="mt-2 flex text-center">
+                            <button
+                              type="button"
+                              onClick={() => addToCart(food)}
+                              className="w-full py-1.5 px-8 rounded-xl bg-blue-600  text-white items-center cursor-pointer transition hover:bg-blue-800"
+                            >
+                              Add to card
+                            </button>
+                          </div>
+                        </NavLink>
+
                       </div>
                     </div>
                   ))}

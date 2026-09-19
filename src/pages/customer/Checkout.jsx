@@ -4,6 +4,7 @@ import {
   CheckCircle,
   ClipboardList,
   ShoppingBag,
+  MapPin,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -12,72 +13,84 @@ import CustomerFooter from "../../components/customer/CustomerFooter";
 
 import { createOrder } from "../../api/order.api";
 import { useCart } from "../../context/CartContext";
+import { useSession } from "../../context/SessionContext";
 
 const Checkout = () => {
   const navigate = useNavigate();
 
-  const { cartItems, totalItems, totalAmount, clearCart, } = useCart();
+  const { cartItems, totalItems, totalAmount, clearCart } = useCart();
 
-  const [customerName, setCustomerName] = useState("");
-  const [sessionToken, setSessionToken] = useState("");
+  const { sessionToken, customerName, table } = useSession();
+
   const [loading, setLoading] = useState(false);
-
 
   const formatPrice = (price) => {
     return `Rs. ${Number(price || 0).toLocaleString()}`;
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!customerName.trim()) {
-    alert("Please enter your name.");
-    return;
-  }
+    // Check session
+    if (!sessionToken) {
+      alert(
+        "Your table session is not available. Please scan the table QR code again.",
+      );
 
-  if (!sessionToken.trim()) {
-    alert("Session token is required.");
-    return;
-  }
+      navigate("/");
+      return;
+    }
 
-  if (cartItems.length === 0) {
-    alert("Your cart is empty.");
-    navigate("/menu");
-    return;
-  }
+    // Check customer name
+    if (!customerName?.trim()) {
+      alert("Customer name is missing.");
+      return;
+    }
 
-  try {
-    setLoading(true);
+    // Check cart
+    if (cartItems.length === 0) {
+      alert("Your cart is empty.");
+      navigate("/menu");
+      return;
+    }
 
-    const orderData = {
-      customerName: customerName.trim(),
-      items: cartItems.map((item) => ({
-        food: item.foodId,
-        quantity: item.quantity,
-      })),
-      totalAmount,
-    };
+    try {
+      setLoading(true);
 
-    const response = await createOrder(orderData);
+      const orderData = {
+        items: cartItems.map((item) => ({
+          foodId: item.foodId,
+          quantity: item.quantity,
+        })),
 
-    console.log("Order created:", response);
+        totalAmount,
+      };
 
-    clearCart();
+      console.log("Order data:", orderData);
 
-    navigate("/orders");
-  } catch (error) {
-    console.error("Create order error:", error);
+      const response = await createOrder(orderData, sessionToken);
 
-    const message =
-      error?.response?.data?.message ||
-      "Failed to place order. Please try again.";
+      console.log("Order created:", response);
 
-    alert(message);
-  } finally {
-    setLoading(false);
-  }
-};
+      // Clear cart after successful order
+      clearCart();
 
+      // Go to My Orders
+      navigate("/orders");
+    } catch (error) {
+      console.error("Create order error:", error);
+
+      const message =
+        error?.response?.data?.message ||
+        "Failed to place order. Please try again.";
+
+      alert(message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Empty cart
   if (cartItems.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-white">
@@ -89,9 +102,7 @@ const Checkout = () => {
               <ShoppingBag size={36} className="text-blue-500" />
             </div>
 
-            <h1 className="mt-6 text-2xl font-extrabold">
-              Your Cart is Empty
-            </h1>
+            <h1 className="mt-6 text-2xl font-extrabold">Your Cart is Empty</h1>
 
             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
               Add some food items before proceeding to checkout.
@@ -127,84 +138,71 @@ const Checkout = () => {
           </Link>
 
           <div className="mt-5">
-            <h1 className="text-3xl font-extrabold sm:text-4xl">
-              Checkout
-            </h1>
+            <h1 className="text-3xl font-extrabold sm:text-4xl">Checkout</h1>
 
             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-              Confirm your details and review your order.
+              Review your order before placing it.
             </p>
           </div>
         </div>
 
         <form onSubmit={handleSubmit}>
           <div className="grid gap-8 lg:grid-cols-3">
-            {/* Left */}
+            {/* LEFT SIDE */}
             <div className="space-y-6 lg:col-span-2">
-              {/* Customer Information */}
+              {/* Customer & Table Information */}
               <section className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 dark:bg-blue-500/10">
-                    <ClipboardList
-                      size={20}
-                      className="text-blue-500"
-                    />
+                    <ClipboardList size={20} className="text-blue-500" />
                   </div>
 
                   <div>
-                    <h2 className="text-xl font-bold">
-                      Customer Information
-                    </h2>
+                    <h2 className="text-xl font-bold">Order Information</h2>
 
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Enter the information required for your order.
+                      Your order will be placed for the current table session.
                     </p>
                   </div>
                 </div>
 
-                <div className="mt-6 space-y-5">
-                  {/* Customer Name */}
-                  <div>
-                    <label
-                      htmlFor="customerName"
-                      className="mb-2 block text-sm font-semibold"
-                    >
-                      Customer Name
-                    </label>
+                <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                  {/* Customer */}
+                  <div className="rounded-xl bg-gray-50 p-4 dark:bg-gray-800">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                      Customer
+                    </p>
 
-                    <input
-                      id="customerName"
-                      type="text"
-                      value={customerName}
-                      onChange={(e) => setCustomerName(e.target.value)}
-                      placeholder="Enter your name"
-                      className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-950"
-                    />
+                    <p className="mt-2 font-bold">{customerName || "Guest"}</p>
                   </div>
 
-                  {/* Session Token */}
+                  {/* Table */}
+                  <div className="rounded-xl bg-gray-50 p-4 dark:bg-gray-800">
+                    <div className="flex items-center gap-2">
+                      <MapPin size={16} className="text-blue-500" />
+
+                      <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                        Table
+                      </p>
+                    </div>
+
+                    <p className="mt-2 font-bold">
+                      {table?.tableNumber || table?.name || "Table"}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Session status */}
+                <div className="mt-4 flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 p-4 dark:border-green-900/40 dark:bg-green-950/20">
+                  <CheckCircle size={20} className="shrink-0 text-green-500" />
+
                   <div>
-                    <label
-                      htmlFor="sessionToken"
-                      className="mb-2 block text-sm font-semibold"
-                    >
-                      Session Token
-                    </label>
+                    <p className="text-sm font-bold text-green-700 dark:text-green-400">
+                      Table Session Active
+                    </p>
 
-                    <input
-                      id="sessionToken"
-                      type="text"
-                      value={sessionToken}
-                      onChange={(e) =>
-                        setSessionToken(e.target.value)
-                      }
-                      placeholder="Enter or scan your session token"
-                      className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-950"
-                    />
-
-                    <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                      Your session token connects this order to the
-                      correct table session.
+                    <p className="mt-1 text-xs text-green-600 dark:text-green-500">
+                      Your order will automatically be linked to this table.
                     </p>
                   </div>
                 </div>
@@ -212,9 +210,16 @@ const Checkout = () => {
 
               {/* Order Items */}
               <section className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-                <h2 className="text-xl font-bold">
-                  Your Order
-                </h2>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-xl font-bold">Your Order</h2>
+
+                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                      {totalItems} item
+                      {totalItems !== 1 ? "s" : ""}
+                    </p>
+                  </div>
+                </div>
 
                 <div className="mt-6 divide-y divide-gray-200 dark:divide-gray-800">
                   {cartItems.map((item) => (
@@ -222,6 +227,7 @@ const Checkout = () => {
                       key={item.foodId}
                       className="flex gap-4 py-4 first:pt-0 last:pb-0"
                     >
+                      {/* Image */}
                       <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800">
                         {item.image ? (
                           <img
@@ -236,22 +242,19 @@ const Checkout = () => {
                         )}
                       </div>
 
+                      {/* Details */}
                       <div className="min-w-0 flex-1">
-                        <h3 className="truncate font-bold">
-                          {item.name}
-                        </h3>
+                        <h3 className="truncate font-bold">{item.name}</h3>
 
                         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                          {formatPrice(item.price)} ×{" "}
-                          {item.quantity}
+                          {formatPrice(item.price)} × {item.quantity}
                         </p>
                       </div>
 
+                      {/* Price */}
                       <div className="shrink-0 text-right">
                         <p className="font-bold text-blue-500">
-                          {formatPrice(
-                            item.price * item.quantity
-                          )}
+                          {formatPrice(item.price * item.quantity)}
                         </p>
                       </div>
                     </div>
@@ -260,24 +263,22 @@ const Checkout = () => {
               </section>
             </div>
 
-            {/* Right - Summary */}
+            {/* RIGHT SIDE */}
             <div>
               <div className="sticky top-24 rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-                <h2 className="text-xl font-bold">
-                  Order Summary
-                </h2>
+                <h2 className="text-xl font-bold">Order Summary</h2>
 
                 <div className="mt-6 space-y-4">
+                  {/* Items */}
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-500 dark:text-gray-400">
                       Items
                     </span>
 
-                    <span className="font-semibold">
-                      {totalItems}
-                    </span>
+                    <span className="font-semibold">{totalItems}</span>
                   </div>
 
+                  {/* Subtotal */}
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-500 dark:text-gray-400">
                       Subtotal
@@ -288,11 +289,10 @@ const Checkout = () => {
                     </span>
                   </div>
 
+                  {/* Total */}
                   <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
                     <div className="flex items-center justify-between">
-                      <span className="font-bold">
-                        Total
-                      </span>
+                      <span className="font-bold">Total</span>
 
                       <span className="text-xl font-extrabold text-blue-500">
                         {formatPrice(totalAmount)}
@@ -301,21 +301,33 @@ const Checkout = () => {
                   </div>
                 </div>
 
+                {/* Place Order */}
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={loading || !sessionToken}
                   className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-500 px-5 py-3.5 font-bold text-white transition hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   <CheckCircle size={19} />
 
-                  {loading
-                    ? "Placing Order..."
-                    : "Place Order"}
+                  {loading ? "Placing Order..." : "Place Order"}
                 </button>
 
+                {!sessionToken && (
+                  <p className="mt-3 text-center text-xs font-medium text-red-500">
+                    Table session is not available.
+                  </p>
+                )}
+
+                <Link
+                  to="/cart"
+                  className="mt-3 flex w-full items-center justify-center rounded-xl border border-gray-200 px-5 py-3.5 text-sm font-semibold text-gray-700 transition hover:border-blue-400 hover:text-blue-500 dark:border-gray-700 dark:text-gray-300"
+                >
+                  Edit Cart
+                </Link>
+
                 <p className="mt-4 text-center text-xs leading-5 text-gray-500 dark:text-gray-400">
-                  By placing this order, your selected food
-                  items will be sent to the hotel kitchen.
+                  Your order will be sent directly to the hotel kitchen after
+                  confirmation.
                 </p>
               </div>
             </div>
