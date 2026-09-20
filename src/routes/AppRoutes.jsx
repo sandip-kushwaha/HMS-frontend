@@ -24,16 +24,19 @@ import Cart from "../pages/customer/Cart";
 import Checkout from "../pages/customer/Checkout";
 import TableEntry from "../pages/customer/TableEntry";
 import MyOrders from "../pages/customer/MyOrders";
+import CustomerLayout from "../components/customer/CustomerLayout";
 
 const AppRoutes = () => {
   return (
     <Routes>
       {/* Public */}
 
+      <Route element={<CustomerLayout />} >
       <Route path="/" element={<Home />} />
       <Route path="/orders" element={<MyOrders />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/checkout" element={<Checkout />} />
+      </Route>
 
       <Route path="/table/:tableId" element={<TableEntry />} />
 
