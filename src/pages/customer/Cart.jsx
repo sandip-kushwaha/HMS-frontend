@@ -35,7 +35,7 @@ const Cart = () => {
 
           <div className="mt-5 flex items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-extrabold sm:text-4xl">Your Cart</h1>
+              <h1 className="text-3xl font-extrabold sm:text-4xl text-gray-900">Your Cart</h1>
 
               <p className="mt-2 text-sm text-gray-500 ">
                 {totalItems} item{totalItems !== 1 ? "s" : ""} in your cart
@@ -104,7 +104,7 @@ const Cart = () => {
                   <div className="flex min-w-0 flex-1 flex-col justify-between">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
-                        <h3 className="truncate text-lg font-bold">
+                        <h3 className="truncate text-lg font-bold text-gray-900">
                           {item.name}
                         </h3>
 
@@ -145,7 +145,7 @@ const Cart = () => {
                           </button>
                         )}
 
-                        <span className="w-9 text-center text-sm font-bold">
+                        <span className="w-9 text-center text-sm font-bold text-gray-800 ">
                           {item.quantity}
                         </span>
 
@@ -171,7 +171,7 @@ const Cart = () => {
             {/* Order Summary */}
             <div className="lg:col-span-1">
               <div className="sticky top-24 rounded-2xl border border-gray-200 bg-white p-6 ">
-                <h2 className="text-xl font-bold">Order Summary</h2>
+                <h2 className="text-xl font-bold text-gray-900">Order Summary</h2>
 
                 <div className="mt-4 space-y-3">
                   <div className="flex justify-between text-sm">
@@ -179,15 +179,15 @@ const Cart = () => {
                       Items
                     </span>
 
-                    <span className="font-semibold">{totalItems}</span>
+                    <span className="font-semibold text-gray-800">{totalItems}</span>
                   </div>
 
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">
+                    <span className="text-gray-500 ">
                       Subtotal
                     </span>
 
-                    <span className="font-semibold">
+                    <span className="font-semibold text-gray-800">
                       {formatPrice(totalAmount)}
                     </span>
                   </div>

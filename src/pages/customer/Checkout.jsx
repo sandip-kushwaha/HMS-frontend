@@ -91,14 +91,15 @@ const Checkout = () => {
   if (cartItems.length === 0) {
     return (
       <div>
-
         <main className="mx-auto flex min-h-[70vh] max-w-7xl items-center justify-center px-4 py-10">
           <div className="w-full max-w-lg rounded-2xl border border-gray-200 bg-white p-8 text-center ">
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-blue-100 ">
               <ShoppingBag size={36} className="text-blue-500" />
             </div>
 
-            <h1 className="mt-6 text-2xl font-extrabold text-gray-900">Your Cart is Empty</h1>
+            <h1 className="mt-6 text-2xl font-extrabold text-gray-900">
+              Your Cart is Empty
+            </h1>
 
             <p className="mt-2 text-sm text-gray-500 ">
               Add some food items before proceeding to checkout.
@@ -118,7 +119,6 @@ const Checkout = () => {
 
   return (
     <div>
-
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
@@ -131,7 +131,9 @@ const Checkout = () => {
           </Link>
 
           <div className="mt-5">
-            <h1 className="text-3xl font-extrabold sm:text-4xl text-gray-900">Checkout</h1>
+            <h1 className="text-3xl font-extrabold sm:text-4xl text-gray-900">
+              Checkout
+            </h1>
 
             <p className="mt-2 text-sm text-gray-500 ">
               Review your order before placing it.
@@ -166,7 +168,9 @@ const Checkout = () => {
                       Customer
                     </p>
 
-                    <p className="mt-2 font-bold text-gray-900">{customerName || "Guest"}</p>
+                    <p className="mt-2 font-bold text-gray-900">
+                      {customerName || "Guest"}
+                    </p>
                   </div>
 
                   {/* Table */}
@@ -190,7 +194,9 @@ const Checkout = () => {
               <section className="rounded-2xl border border-gray-200 bg-white p-6 ">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h2 className="text-lg font-bold text-gray-900">Your Order</h2>
+                    <h2 className="text-lg font-bold text-gray-900">
+                      Your Order
+                    </h2>
 
                     <p className="mt-1 text-sm text-gray-500 ">
                       {totalItems} item
@@ -222,7 +228,9 @@ const Checkout = () => {
 
                       {/* Details */}
                       <div className="min-w-0 flex-1">
-                        <h3 className="truncate font-bold">{item.name}</h3>
+                        <h3 className="truncate font-bold text-gray-800">
+                          {item.name}
+                        </h3>
 
                         <p className="mt-1 text-sm text-gray-500 ">
                           {formatPrice(item.price)} × {item.quantity}
@@ -244,25 +252,25 @@ const Checkout = () => {
             {/* RIGHT SIDE */}
             <div>
               <div className="sticky top-24 rounded-2xl border border-gray-200 bg-white p-6 ">
-                <h2 className="text-lg font-bold text-gray-900">Order Summary</h2>
+                <h2 className="text-lg font-bold text-gray-900">
+                  Order Summary
+                </h2>
 
                 <div className="mt-2 space-y-2">
                   {/* Items */}
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 ">
-                      Items
-                    </span>
+                    <span className="text-gray-500 ">Items</span>
 
-                    <span className="font-semibold">{totalItems}</span>
+                    <span className="font-semibold text-gray-800">
+                      {totalItems}
+                    </span>
                   </div>
 
                   {/* Subtotal */}
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 ">
-                      Subtotal
-                    </span>
+                    <span className="text-gray-500 ">Subtotal</span>
 
-                    <span className="font-semibold">
+                    <span className="font-semibold text-gray-800">
                       {formatPrice(totalAmount)}
                     </span>
                   </div>
@@ -312,7 +320,6 @@ const Checkout = () => {
           </div>
         </form>
       </main>
-
     </div>
   );
 };

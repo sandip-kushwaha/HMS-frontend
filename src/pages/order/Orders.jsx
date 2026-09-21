@@ -50,7 +50,7 @@ const Orders = () => {
       const response = await getAllOrders();
 
       const orderData = response?.data || [];
-      console.log(orderData)
+      // console.log(orderData)
 
       setOrders(Array.isArray(orderData) ? orderData : []);
 

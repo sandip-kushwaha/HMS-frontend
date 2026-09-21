@@ -12,8 +12,12 @@ export const createOrder = async (orderData, sessionToken) => {
 };
 
 //Get my orders (Customer)
-export const getMyOrder = async () => {
-  const response = await api.get("/order/my-orders");
+export const getMyOrder = async (sessionToken) => {
+  const response = await api.get("/order/my-orders", {
+    headers: {
+      "x-session-token" : sessionToken,
+    },
+  });
 
   return response.data;
 };

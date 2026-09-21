@@ -37,7 +37,7 @@ const MyOrders = () => {
 
         const response = await getMyOrder(sessionToken);
 
-        console.log("My orders response:", response);
+        // console.log("My orders response:", response);
 
         setOrders(response?.data || []);
       } catch (error) {
@@ -73,64 +73,56 @@ const MyOrders = () => {
         return {
           label: "Pending",
           icon: Clock3,
-          className:
-            "bg-yellow-100 text-yellow-700 ",
+          className:"bg-yellow-100 text-yellow-700 ",
         };
 
       case "confirmed":
         return {
           label: "Confirmed",
           icon: CheckCircle2,
-          className:
-            "bg-blue-100 text-blue-700 ",
+          className:"bg-blue-100 text-blue-700 ",
         };
 
       case "preparing":
         return {
           label: "Preparing",
           icon: ChefHat,
-          className:
-            "bg-orange-100 text-orange-700 ",
+          className:"bg-orange-100 text-orange-700 ",
         };
 
       case "ready":
         return {
           label: "Ready",
           icon: PackageCheck,
-          className:
-            "bg-green-100 text-green-700 ",
+          className:"bg-green-100 text-green-700 ",
         };
 
       case "served":
         return {
           label: "Served",
           icon: Utensils,
-          className:
-            "bg-purple-100 text-purple-700 ",
+          className:"bg-purple-100 text-purple-700 ",
         };
 
       case "completed":
         return {
           label: "Completed",
           icon: CheckCircle2,
-          className:
-            "bg-green-100 text-green-700 ",
+          className:"bg-green-100 text-green-700 ",
         };
 
       case "cancelled":
         return {
           label: "Cancelled",
           icon: CircleAlert,
-          className:
-            "bg-red-100 text-red-700 ",
+          className:"bg-red-100 text-red-700 ",
         };
 
       default:
         return {
           label: status || "Unknown",
           icon: Clock3,
-          className:
-            "bg-gray-100 text-gray-700 ",
+          className:"bg-gray-100 text-gray-700 ",
         };
     }
   };
