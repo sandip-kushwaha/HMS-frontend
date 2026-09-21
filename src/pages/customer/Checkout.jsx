@@ -124,7 +124,7 @@ const Checkout = () => {
         <div className="mb-8">
           <Link
             to="/cart"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-blue-500 transition hover:text-blue-600"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 transition hover:text-blue-500"
           >
             <ArrowLeft size={18} />
             Back to Cart

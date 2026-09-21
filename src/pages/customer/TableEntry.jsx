@@ -9,7 +9,6 @@ import {
   AlertCircle,
 } from "lucide-react";
 
-
 import { createSession } from "../../api/session.api";
 import { useSession } from "../../context/SessionContext";
 
@@ -59,7 +58,7 @@ const TableEntry = () => {
         table: sessionData.session?.table || null,
       });
 
-      navigate("/menu");
+      navigate("/");
     } catch (error) {
       console.error("Create customer session error:", error);
 
@@ -75,7 +74,6 @@ const TableEntry = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 ">
-
       <main className="flex min-h-[75vh] items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
           <div className="rounded-3xl border border-gray-200 bg-white p-7 shadow-sm ">
@@ -163,7 +161,6 @@ const TableEntry = () => {
           </div>
         </div>
       </main>
-
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
-  ChevronRight,
   Clock,
   Leaf,
   Loader2,
@@ -105,10 +104,6 @@ const Home = () => {
     return filteredFoods.slice(0, 8);
   }, [filteredFoods, selectedCategory]);
 
-  // Hero Food
-  const heroFood =
-    availableFoods.find((food) => food?.isFeatured) || availableFoods[0];
-
   // Format Price
   const formatPrice = (price) => {
     return `Rs. ${Number(price || 0).toLocaleString()}`;
@@ -150,10 +145,10 @@ const Home = () => {
 
             <Link
               to="/menu"
-              className="inline-flex items-center gap-1 font-semibold text-blue-500 hover:text-blue-600"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 transition hover:text-blue-500"
             >
               View Full Menu
-              <ChevronRight size={18} />
+              <ArrowRight size={18} />
             </Link>
           </div>
 
@@ -265,7 +260,7 @@ const Home = () => {
                             className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
                           />
                         ) : (
-                          <div className="flex h-full items-center justify-center bg-gray-700 text-sm text-gray-200">
+                          <div className="flex h-full items-center justify-center bg-gray-800 text-sm text-gray-200">
                             No Image
                           </div>
                         )}

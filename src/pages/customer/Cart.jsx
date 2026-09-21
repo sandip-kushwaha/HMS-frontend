@@ -3,7 +3,6 @@ import { ArrowLeft, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 
 import { useCart } from "../../context/CartContext";
 
-
 const Cart = () => {
   const {
     cartItems,
@@ -21,13 +20,12 @@ const Cart = () => {
 
   return (
     <div>
-
       <main className="mx-auto min-h-[70vh] max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
           <Link
             to="/menu"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-blue-500 hover:text-blue-600"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 transition hover:text-blue-500"
           >
             <ArrowLeft size={18} />
             Continue Shopping
@@ -35,7 +33,9 @@ const Cart = () => {
 
           <div className="mt-5 flex items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-extrabold sm:text-4xl text-gray-900">Your Cart</h1>
+              <h1 className="text-3xl font-extrabold sm:text-4xl text-gray-900">
+                Your Cart
+              </h1>
 
               <p className="mt-2 text-sm text-gray-500 ">
                 {totalItems} item{totalItems !== 1 ? "s" : ""} in your cart
@@ -171,21 +171,21 @@ const Cart = () => {
             {/* Order Summary */}
             <div className="lg:col-span-1">
               <div className="sticky top-24 rounded-2xl border border-gray-200 bg-white p-6 ">
-                <h2 className="text-xl font-bold text-gray-900">Order Summary</h2>
+                <h2 className="text-xl font-bold text-gray-900">
+                  Order Summary
+                </h2>
 
                 <div className="mt-4 space-y-3">
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 ">
-                      Items
-                    </span>
+                    <span className="text-gray-500 ">Items</span>
 
-                    <span className="font-semibold text-gray-800">{totalItems}</span>
+                    <span className="font-semibold text-gray-800">
+                      {totalItems}
+                    </span>
                   </div>
 
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-500 ">
-                      Subtotal
-                    </span>
+                    <span className="text-gray-500 ">Subtotal</span>
 
                     <span className="font-semibold text-gray-800">
                       {formatPrice(totalAmount)}
@@ -221,7 +221,6 @@ const Cart = () => {
           </div>
         )}
       </main>
-
     </div>
   );
 };

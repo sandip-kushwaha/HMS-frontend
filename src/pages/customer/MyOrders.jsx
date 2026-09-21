@@ -13,7 +13,6 @@ import {
   Utensils,
 } from "lucide-react";
 
-
 import { getMyOrder } from "../../api/order.api";
 import { useSession } from "../../context/SessionContext";
 
@@ -73,56 +72,56 @@ const MyOrders = () => {
         return {
           label: "Pending",
           icon: Clock3,
-          className:"bg-yellow-100 text-yellow-700 ",
+          className: "bg-yellow-100 text-yellow-700 ",
         };
 
       case "confirmed":
         return {
           label: "Confirmed",
           icon: CheckCircle2,
-          className:"bg-blue-100 text-blue-700 ",
+          className: "bg-blue-100 text-blue-700 ",
         };
 
       case "preparing":
         return {
           label: "Preparing",
           icon: ChefHat,
-          className:"bg-orange-100 text-orange-700 ",
+          className: "bg-orange-100 text-orange-700 ",
         };
 
       case "ready":
         return {
           label: "Ready",
           icon: PackageCheck,
-          className:"bg-green-100 text-green-700 ",
+          className: "bg-green-100 text-green-700 ",
         };
 
       case "served":
         return {
           label: "Served",
           icon: Utensils,
-          className:"bg-purple-100 text-purple-700 ",
+          className: "bg-purple-100 text-purple-700 ",
         };
 
       case "completed":
         return {
           label: "Completed",
           icon: CheckCircle2,
-          className:"bg-green-100 text-green-700 ",
+          className: "bg-green-100 text-green-700 ",
         };
 
       case "cancelled":
         return {
           label: "Cancelled",
           icon: CircleAlert,
-          className:"bg-red-100 text-red-700 ",
+          className: "bg-red-100 text-red-700 ",
         };
 
       default:
         return {
           label: status || "Unknown",
           icon: Clock3,
-          className:"bg-gray-100 text-gray-700 ",
+          className: "bg-gray-100 text-gray-700 ",
         };
     }
   };
@@ -154,20 +153,18 @@ const MyOrders = () => {
             </Link>
           </div>
         </main>
-
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 ">
-
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-4">
           <Link
             to="/menu"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-blue-500 transition hover:text-blue-600"
+            className=" inline-flex items-center gap-2 text-sm font-semibold text-gray-500 transition hover:text-blue-500"
           >
             <ArrowLeft size={18} />
             Back to Menu
@@ -343,9 +340,7 @@ const MyOrders = () => {
                   <div className="border-t border-gray-200 bg-gray-50 p-5 ">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-gray-500 ">
-                          Total
-                        </p>
+                        <p className="text-sm text-gray-500 ">Total</p>
 
                         <p className="text-xl font-extrabold text-blue-500">
                           {formatPrice(order.totalAmount)}
@@ -353,9 +348,7 @@ const MyOrders = () => {
                       </div>
 
                       <div className="text-right">
-                        <p className="text-xs text-gray-500 ">
-                          Table
-                        </p>
+                        <p className="text-xs text-gray-500 ">Table</p>
 
                         <p className="font-bold">
                           {order.session?.table?.tableNumber ||
