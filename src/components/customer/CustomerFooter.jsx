@@ -1,13 +1,35 @@
-import { MapPin, Phone, Mail, Utensils } from "lucide-react";
+import { MapPin, Phone, Mail, Utensils, ArrowUpWideNarrow, ArrowUpRight } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaTiktok, FaWhatsapp } from "react-icons/fa";
 
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const CustomerFooter = () => {
+
+  const items = [
+    {
+      name: "Home",
+      path: "/",
+    },
+    {
+      name: "Menu",
+      path: "/menu",
+    },
+    {
+      name: "My Orders",
+      path: "/orders",
+    },
+    {
+      name: "Cart",
+      path: "/cart",
+    },
+
+
+  ]
+
   return (
     <footer className="border-t border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-950">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
           {/* Brand */}
           <div>
             <div className="mb-4 flex items-center gap-2">
@@ -39,56 +61,29 @@ const CustomerFooter = () => {
               )}
             </div>
           </div>
-
-          {/* Quick Links */}
+              {/*--- QUICK LINKS--- */}
           <div>
-            <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
+            <h3 className="mb-5 text-sm font-semibold uppercase tracking-wider text-white">
               Quick Links
             </h3>
 
-            <div className="space-y-3 text-sm">
-              <NavLink
-                to="/"
-                className="block text-gray-600 hover:text-blue-500 dark:text-gray-400"
-              >
-                Home
-              </NavLink>
+            <ul>
+              {items.map((item) => (
+                <li key={item.path}>
+                  <Link
+                    to={item.path}
+                    className="group w-26 flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-gray-500 transition hover:text-blue-400"
+                  >
+                    <span>{item.name}</span>
 
-              <NavLink
-                to="/menu"
-                className="block text-gray-600 hover:text-blue-500 dark:text-gray-400"
-              >
-                Menu
-              </NavLink>
-
-              <NavLink
-                to="/orders"
-                className="block text-gray-600 hover:text-blue-500 dark:text-gray-400"
-              >
-                My Orders
-              </NavLink>
-
-              <NavLink
-                to="/cart"
-                className="block text-gray-600 hover:text-blue-500 dark:text-gray-400"
-              >
-                Cart
-              </NavLink>
-            </div>
-          </div>
-
-          {/* Customer Service */}
-          <div>
-            <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
-              Customer Service
-            </h3>
-
-            <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
-              <p>Help & Support</p>
-              <p>Terms & Conditions</p>
-              <p>Privacy Policy</p>
-              <p>Contact Us</p>
-            </div>
+                    <ArrowUpRight
+                      size={14}
+                      className="opacity-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Contact */}
